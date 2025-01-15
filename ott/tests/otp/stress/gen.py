@@ -1,11 +1,16 @@
+"""
+  %borrowed%: https://systemweakness.com/stress-testing-a-graphql-endpoint-with-python-script-c9852b40a084
+"""
+
 import requests
 import json
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, Style
-from gql import graphql_queries
+from .gql import graphql_queries
 import random
 import os
+
 
 url = "<URL HERE>"
 
@@ -40,15 +45,16 @@ def execute_query(query):
         print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
         print(response.text)
 
+
 def run_query():
     while not exit_flag.is_set():
         with lock:
             query = random.choice(graphql_queries)
         execute_query(query)
 
+
 def main():
     print(f"{Fore.CYAN}Threaded GraphQL Load Testing Script{Style.RESET_ALL}")
-    print("Created by Rahul Kumar")
 
     # Prompt the user for the number of threads
     num_threads = int(input("Enter the number of threads to use: "))
