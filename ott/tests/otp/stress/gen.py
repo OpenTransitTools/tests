@@ -1,5 +1,5 @@
 """
-  %borrowed%: https://systemweakness.com/stress-testing-a-graphql-endpoint-with-python-script-c9852b40a084
+see -- https://systemweakness.com/stress-testing-a-graphql-endpoint-with-python-script-c9852b40a084
 """
 
 import requests
@@ -16,8 +16,13 @@ headers = {
     "Content-Type": "application/json",
 }
 
+graphql_queries = [
+    "query GtfsExampleQuery { routes {shortName gtfsId}}"
+ ]
+
 lock = threading.Lock()
 exit_flag = threading.Event()
+
 
 def execute_query(query):
     payload = {
@@ -33,9 +38,6 @@ def execute_query(query):
         print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
         print(response.text)
 
-graphql_queries = [
-        "query GtfsExampleQuery { routes {shortName gtfsId}}"
- ]
 
 def run_query():
     while not exit_flag.is_set():
