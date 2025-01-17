@@ -1,15 +1,18 @@
 """
 see -- https://systemweakness.com/stress-testing-a-graphql-endpoint-with-python-script-c9852b40a084
 """
-
-import requests
+import os
 import json
+import inspect
+import requests
+import random
 import threading
 from concurrent.futures import ThreadPoolExecutor
+from mako.template import Template
 from colorama import Fore, Style
-import random
 
 
+this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 url = "https://maps.trimet.org/rtp/gtfs/v1"
 
 headers = {
@@ -24,7 +27,7 @@ lock = threading.Lock()
 exit_flag = threading.Event()
 
 
-def execute_query(query):
+def call_otp(query):
     payload = {
         "query": query
     }
@@ -44,10 +47,10 @@ def run_query():
         with lock:
             query = random.choice(graphql_queries)
         #import pdb; pdb.set_trace()
-        execute_query(query)
+        call_otp(query)
 
 
-def main():
+def mainX():
     print(f"{Fore.CYAN}Threaded GraphQL Load Testing Script{Style.RESET_ALL}")
 
     # Prompt the user for the number of threads
@@ -74,5 +77,13 @@ def main():
         print(f"{Fore.GREEN}Successful requests: {Style.RESET_ALL}")
 
 
-if __name__ == "__main__":
-    main()
+def main():
+    tmpl = Template(filename=os.path.join(this_module_dir, '..', 'templates', 'plan_connection_simple.mako'))
+    gql_request = tmpl.render()
+    #print(gql_request)
+    call_otp(gql_request)
+
+    tmpl = Template(filename=os.path.join(this_module_dir, '..', 'templates', 'plan_connection_complex.mako'))
+    gql_request = tmpl.render()
+    #print(gql_request)
+    #call_otp(gql_request)
