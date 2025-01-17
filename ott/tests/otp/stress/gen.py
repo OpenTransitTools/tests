@@ -78,7 +78,7 @@ def mainX():
 
 
 def main():
-    tmpl = Template(filename=os.path.join(this_module_dir, '..', 'templates', 'plan_connection_simple.mako'))
+    tmpl = Template(filename=os.path.join(this_module_dir, '..', 'templates', 'plan_simple.mako'))
     gql_request = tmpl.render()
     #print(gql_request)
     call_otp(gql_request)
