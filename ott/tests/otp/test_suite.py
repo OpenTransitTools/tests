@@ -101,6 +101,7 @@ class Test(object):
 
     def test_otp_result(self, strict=True):
         """ regexp test of the itinerary output for certain strings """
+        #import pdb; pdb.set_trace()
         if self.itinerary is None:
             self.result = TestResult.FAIL if strict else TestResult.WARN
             self.error_descript = "test_otp: itinerary is null"
@@ -110,7 +111,6 @@ class Test(object):
                 self.error_descript = "test_otp: looks small at {} characters".format(len(self.itinerary))
             else:
                 # result properly sized ... now look for matches to expected data, etc...
-                # import pdb; pdb.set_trace()
                 self.error_descript = "test_otp: size {} characters.".format(len(self.itinerary))
                 self.test_expected_response(self.expect_output, strict)
                 if self.expect_duration is not None and len(self.expect_duration) > 0:
@@ -343,14 +343,18 @@ class TestSuite(object):
             else:
                 t.result = TestResult.PASS
 
-            t.test_otp_result(strict)
-            self.tests.append(t)
-            if t.result is TestResult.PASS:
-                self.passes += 1
-            elif t.result is TestResult.FAIL:
-                log.info("test_suite: this test failed " + t.get_ws_url() + "\n")
-                self.failures += 1
-            sys.stdout.write(".")
+            if run_test:
+                t.test_otp_result(strict)
+                self.tests.append(t)
+                if t.result is TestResult.PASS:
+                    self.passes += 1
+                elif t.result is TestResult.FAIL:
+                    log.info("test_suite: this test failed " + t.get_ws_url() + "\n")
+                    self.failures += 1
+                sys.stdout.write(".")
+            else:
+                print(t.get_otpRR_url())
+            
 
     def get_tests(self):
         return self.tests
