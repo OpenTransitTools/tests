@@ -15,10 +15,11 @@ requests = "^2.2.0"
 python = "^3.8"
 PyYAML = "^6.0"
 #"ott.utils" = {git = "https://github.com/OpenTransitTools/utils.git"}
-#"ott.utils" = { path = "../utils/", develop = true }
+"ott.utils" = { path = "../utils/", develop = true }
 
 [tool.poetry.scripts]
 stress_otp = "ott.tests.otp.stress.gen:main"
+debug_test = "ott.tests.otp.test_suite:debug"
 
 [build-system]
 requires = ["poetry-core"]
