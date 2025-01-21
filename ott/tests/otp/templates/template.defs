@@ -5,7 +5,11 @@
       %else:
       location: { coordinate: { latitude: 45.5552, longitude: -122.6534 } }
       %endif
-      label: "Home"
+      %if fname:
+      label: "${fname}"
+      %else:
+      label: "From Here"
+      %endif
     }
     destination: {
       %if tlat and tlon:
@@ -13,7 +17,11 @@
       %else:
       location: { coordinate: { latitude: 45.4908, longitude: -122.5519 } }
       %endif
-      label: "Work"
+      %if tname:
+      label: "${tname}"
+      %else:
+      label: "To Here"
+      %endif
     }
     %if date_time:
     dateTime: { earliestDeparture: ${date_time} }

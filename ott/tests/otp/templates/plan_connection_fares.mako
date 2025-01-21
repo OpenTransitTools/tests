@@ -1,5 +1,6 @@
 <%namespace name="d" file="/template.defs"/>
 {
+  planConnection(
     ${d.plan_connection_od_params()}
     modes: {
       direct: [WALK]

@@ -9,6 +9,7 @@ from mako.lookup import TemplateLookup
 from ott.utils import file_utils
 
 
+#def_url = "http://maps8.trimet.org/rtp/gtfs/v1"
 def_url = "https://maps.trimet.org/rtp/gtfs/v1"
 this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
@@ -29,7 +30,7 @@ def make_templates():
     tmpl_dir=os.path.join(this_module_dir, 'templates')
     tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
     for t in file_utils.find_files(tmpl_dir, ".mako"):
-        print(t)
+        #print(t)
         tmpl = Template(filename=t, lookup=tl)
         ret_val.append(tmpl)
     return ret_val
@@ -67,12 +68,23 @@ def xmain():
     #print(file_utils.find_files(tmpl_dir, ".mako"))
 
 
-def main():
+def ymain():
     templates = make_templates()
-    request = templates[2].render()
+    request = templates[3].render()
     response = call_otp(request)
 
     if response.status_code == 200:
         print(response.json())
     else:
         print(response.text)
+
+
+def zmain():
+    for r in make_requests():
+        response = call_otp(r)
+        if response.status_code == 200:
+            print(response.json())
+        else:
+            print(response.text)
+
+main=zmain

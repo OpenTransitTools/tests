@@ -11,10 +11,9 @@ from . import exe
 
 lock = threading.Lock()
 exit_flag = threading.Event()
-
-success=0
-fail=0
-gql_requests=exe.make_requests()
+success = 0
+fail = 0
+graphql_requests = exe.make_requests()
 
 
 def run_query():
@@ -23,13 +22,26 @@ def run_query():
 
     while not exit_flag.is_set():
         with lock:
-            response = exe.call_otp(random.choice(gql_requests))
-            if response.status_code == 200:
-                print(f"{Fore.GREEN}.{Style.RESET_ALL}", end="", flush=True)
+            req = random.choice(graphql_requests)
+
+        response = exe.call_otp(req)
+        if response.status_code == 200:
+            with lock:
                 success+=1
-            else:
-                print(f"{Fore.RED}_{Style.RESET_ALL}", end="", flush=True)                
-                fail+=1                                
+            print(f"{Fore.GREEN}.{Style.RESET_ALL}", end="", flush=True)
+        else:
+            with lock:
+                fail+=1
+            print(f"{Fore.RED}_{Style.RESET_ALL}", end="", flush=True)                
+
+
+def format_seconds(seconds):
+    seconds = round(seconds)
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    seconds = seconds % 60
+
+    return f"{hours:02}:{minutes:02}:{seconds:02}"
 
 
 def main():
@@ -59,4 +71,5 @@ def main():
 
         processing_time = time.time() - start_time
         avg = processing_time / (success + fail)
-        print(f"\n{Fore.GREEN}Successful requests {success} ({Fore.RED}fails {fail}{Fore.GREEN}) {Style.RESET_ALL}in {Style.BRIGHT}{processing_time:.0f} seconds (avg {avg:.2f}) {Style.RESET_ALL}")
+        tm = format_seconds(processing_time)
+        print(f"\n{num_threads} different 'users' made {Fore.GREEN}{success} successful requests ({Fore.RED}fails {fail}{Fore.GREEN}) {Style.RESET_ALL}in {Style.BRIGHT}{tm} (avg {avg:.2f}) {Style.RESET_ALL}")
