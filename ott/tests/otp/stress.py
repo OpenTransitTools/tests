@@ -15,15 +15,33 @@ from . import exe
 lock = threading.Lock()
 exit_flag = threading.Event()
 
+url = "https://maps.trimet.org/rtp/gtfs/v1"
+this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_simple.mako'))
+gql_request = tmpl.render()
+success=0
+fail=0
 
 def run_query():
+    global success
+    global fail
+
     while not exit_flag.is_set():
         with lock:
-            query = random.choice(graphql_queries)
-        exe.call_otp(query)
+            response = exe.call_otp(url, gql_request)
+            if response.status_code == 200:
+                #print(f"{Fore.GREEN}GraphQL query executed successfully:{Style.RESET_ALL}")
+                #print(response.json())
+                print(".")
+                success+=1
+            else:
+                #print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
+                #print(response.text)
+                print("-")
+                fail+=1                                
 
 
-def mainX():
+def main():
     print(f"{Fore.CYAN}Threaded GraphQL Load Testing Script{Style.RESET_ALL}")
 
     # Prompt the user for the number of threads
@@ -47,26 +65,4 @@ def mainX():
         for thread in threads:
             thread.join()
 
-        print(f"{Fore.GREEN}Successful requests: {Style.RESET_ALL}")
-
-
-def main():
-    url = "https://maps.trimet.org/rtp/gtfs/v1"
-    this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_simple.mako'))
-    gql_request = tmpl.render()
-
-    response = exe.call_otp(url, gql_request)
-    if response.status_code == 200:
-        print(f"{Fore.GREEN}GraphQL query executed successfully:{Style.RESET_ALL}")
-        print(response.json())
-    else:
-        print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
-        print(response.text)
-
-
-
-    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_complex.mako'))
-    gql_request = tmpl.render()
-    #print(gql_request)
-    #call_otp(gql_request)
+        print(f"{Fore.GREEN}Successful requests {success} (fails {fail}): {Style.RESET_ALL}")
