@@ -18,8 +18,9 @@ PyYAML = "^6.0"
 "ott.utils" = { path = "../utils/", develop = true }
 
 [tool.poetry.scripts]
-stress_otp = "ott.tests.otp.stress.gen:main"
-debug_test = "ott.tests.otp.test_suite:debug"
+stress_otp = "ott.tests.otp.stress:main"
+run_otp = "ott.tests.otp.exe:main"
+otp_tests = "ott.tests.otp.test_suite:debug"
 
 [build-system]
 requires = ["poetry-core"]

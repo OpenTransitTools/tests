@@ -10,44 +10,17 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 from mako.template import Template
 from colorama import Fore, Style
-
-
-this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-url = "https://maps.trimet.org/rtp/gtfs/v1"
-
-headers = {
-    "Content-Type": "application/json",
-}
-
-graphql_queries = [
-    "query GtfsExampleQuery { routes {shortName gtfsId}}"
- ]
+from . import exe
 
 lock = threading.Lock()
 exit_flag = threading.Event()
-
-
-def call_otp(query):
-    payload = {
-        "query": query
-    }
-
-    response = requests.post(url, headers=headers, json=payload)
-
-    if response.status_code == 200:
-        print(f"{Fore.GREEN}GraphQL query executed successfully:{Style.RESET_ALL}")
-        print(response.json())
-    else:
-        print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
-        print(response.text)
 
 
 def run_query():
     while not exit_flag.is_set():
         with lock:
             query = random.choice(graphql_queries)
-        #import pdb; pdb.set_trace()
-        call_otp(query)
+        exe.call_otp(query)
 
 
 def mainX():
@@ -78,12 +51,22 @@ def mainX():
 
 
 def main():
-    tmpl = Template(filename=os.path.join(this_module_dir, '..', 'templates', 'plan_simple.mako'))
+    url = "https://maps.trimet.org/rtp/gtfs/v1"
+    this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_simple.mako'))
     gql_request = tmpl.render()
-    #print(gql_request)
-    call_otp(gql_request)
 
-    tmpl = Template(filename=os.path.join(this_module_dir, '..', 'templates', 'plan_connection_complex.mako'))
+    response = exe.call_otp(url, gql_request)
+    if response.status_code == 200:
+        print(f"{Fore.GREEN}GraphQL query executed successfully:{Style.RESET_ALL}")
+        print(response.json())
+    else:
+        print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
+        print(response.text)
+
+
+
+    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_complex.mako'))
     gql_request = tmpl.render()
     #print(gql_request)
     #call_otp(gql_request)
