@@ -1,10 +1,24 @@
 {
     plan(
+        %if tlat and tlon:
+        from: { lat: ${flat}, lon: ${flon} }
+        %else:
         from: { lat: 45.5552, lon: -122.6534 }
+        %endif
+        %if tlat and tlon:
+        to: { lat: ${tlat}, lon: ${tlon} }
+        %else:
         to: { lat: 45.4908, lon: -122.5519 }
-        date: "2025-02-15",
-        time: "11:37",
+        %endif
+        %if date:
+        date: "${date}",
+        %endif
+        %if time:
+        time: "${time}",
+        %endif
         %if modes:
+        transportModes: ${modes}
+        %else:
         transportModes: [
             {
                 mode: WALK
@@ -41,9 +55,11 @@
                     longName
                     shortName
                 }
+                %if not skip_geom:
                 legGeometry {
                     points
                 }
+                %endif
             }
         }
     }

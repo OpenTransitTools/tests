@@ -29,11 +29,12 @@ def call_otp(url, query):
 
 
 def main():
-    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_simple.mako'))
-    gql_request = tmpl.render()
+    #tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_complex.mako'))
+    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_simple.mako'))
+    request = tmpl.render(flat="45.5552", flon="-122.6534", tlat="45.4908", tlon="-122.5519", skip_geom=True)
 
     url = "https://maps.trimet.org/rtp/gtfs/v1"
-    response = call_otp(url, gql_request)
+    response = call_otp(url, request)
 
     if response.status_code == 200:
         print(f"{Fore.GREEN}GraphQL query executed successfully:{Style.RESET_ALL}")
@@ -43,4 +44,4 @@ def main():
         print(response.text)
 
     tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_complex.mako'))
-    gql_request = tmpl.render()
+    request = tmpl.render()
