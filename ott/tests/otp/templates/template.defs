@@ -1,0 +1,29 @@
+  <%def name="plan_connection_od_params()">
+    origin: {
+      %if flat and flon:
+      location: { coordinate: { latitude: ${flat}, longitude: ${flon} } }
+      %else:
+      location: { coordinate: { latitude: 45.5552, longitude: -122.6534 } }
+      %endif
+      label: "Home"
+    }
+    destination: {
+      %if tlat and tlon:
+      location: { coordinate: { latitude: ${tlat}, longitude: ${tlon} } }
+      %else:
+      location: { coordinate: { latitude: 45.4908, longitude: -122.5519 } }
+      %endif
+      label: "Work"
+    }
+    %if date_time:
+    dateTime: { earliestDeparture: ${date_time} }
+    %endif
+    %if limit_window:
+    searchWindow: "PT2H30M"
+    %endif
+    %if num_results:
+    first: ${num_results}
+    %else:
+    first: 6
+    %endif
+</%def>

@@ -1,26 +1,21 @@
 """
 see -- https://systemweakness.com/stress-testing-a-graphql-endpoint-with-python-script-c9852b40a084
 """
-import os
-import json
-import inspect
-import requests
+import time
 import random
 import threading
 from concurrent.futures import ThreadPoolExecutor
-from mako.template import Template
 from colorama import Fore, Style
 from . import exe
+
 
 lock = threading.Lock()
 exit_flag = threading.Event()
 
-url = "https://maps.trimet.org/rtp/gtfs/v1"
-this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_simple.mako'))
-gql_request = tmpl.render()
 success=0
 fail=0
+gql_requests=exe.make_requests()
+
 
 def run_query():
     global success
@@ -28,16 +23,12 @@ def run_query():
 
     while not exit_flag.is_set():
         with lock:
-            response = exe.call_otp(url, gql_request)
+            response = exe.call_otp(random.choice(gql_requests))
             if response.status_code == 200:
-                #print(f"{Fore.GREEN}GraphQL query executed successfully:{Style.RESET_ALL}")
-                #print(response.json())
-                print(".")
+                print(f"{Fore.GREEN}.{Style.RESET_ALL}", end="", flush=True)
                 success+=1
             else:
-                #print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
-                #print(response.text)
-                print("-")
+                print(f"{Fore.RED}_{Style.RESET_ALL}", end="", flush=True)                
                 fail+=1                                
 
 
@@ -46,6 +37,7 @@ def main():
 
     # Prompt the user for the number of threads
     num_threads = int(input("Enter the number of threads to use: "))
+    start_time = time.time()
 
     # Create and start the worker threads
     threads = []
@@ -65,4 +57,6 @@ def main():
         for thread in threads:
             thread.join()
 
-        print(f"{Fore.GREEN}Successful requests {success} (fails {fail}): {Style.RESET_ALL}")
+        processing_time = time.time() - start_time
+        avg = processing_time / (success + fail)
+        print(f"\n{Fore.GREEN}Successful requests {success} ({Fore.RED}fails {fail}{Fore.GREEN}) {Style.RESET_ALL}in {Style.BRIGHT}{processing_time:.0f} seconds (avg {avg:.2f}) {Style.RESET_ALL}")

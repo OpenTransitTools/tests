@@ -1,30 +1,8 @@
+
+<%namespace name="d" file="/template.defs"/>
 {
   planConnection(
-    origin: {
-      %if flat and flon:
-      location: { coordinate: { latitude: ${flat}, longitude: ${flon} } }
-      %else:
-      location: { coordinate: { latitude: 45.5552, longitude: -122.6534 } }
-      %endif
-      label: "Home"
-    }
-    destination: {
-      %if tlat and tlon:
-      location: { coordinate: { latitude: ${tlat}, longitude: ${tlon} } }
-      %else:
-      location: { coordinate: { latitude: 45.4908, longitude: -122.5519 } }
-      %endif
-      label: "Work"
-    }
-    %if tripDateTime:
-    dateTime: { earliestDeparture: ${tripDateTime} }
-    %endif
-    searchWindow: "PT2H30M"
-    %if numResults:
-    first: ${numResults}
-    %else:
-    first: 6
-    %endif
+    ${d.plan_connection_od_params()}
     modes: {
       directOnly: false
       transitOnly: false

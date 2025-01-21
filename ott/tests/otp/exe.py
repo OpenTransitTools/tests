@@ -1,47 +1,78 @@
 """
-see -- https://systemweakness.com/stress-testing-a-graphql-endpoint-with-python-script-c9852b40a084
+run otp via trip plans defined in ./templates/*.mako
 """
 import os
-import json
 import inspect
 import requests
-import random
-import threading
-from concurrent.futures import ThreadPoolExecutor
 from mako.template import Template
-from colorama import Fore, Style
+from mako.lookup import TemplateLookup
+from ott.utils import file_utils
 
 
+def_url = "https://maps.trimet.org/rtp/gtfs/v1"
 this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
-def call_otp(url, query):
+def call_otp(query, url=def_url):
     headers = {
         "Content-Type": "application/json",
     }
-
     payload = {
         "query": query
     }
-
     response = requests.post(url, headers=headers, json=payload)
     return response
 
 
-def main():
-    #tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_complex.mako'))
-    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_simple.mako'))
-    request = tmpl.render(flat="45.5552", flon="-122.6534", tlat="45.4908", tlon="-122.5519", skip_geom=True)
+def make_templates():
+    ret_val = []
+    tmpl_dir=os.path.join(this_module_dir, 'templates')
+    tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
+    for t in file_utils.find_files(tmpl_dir, ".mako"):
+        print(t)
+        tmpl = Template(filename=t, lookup=tl)
+        ret_val.append(tmpl)
+    return ret_val
 
-    url = "https://maps.trimet.org/rtp/gtfs/v1"
-    response = call_otp(url, request)
+
+def make_requests(templates=None, coord_pairs=None):
+    """ returns an array of strings, each being a GraphQL request to OTP """
+    ret_val = []
+
+    if templates == None:
+        templates = make_templates()
+
+    for t in templates:
+        if coord_pairs:
+            for cp in coord_pairs:
+                gql = t.render(flat=cp.flat, flon=cp.flon, tlat=cp.tlat, tlon=cp.tlon)
+                ret_val.append(gql)
+        else:
+            gql = t.render()
+            ret_val.append(gql)
+
+    return ret_val
+
+
+def xmain():
+    tmpl_dir=os.path.join(this_module_dir, 'templates')
+    tl = TemplateLookup(directories=[tmpl_dir])
+    #tmpl = Template(filename=os.path.join(tmpl_dir, 'plan_connection_complex.mako'), lookup=tl)
+    #tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_fares.mako'))
+    tmpl = Template(filename=os.path.join(tmpl_dir, 'plan_simple.mako'), lookup=tl)
+    request = tmpl.render(flat="45.5552", flon="-122.6534", tlat="45.4908", tlon="-122.5519", skip_geom=True)
+    print(request)
+
+    #tmpl_dir=os.path.join(this_module_dir, 'templates')
+    #print(file_utils.find_files(tmpl_dir, ".mako"))
+
+
+def main():
+    templates = make_templates()
+    request = templates[2].render()
+    response = call_otp(request)
 
     if response.status_code == 200:
-        print(f"{Fore.GREEN}GraphQL query executed successfully:{Style.RESET_ALL}")
         print(response.json())
     else:
-        print(f"{Fore.RED}GraphQL query failed with status code: {response.status_code}{Style.RESET_ALL}")
         print(response.text)
-
-    tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_complex.mako'))
-    request = tmpl.render()
