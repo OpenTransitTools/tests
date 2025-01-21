@@ -1,21 +1,7 @@
+<%namespace name="d" file="/template.defs"/>
 {
     plan(
-        %if tlat and tlon:
-        from: { lat: ${flat}, lon: ${flon} }
-        %else:
-        from: { lat: 45.5552, lon: -122.6534 }
-        %endif
-        %if tlat and tlon:
-        to: { lat: ${tlat}, lon: ${tlon} }
-        %else:
-        to: { lat: 45.4908, lon: -122.5519 }
-        %endif
-        %if date:
-        date: "${date}",
-        %endif
-        %if time:
-        time: "${time}",
-        %endif
+        ${d.plan_od_params()}
         %if modes:
         transportModes: ${modes}
         %else:

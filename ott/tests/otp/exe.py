@@ -7,10 +7,10 @@ import requests
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from ott.utils import file_utils
+from test_suite import ListTestSuites
 
-
-#def_url = "http://maps8.trimet.org/rtp/gtfs/v1"
-def_url = "https://maps.trimet.org/rtp/gtfs/v1"
+def_url = "http://maps8.trimet.org/rtp/gtfs/v1"
+#def_url = "https://maps.trimet.org/rtp/gtfs/v1"
 this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
@@ -36,17 +36,21 @@ def make_templates():
     return ret_val
 
 
-def make_requests(templates=None, coord_pairs=None):
+def make_requests(templates=None, coords=None):
     """ returns an array of strings, each being a GraphQL request to OTP """
     ret_val = []
 
     if templates == None:
         templates = make_templates()
 
+    if coords == None:
+        l = ListTestSuites("x", "y")
+        coords = l.get_latlons()
+
     for t in templates:
-        if coord_pairs:
-            for cp in coord_pairs:
-                gql = t.render(flat=cp.flat, flon=cp.flon, tlat=cp.tlat, tlon=cp.tlon)
+        if coords:
+            for c in coords:
+                gql = t.render(**c)
                 ret_val.append(gql)
         else:
             gql = t.render()
@@ -61,12 +65,13 @@ def xmain():
     #tmpl = Template(filename=os.path.join(tmpl_dir, 'plan_connection_complex.mako'), lookup=tl)
     #tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_fares.mako'))
     tmpl = Template(filename=os.path.join(tmpl_dir, 'plan_simple.mako'), lookup=tl)
-    request = tmpl.render(flat="45.5552", flon="-122.6534", tlat="45.4908", tlon="-122.5519", skip_geom=True)
-    print(request)
-
+    #request = tmpl.render(flat="45.5552", flon="-122.6534", tlat="45.4908", tlon="-122.5519", skip_geom=True)
+    request = tmpl.render()
+    #print(request)
+    response = call_otp(request)
+    print(response.text)
     #tmpl_dir=os.path.join(this_module_dir, 'templates')
     #print(file_utils.find_files(tmpl_dir, ".mako"))
-
 
 def ymain():
     templates = make_templates()
@@ -78,7 +83,6 @@ def ymain():
     else:
         print(response.text)
 
-
 def zmain():
     for r in make_requests():
         response = call_otp(r)
@@ -87,4 +91,9 @@ def zmain():
         else:
             print(response.text)
 
-main=zmain
+def kmain():
+    for r in make_requests():
+        print(r)
+
+
+main=xmain

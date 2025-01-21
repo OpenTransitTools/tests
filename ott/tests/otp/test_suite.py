@@ -25,6 +25,28 @@ class TestResult:
     PASS=111
 
 
+def parse_place(pre, place):
+    """ 
+    break up any PLACE::45.5,-122.5 into name, lat, lon parts
+    """
+    ret_val = {}
+    try:
+        name = lat = lon = None
+        parts = place.split("::")
+        ll = parts[0]
+        if len(parts) == 2:
+            name = parts[0]
+            ll = parts[1]
+        ll = ll.split(",")
+        lat = ll[0]
+        lon = ll[1]
+        ret_val = {pre + 'name': name, pre + 'lat': lat, pre + 'lon': lon}
+    except Exception as ex:
+        log.warning(ex)
+    return ret_val
+
+
+
 class Test(object):
     """ 
     test object is typically built from a row in an .csv test suite 
@@ -393,6 +415,20 @@ class TestSuite(object):
             ret_val = ret_val + u + "\n"
         return ret_val
 
+    def get_latlons(self):
+        """
+        returns a dict with from and to coord broken out, ala:
+        {'fname': '9790', 'flat': '45.549', 'flon': '-122.91', 'tname': '8550', 'tlat': '45.528', 'tlon': '-122.969'}
+        """
+        ret_val = []
+        for p in self.params:
+            f = object_utils.get_striped_dict_val(p, 'From')
+            t = object_utils.get_striped_dict_val(p, 'To')
+            ff = parse_place('f', f)
+            tt = parse_place('t', t)
+            ret_val.append(ff | tt)
+        return ret_val
+
 
 class ListTestSuites(CacheBase):
     """ 
@@ -457,6 +493,13 @@ class ListTestSuites(CacheBase):
             ret_val.extend(urls)
         return ret_val
 
+    def get_latlons(self):
+        """ return a bulk list of broken out coordinate parts """
+        ret_val = []
+        for ts in self.test_suites:
+            ll = ts.get_latlons()
+            ret_val.extend(ll)
+        return ret_val
 
 def debug():
     """ debug entry """

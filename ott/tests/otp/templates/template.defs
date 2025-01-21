@@ -35,3 +35,28 @@
     first: 6
     %endif
 </%def>
+
+<%def name="plan_od_params()">
+        %if fname and flat and flon:
+        fromPlace: "${fname}::${flat},${flon}"
+        %elif flat and flon:
+        from: { lat: ${flat}, lon: ${flon} }
+        %else:
+        fromPlace: "From Place::45.5552,-122.6534"
+        %endif
+        %if tname and tlat and tlon:
+        toPlace: "${tname}::${tlat},${tlon}"
+        %elif tlat and tlon:
+        to: { lat: ${tlat}, lon: ${tlon} }
+        %else:
+        toPlace: "To Place::45.4908,-122.5519"
+        %endif
+        %if date:
+        date: "${date}"
+        %endif
+        %if time:
+        time: "${time}"
+        %else:
+        time: "12:00 PM"
+        %endif
+</%def>
