@@ -7,7 +7,7 @@ import requests
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from ott.utils import file_utils
-from test_suite import ListTestSuites
+from .test_suite import ListTestSuites
 
 def_url = "http://maps8.trimet.org/rtp/gtfs/v1"
 #def_url = "https://maps.trimet.org/rtp/gtfs/v1"
