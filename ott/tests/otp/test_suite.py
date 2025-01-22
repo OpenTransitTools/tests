@@ -426,7 +426,7 @@ class TestSuite(object):
             t = object_utils.get_striped_dict_val(p, 'To')
             ff = parse_place('f', f)
             tt = parse_place('t', t)
-            ret_val.append(ff | tt)
+            ret_val.append({**ff, **tt})
         return ret_val
 
 
