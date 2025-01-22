@@ -6,7 +6,9 @@ import random
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, Style
+from ott.utils import date_utils
 from . import exe
+
 
 
 lock = threading.Lock()
@@ -32,16 +34,7 @@ def run_query():
         else:
             with lock:
                 fail+=1
-            print(f"{Fore.RED}_{Style.RESET_ALL}", end="", flush=True)                
-
-
-def format_seconds(seconds):
-    seconds = round(seconds)
-    hours = seconds // 3600
-    minutes = (seconds % 3600) // 60
-    seconds = seconds % 60
-
-    return f"{hours:02}:{minutes:02}:{seconds:02}"
+            print(f"{Fore.RED}_{Style.RESET_ALL}", end="", flush=True)
 
 
 def main():
@@ -71,5 +64,5 @@ def main():
 
         processing_time = time.time() - start_time
         avg = processing_time / (success + fail)
-        tm = format_seconds(processing_time)
+        tm = date_utils.format_seconds(processing_time)
         print(f"\n{num_threads} different 'users' made {Fore.GREEN}{success} successful requests ({Fore.RED}fails {fail}{Fore.GREEN}) {Style.RESET_ALL}in {Style.BRIGHT}{tm} (avg {avg:.2f}) {Style.RESET_ALL}")
