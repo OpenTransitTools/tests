@@ -36,7 +36,7 @@ def run_query():
             print(f"{Fore.RED}_{Style.RESET_ALL}", end="", flush=True)
 
 
-def main():
+def run():
     utils.cmd_line_process("stress")
 
     # if needed, prompt the user for the number of threads
@@ -45,9 +45,9 @@ def main():
     else:
         num_threads = int(input("Enter the number of threads to use: "))
 
-    print(f"{Fore.YELLOW}OTP GraphQL Load Test{Style.RESET_ALL}")    
+    print(f"{Fore.YELLOW}OTP GraphQL Load Test via {utils.url}{Style.RESET_ALL}")
 
-    # Create and start the worker threads
+    # create/start the threads
     start_time = time.time()
     threads = []
     for _ in range(num_threads):
@@ -60,9 +60,9 @@ def main():
         while True:
             pass
     except KeyboardInterrupt:
-        print("Interrupt signal received. Stopping the load testing...")
+        print("\nInterrupt signal received. Stopping the load testing...")
         exit_flag.set()
-        # Wait for all threads to finish
+        # wait for threads to finish
         for thread in threads:
             thread.join()
 
@@ -79,3 +79,7 @@ def main():
               f"*   {round(rps)} requests per second\n"
               "*\n*******************************************************\n\n"
         )
+
+
+def main():
+    run()
