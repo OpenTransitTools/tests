@@ -2,22 +2,21 @@
 run otp via trip plans defined in ./templates/*.mako
 """
 import os
-import inspect
 import requests
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from ott.utils import file_utils
 from .test_suite import ListTestSuites
-
-def_url = "http://maps8.trimet.org/rtp/gtfs/v1"
-#def_url = "https://maps.trimet.org/rtp/gtfs/v1"
-this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+from . import utils
 
 
-def call_otp(query, url=def_url):
-    headers = {
-        "Content-Type": "application/json",
-    }
+def call_otp(query, headers=None, url=None):
+    if url is None:
+        url = utils.url
+    if headers is None:
+        headers = {
+            "Content-Type": "application/json",
+        }
     payload = {
         "query": query
     }
@@ -27,7 +26,7 @@ def call_otp(query, url=def_url):
 
 def make_templates():
     ret_val = []
-    tmpl_dir=os.path.join(this_module_dir, 'templates')
+    tmpl_dir=os.path.join(utils.this_module_dir, 'templates')
     tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
     for t in file_utils.find_files(tmpl_dir, ".mako"):
         #print(t)

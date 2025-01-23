@@ -8,8 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, Style
 from ott.utils import date_utils
 from . import exe
-
-
+from . import utils
 
 lock = threading.Lock()
 exit_flag = threading.Event()
@@ -38,13 +37,18 @@ def run_query():
 
 
 def main():
-    print(f"{Fore.CYAN}Threaded GraphQL Load Testing Script{Style.RESET_ALL}")
+    utils.cmd_line_process("stress")
 
-    # Prompt the user for the number of threads
-    num_threads = int(input("Enter the number of threads to use: "))
-    start_time = time.time()
+    # if needed, prompt the user for the number of threads
+    if utils.threads is not None and utils.threads > 0:
+        num_threads = utils.threads
+    else:
+        num_threads = int(input("Enter the number of threads to use: "))
+
+    print(f"{Fore.YELLOW}OTP GraphQL Load Test{Style.RESET_ALL}")    
 
     # Create and start the worker threads
+    start_time = time.time()
     threads = []
     for _ in range(num_threads):
         thread = threading.Thread(target=run_query)
@@ -64,5 +68,14 @@ def main():
 
         processing_time = time.time() - start_time
         avg = processing_time / (success + fail)
+        rps = (success + fail) / processing_time
         tm = date_utils.format_seconds(processing_time)
-        print(f"\n{num_threads} different 'users' made {Fore.GREEN}{success} successful requests ({Fore.RED}fails {fail}{Fore.GREEN}) {Style.RESET_ALL}in {Style.BRIGHT}{tm} (avg {avg:.2f}) {Style.RESET_ALL}")
+        print(f"\n\n\n\n*******************************************************\n*\n"
+              f"*   \033[1;4m{utils.url}\033[0m\n" 
+              f"*   {Style.BRIGHT}{num_threads}{Style.RESET_ALL} different 'users' (threads)\n" 
+              f"*   {Style.BRIGHT}{tm}{Style.RESET_ALL} running time\n"
+              f"*   {Fore.GREEN}{success} successful requests {Fore.RED}(fails {fail}){Style.RESET_ALL}\n"
+              f"*   {avg:.2f} secs per request (on average)\n"
+              f"*   {round(rps)} requests per second\n"
+              "*\n*******************************************************\n\n"
+        )

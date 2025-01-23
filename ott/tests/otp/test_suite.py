@@ -439,7 +439,7 @@ class ListTestSuites(CacheBase):
         """ this class corresponds to a single .csv 'test suite' """
         #import pdb; pdb.set_trace()
         if suite_dir is None:
-            suite_dir = self.sub_dir('suites')
+            suite_dir = self.sub_dir('test_suites/trimet')
 
         self.ws_url = ws_url
         self.map_url = map_url
