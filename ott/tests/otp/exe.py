@@ -101,7 +101,7 @@ def make_cmd_line(app="run_otp"):
         type=str,
         nargs='+',
         default=['1'],
-        help="filter list of trip requests by number in list -- example: -f 3 11 22"
+        help="filter list of trip requests by either string in the request or index of the request list (see poetry run perf_otp) -- example: -f 3 rideHailing 11 22"
     )
     parser.add_argument(
         '--sum',
