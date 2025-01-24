@@ -5,7 +5,7 @@ import os
 import requests
 from mako.template import Template
 from mako.lookup import TemplateLookup
-from ott.utils import file_utils
+from ott.utils import file_utils, num_utils
 from ott.utils.parse.cmdline import base_cmdline
 from .test_suite import ListTestSuites
 from . import utils
@@ -60,22 +60,29 @@ def make_requests(templates=None, coords=None):
 
 
 def filter_requests(filters):
-    ret_val = []
+    """ return a dict of filtered requests """
+    ret_val = {}
     requests = make_requests()
-    for f in filters:
-        for i, t in enumerate(requests):
-            if i == f:
-                ret_val.append(requests[i])
-                break
+    for i, r in enumerate(requests):
+        for f in filters:
+            #import pdb; pdb.set_trace()
+            index_filter = num_utils.to_int(f)
+            if index_filter is not None:
+                if index_filter == i:
+                    ret_val[f] = r
+            elif len(f) >= 3:
+                if f in r:
+                    ret_val[f"{f} - #{i}"] = r
+
     return ret_val
 
 
 def print_request_response(filters, sum):
-    requests = filter_requests(filters)
-    for i, r in enumerate(requests):
-        response = call_otp(r)
-        print(f"\n\033[1;4mRequest+Response\033[0m #{filters[i]}:")
-        print(str(r)[4:400]) if sum else print(str(r))
+    requests_dict = filter_requests(filters)
+    for id, request in requests_dict.items():
+        response = call_otp(request)
+        print(f"\n\033[1;4mRequest+Response\033[0m #{id}:")
+        print(str(request)[4:400]) if sum else print(str(request))
         if response.status_code == 200:
             n = str(response.json())
             print(n[:1000]) if sum else print(n)
@@ -91,9 +98,10 @@ def make_cmd_line(app="run_otp"):
         '--filter',
         '-f',
         required=False,
-        type=int, nargs='+',
-        default=[1],
-        help="filter idz"
+        type=str,
+        nargs='+',
+        default=['1'],
+        help="filter list of trip requests by number in list -- example: -f 3 11 22"
     )
     parser.add_argument(
         '--sum',
