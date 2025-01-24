@@ -58,41 +58,30 @@ def make_requests(templates=None, coords=None):
     return ret_val
 
 
-def xmain():
-    tmpl_dir=os.path.join(this_module_dir, 'templates')
-    tl = TemplateLookup(directories=[tmpl_dir])
-    #tmpl = Template(filename=os.path.join(tmpl_dir, 'plan_connection_complex.mako'), lookup=tl)
-    #tmpl = Template(filename=os.path.join(this_module_dir, 'templates', 'plan_connection_fares.mako'))
-    tmpl = Template(filename=os.path.join(tmpl_dir, 'plan_simple.mako'), lookup=tl)
-    #request = tmpl.render(flat="45.5552", flon="-122.6534", tlat="45.4908", tlon="-122.5519", skip_geom=True)
-    request = tmpl.render()
-    #print(request)
-    response = call_otp(request)
-    print(response.text)
-    #tmpl_dir=os.path.join(this_module_dir, 'templates')
-    #print(file_utils.find_files(tmpl_dir, ".mako"))
+def filter_requests(filters):
+    ret_val = []
 
-def ymain():
     templates = make_templates()
-    request = templates[3].render()
-    response = call_otp(request)
+    for f in filters:
+        for i, t in enumerate(templates):
+            if i == f:
+                t = templates[i].render()
+                ret_val.append(t)
+                break
+    return ret_val
 
-    if response.status_code == 200:
-        print(response.json())
-    else:
-        print(response.text)
 
-def zmain():
-    for r in make_requests():
+def print_request_response(filters, sum=False):
+    requests = filter_requests(filters)
+    for r in requests:
         response = call_otp(r)
+        print(r)
         if response.status_code == 200:
             print(response.json())
         else:
             print(response.text)
-
-def kmain():
-    for r in make_requests():
-        print(r)
+        print("\n\n\n")
 
 
-main=xmain
+def main():
+    print_request_response([2, 3])
