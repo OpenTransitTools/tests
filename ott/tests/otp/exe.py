@@ -6,6 +6,7 @@ import requests
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from ott.utils import file_utils
+from ott.utils.parse.cmdline import base_cmdline
 from .test_suite import ListTestSuites
 from . import utils
 
@@ -60,28 +61,54 @@ def make_requests(templates=None, coords=None):
 
 def filter_requests(filters):
     ret_val = []
-
-    templates = make_templates()
+    requests = make_requests()
     for f in filters:
-        for i, t in enumerate(templates):
+        for i, t in enumerate(requests):
             if i == f:
-                t = templates[i].render()
-                ret_val.append(t)
+                ret_val.append(requests[i])
                 break
     return ret_val
 
 
-def print_request_response(filters, sum=False):
+def print_request_response(filters, sum):
     requests = filter_requests(filters)
-    for r in requests:
+    for i, r in enumerate(requests):
         response = call_otp(r)
-        print(r)
+        print(f"\n\033[1;4mRequest+Response\033[0m #{filters[i]}:")
+        print(str(r)[4:400]) if sum else print(str(r))
         if response.status_code == 200:
-            print(response.json())
+            n = str(response.json())
+            print(n[:1000]) if sum else print(n)
         else:
             print(response.text)
-        print("\n\n\n")
+        print("\n\n")
+
+
+def make_cmd_line(app="run_otp"):
+    """create and process the cmdline processor"""
+    parser = base_cmdline.empty_parser("poetry run " + app)
+    parser.add_argument(
+        '--filter',
+        '-f',
+        required=False,
+        type=int, nargs='+',
+        default=[1],
+        help="filter idz"
+    )
+    parser.add_argument(
+        '--sum',
+        '--summarize',
+        '-s',
+        required=False,
+        action="store_true",
+        help="summarize results"
+    )    
+    ret_val = utils.add_cmd_line_util_args(parser)
+    return ret_val
 
 
 def main():
-    print_request_response([2, 3])
+    #import pdb; pdb.set_trace()
+    p = make_cmd_line()
+    print_request_response(p.filter, p.sum)
+

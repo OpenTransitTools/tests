@@ -12,8 +12,7 @@ def time_otp_requests():
     """
     show timing stats for each call
     """
-    # import pdb; pdb.set_trace()
-    utils.cmd_line_process("perf")
+    utils.make_cmd_line("perf")
     runs = num_utils.to_int_min(utils.threads, 1)
 
     print(f"{Fore.YELLOW}\033[1;4m{utils.url}\033[0m {Style.BRIGHT}{Fore.WHITE}Performance Test{Style.RESET_ALL}")
@@ -32,6 +31,7 @@ def time_otp_requests():
 
 
 def main():
+    # import pdb; pdb.set_trace()
     try:
         time_otp_requests()
     except KeyboardInterrupt:

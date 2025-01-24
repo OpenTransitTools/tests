@@ -33,16 +33,15 @@ def set_threads(t):
         pass
 
 
-def cmd_line(app="", do_parse=True):
+def add_cmd_line_util_args(parser):
+    """add util cmd line args"""
     #import pdb; pdb.set_trace()
-    parser = base_cmdline.empty_parser("poetry run " + app)
-
     parser.add_argument(
         '--url',
         '-u',
         required=False,
         default=None,
-        help="graphql ws url ala http://maps8.trimet.org/rtp/gtfs/v1"
+        help=f"graphql ws url ala {url}"
     )
 
     parser.add_argument(
@@ -53,22 +52,21 @@ def cmd_line(app="", do_parse=True):
         help="how many threads to start up"
     )
 
-    if do_parse:
-        ret_val = parser.parse_args()
-    else:
-        ret_val = parser
+    ret_val = parser.parse_args()
+    set_url(ret_val.url)
+    set_threads(ret_val.threads)
+
     return ret_val
 
 
-def cmd_line_process(app=""):
-    "create and process the cmdline processor"
-    ret_val = cmd_line(app)
-    set_url(ret_val.url)
-    set_threads(ret_val.threads)
+def make_cmd_line(app=""):
+    """create and process the cmdline processor"""
+    parser = base_cmdline.empty_parser("poetry run " + app)
+    ret_val = add_cmd_line_util_args(parser)
     return ret_val
 
 
 def main():
-    cmd_line_process("util")
+    make_cmd_line("util")
     print(url)
     print(threads)

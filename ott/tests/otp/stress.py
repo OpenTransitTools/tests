@@ -37,7 +37,7 @@ def run_query():
 
 
 def run():
-    utils.cmd_line_process("stress")
+    utils.make_cmd_line("stress")
 
     # if needed, prompt the user for the number of threads
     if utils.threads is not None and utils.threads > 0:
