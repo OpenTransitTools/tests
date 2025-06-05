@@ -5,6 +5,10 @@ import os
 import inspect
 from ott.utils.parse.cmdline import base_cmdline
 
+import logging
+log = logging.getLogger(__file__)
+
+
 this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
