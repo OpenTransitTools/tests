@@ -66,6 +66,27 @@ def make_cmd_line(app=""):
     return ret_val
 
 
+def parse_place(pre, place):
+    """ 
+    break up any PLACE::45.5,-122.5 into name, lat, lon parts
+    """
+    ret_val = {}
+    try:
+        name = lat = lon = None
+        parts = place.split("::")
+        ll = parts[0]
+        if len(parts) == 2:
+            name = parts[0]
+            ll = parts[1]
+        ll = ll.split(",")
+        lat = ll[0]
+        lon = ll[1]
+        ret_val = {pre + 'name': name, pre + 'lat': lat, pre + 'lon': lon}
+    except Exception as ex:
+        log.warning(ex)
+    return ret_val
+
+
 def main():
     make_cmd_line("util")
     print(url)

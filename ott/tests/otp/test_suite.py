@@ -6,6 +6,8 @@ from ott.utils import date_utils
 from ott.utils import object_utils
 from ott.utils import num_utils
 
+from . import utils
+
 import os
 import sys
 import csv
@@ -23,28 +25,6 @@ class TestResult:
     FAIL=000
     WARN=333
     PASS=111
-
-
-def parse_place(pre, place):
-    """ 
-    break up any PLACE::45.5,-122.5 into name, lat, lon parts
-    """
-    ret_val = {}
-    try:
-        name = lat = lon = None
-        parts = place.split("::")
-        ll = parts[0]
-        if len(parts) == 2:
-            name = parts[0]
-            ll = parts[1]
-        ll = ll.split(",")
-        lat = ll[0]
-        lon = ll[1]
-        ret_val = {pre + 'name': name, pre + 'lat': lat, pre + 'lon': lon}
-    except Exception as ex:
-        log.warning(ex)
-    return ret_val
-
 
 
 class Test(object):
@@ -424,8 +404,8 @@ class TestSuite(object):
         for p in self.params:
             f = object_utils.get_striped_dict_val(p, 'From')
             t = object_utils.get_striped_dict_val(p, 'To')
-            ff = parse_place('f', f)
-            tt = parse_place('t', t)
+            ff = utils.parse_place('f', f)
+            tt = utils.parse_place('t', t)
             ret_val.append({**ff, **tt})
         return ret_val
 
@@ -500,6 +480,7 @@ class ListTestSuites(CacheBase):
             ll = ts.get_latlons()
             ret_val.extend(ll)
         return ret_val
+
 
 def debug():
     """ debug entry """
