@@ -37,7 +37,7 @@ class Test(object):
             OTP parmas:
               'From'
               'To'
-              'Max dist'
+              'Reluctance'
               'Mode'
               'Optimize'
               'Time'
@@ -75,14 +75,13 @@ class Test(object):
         self.mode            = self.get_param('Mode')
         self.time            = self.get_param('Time', strip_all_spaces=True)
         self.optimize        = self.get_param('Optimize')
-        self.distance        = self.get_param('Max dist')
+        self.reluctance      = self.get_param('Reluctance')
         self.arrive_by       = self.get_param('Arrive by')
         self.expect_output   = self.get_param('Expected output')
  
         # post process the load ... make params and urls, etc...
         self.date = self.get_date_param(self.date)
         self.init_url_params()
-        self.url_distance()
         self.url_mode()
         self.url_optimize()
         self.url_time()
@@ -174,24 +173,6 @@ class Test(object):
         if p:
             self.otp_params += '&{0}={1}'.format(name, p)
             self.map_params += '&{0}={1}'.format(name, p)
-
-    def url_distance(self, dist=None):
-        #import pdb; pdb.set_trace()
-        if self.is_call():
-            dist = num_utils.to_int(dist, self.distance)
-            """
-            lower the walk reluctance for shorter 
-            """
-            if dist:
-                if   dist > 9000: dist = 1
-                elif dist > 2000: dist = 2
-                elif dist > 1000: dist = 4
-                elif dist >  500: dist = 5
-                else: dist = 3
-                self.url_param('walkReluctance', dist)
-        else:
-            self.url_param('maxWalkDistance', dist, self.distance)
-            self.url_param('Walk', dist, self.distance)
 
     def url_mode(self, mode=None):
         self.url_param('mode', mode, self.mode)
