@@ -6,7 +6,7 @@ from ott.utils import date_utils
 from ott.utils import object_utils
 from ott.utils import num_utils
 
-from . import utils
+from .utils import misc
 
 import os
 import sys
@@ -385,8 +385,8 @@ class TestSuite(object):
         for p in self.params:
             f = object_utils.get_striped_dict_val(p, 'From')
             t = object_utils.get_striped_dict_val(p, 'To')
-            ff = utils.parse_place('f', f)
-            tt = utils.parse_place('t', t)
+            ff = misc.parse_place('f', f)
+            tt = misc.parse_place('t', t)
             ret_val.append({**ff, **tt})
         return ret_val
 

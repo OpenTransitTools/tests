@@ -5,17 +5,17 @@ import time
 from colorama import Fore, Style
 from ott.utils import num_utils
 from . import exe
-from . import utils
+from .utils import misc
 
 
 def time_otp_requests():
     """
     show timing stats for each call
     """
-    utils.make_cmd_line("perf")
-    runs = num_utils.to_int_min(utils.threads, 1)
+    misc.make_cmd_line("perf")
+    runs = num_utils.to_int_min(misc.threads, 1)
 
-    print(f"{Fore.YELLOW}\033[1;4m{utils.url}\033[0m {Style.BRIGHT}{Fore.WHITE}Performance Test{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}\033[1;4m{misc.url}\033[0m {Style.BRIGHT}{Fore.WHITE}Performance Test{Style.RESET_ALL}")
     for z in range(runs):
         for i, r in enumerate(exe.make_requests()):
             start_time = time.time()

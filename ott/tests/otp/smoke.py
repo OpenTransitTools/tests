@@ -10,6 +10,6 @@ def main():
     #import pdb; pdb.set_trace()
     c = cmdline.get_args('smoke tests')
     print(c)
-    l = test_suite.ListTestSuites(c.url, c.api)
+    l = test_suite.ListTestSuites(c.url, c.api, filter="*")
     if c.print:
         l.printer()

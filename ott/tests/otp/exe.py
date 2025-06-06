@@ -8,12 +8,12 @@ from mako.lookup import TemplateLookup
 from ott.utils import file_utils, num_utils
 from ott.utils.parse.cmdline import base_cmdline
 from .test_suite import ListTestSuites
-from . import utils
+from .utils import misc
 
 
 def call_otp(query, headers=None, url=None):
     if url is None:
-        url = utils.url
+        url = misc.url
     if headers is None:
         headers = {
             "Content-Type": "application/json",
@@ -27,7 +27,7 @@ def call_otp(query, headers=None, url=None):
 
 def make_templates():
     ret_val = []
-    tmpl_dir=os.path.join(utils.this_module_dir, 'templates')
+    tmpl_dir=os.path.join(misc.this_module_dir, 'templates')
     tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
     for t in file_utils.find_files(tmpl_dir, ".mako"):
         #print(t)
@@ -111,7 +111,7 @@ def make_cmd_line(app="run_otp"):
         action="store_true",
         help="summarize results"
     )    
-    ret_val = utils.add_cmd_line_util_args(parser)
+    ret_val = misc.add_cmd_line_util_args(parser)
     return ret_val
 
 

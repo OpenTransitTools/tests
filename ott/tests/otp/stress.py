@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, Style
 from ott.utils import date_utils
 from . import exe
-from . import utils
+from .utils import misc
 
 lock = threading.Lock()
 exit_flag = threading.Event()
@@ -37,15 +37,15 @@ def run_query():
 
 
 def run():
-    utils.make_cmd_line("stress")
+    misc.make_cmd_line("stress")
 
     # if needed, prompt the user for the number of threads
-    if utils.threads is not None and utils.threads > 0:
-        num_threads = utils.threads
+    if misc.threads is not None and misc.threads > 0:
+        num_threads = misc.threads
     else:
         num_threads = int(input("Enter the number of threads to use: "))
 
-    print(f"{Fore.YELLOW}OTP GraphQL Load Test via {utils.url}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}OTP GraphQL Load Test via {misc.url}{Style.RESET_ALL}")
 
     # create/start the threads
     start_time = time.time()
@@ -71,7 +71,7 @@ def run():
         rps = (success + fail) / processing_time
         tm = date_utils.format_seconds(processing_time)
         print(f"\n\n\n\n*******************************************************\n*\n"
-              f"*   \033[1;4m{utils.url}\033[0m\n" 
+              f"*   \033[1;4m{misc.url}\033[0m\n" 
               f"*   {Style.BRIGHT}{num_threads}{Style.RESET_ALL} different 'users' (threads)\n" 
               f"*   {Style.BRIGHT}{tm}{Style.RESET_ALL} running time\n"
               f"*   {Fore.GREEN}{success} successful requests {Fore.RED}(fails {fail}){Style.RESET_ALL}\n"
