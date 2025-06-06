@@ -461,10 +461,3 @@ class ListTestSuites(CacheBase):
             ll = ts.get_latlons()
             ret_val.extend(ll)
         return ret_val
-
-
-def debug():
-    """ debug entry """
-    #import pdb; pdb.set_trace()
-    l = ListTestSuites("x", "y")
-    p = l.printer()

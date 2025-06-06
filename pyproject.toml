@@ -26,8 +26,7 @@ colorama = "^0.4.5"
 run_otp = "ott.tests.otp.exe:main"
 perf_otp = "ott.tests.otp.perf:main"
 stress_otp = "ott.tests.otp.stress:main"
-otp_tests = "ott.tests.otp.test_suite:debug"
-xx = "ott.tests.otp.utils:main"
+otp_tests = "ott.tests.otp.smoke:main"
 
 [build-system]
 requires = ["poetry-core"]
