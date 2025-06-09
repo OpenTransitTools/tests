@@ -9,7 +9,8 @@ def cmd():
 def main():
     #import pdb; pdb.set_trace()
     c = cmdline.get_args('smoke tests')
-    print(c)
-    l = test_suite.ListTestSuites(c.url, c.api, filter="*")
+    l = test_suite.ListTestSuites(c.url, c.map_url, filter=c.suites)
+    if c.stats:
+        l.stats()
     if c.print:
         l.printer()

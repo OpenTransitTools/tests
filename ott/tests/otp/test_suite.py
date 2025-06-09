@@ -32,7 +32,7 @@ class Test(object):
     test object is typically built from a row in an .csv test suite 
     params for test, along with run capability
     """
-    def __init__(self, param_dict, line_number, ws_url, map_url, date=None):
+    def __init__(self, param_dict, line_number, ws_url, app_url, date=None):
         """ {
             OTP parmas:
               'From'
@@ -59,7 +59,7 @@ class Test(object):
         self.response_time   = -1.0
 
         self.ws_url          = ws_url
-        self.map_url         = map_url
+        self.app_url         = app_url
 
         self.csv_line_number = line_number
         self.csv_params      = param_dict
@@ -67,7 +67,7 @@ class Test(object):
 
         self.itinerary       = None
         self.otp_params      = ''
-        self.map_params      = ''
+        self.app_params      = ''
 
         self.description     = self.get_param('Description/notes')
         self.coord_from      = self.get_param('From')
@@ -161,7 +161,7 @@ class Test(object):
     def init_url_params(self):
         self.otp_params = 'fromPlace={0}&toPlace={1}'.format(self.coord_from, self.coord_to)
 
-        self.map_params = self.otp_params
+        self.app_params = self.otp_params
         if self.coord_from is None or self.coord_from == '' or self.coord_to is None or self.coord_to == '':
             self.error_descript = "no from and/or to coordinate for the otp url (skipping test) - from:{} to:{}".format(self.coord_from, self.coord_to)
             if self.expect_output:
@@ -172,7 +172,7 @@ class Test(object):
         p = param if param else default
         if p:
             self.otp_params += '&{0}={1}'.format(name, p)
-            self.map_params += '&{0}={1}'.format(name, p)
+            self.app_params += '&{0}={1}'.format(name, p)
 
     def url_mode(self, mode=None):
         self.url_param('mode', mode, self.mode)
@@ -265,7 +265,7 @@ class Test(object):
         return ret_val
 
     def get_map_url(self):
-        return "{}&{}&debug_layers=true".format(self.make_url(self.map_url), self.map_params)
+        return "{}&{}&debug_layers=true".format(self.make_url(self.app_url), self.app_params)
 
     def get_otpRR_url(self):
         """
@@ -282,11 +282,11 @@ class Test(object):
         params = "sessionId=test&fromPlace={}&toPlace={}&time={}&arriveBy={}&mode={}&ui_activeItinerary=0&ui_activeSearch=TEST".format(
             self.coord_from, self.coord_to, time, arrive, mode
         )
-        ret_val = "{}{}".format(self.make_url(self.map_url, "#/?"), params)
+        ret_val = "{}{}".format(self.make_url(self.app_url, "#/?"), params)
         return ret_val
 
     def get_ridetrimetorg_url(self):
-        return "http://maps.trimet.org?submit&" + self.map_params
+        return "http://maps.trimet.org?submit&" + self.app_params
 
 
 class TestSuite(object):
@@ -314,7 +314,7 @@ class TestSuite(object):
         for row in reader:
             self.params.append(row)
 
-    def do_test(self, t, strict=True, num_tries=5, run_test=True):
+    def do_test(self, t, strict=True, num_tries=5, run_test=True, print_url=True):
         if t.is_valid:
             if run_test:
                 for i in range(1, num_tries):
@@ -335,14 +335,14 @@ class TestSuite(object):
                     log.info("test_suite: this test failed " + t.get_ws_url() + "\n")
                     self.failures += 1
                 sys.stdout.write(".")
-            else:
+            elif print_url:
                 print(t.get_otpRR_url())
             
 
     def get_tests(self):
         return self.tests
 
-    def run(self, ws_url, map_url, date=None, run_test=True):
+    def run(self, ws_url, map_url, date=None, run_test=True, print_url=True):
         """ 
         iterate the list of tests from the .csv files, run the test (call otp), and check the output.
         """
@@ -357,7 +357,7 @@ class TestSuite(object):
                 continue
 
             ret_val.append(t.get_ws_url())
-            self.do_test(t, run_test=run_test)
+            self.do_test(t, run_test=run_test, print_url=print_url)
 
             """ arrive by tests """
             t = Test(p, i+2, ws_url, map_url, date)
@@ -365,7 +365,7 @@ class TestSuite(object):
             t.append_note(" ***NOTE***: arrive by test ")
             t.arrive_by_check()
             ret_val.append(t.get_ws_url())
-            self.do_test(t, False, run_test=run_test)
+            self.do_test(t, False, run_test=run_test, print_url=print_url)
 
         return ret_val
 
@@ -375,6 +375,13 @@ class TestSuite(object):
         for u in urls:
             ret_val = ret_val + u + "\n"
         return ret_val
+    
+    def stats(self):
+        if not self.tests:
+            urls = self.run("", "", "", run_test=False, print_url=False)
+            print("{} = {} tests".format(self.name, len(urls)))
+        else:
+            print("{} = {} tests (passes {})".format(self.name, len(self.tests), self.passes))
 
     def get_latlons(self):
         """
@@ -440,6 +447,10 @@ class ListTestSuites(CacheBase):
         # import pdb; pdb.set_trace()
         for ts in self.test_suites:
             ts.run(self.ws_url, self.map_url, self.date, run_test)
+
+    def stats(self):
+        for ts in self.test_suites:
+            ts.stats()
 
     def printer(self):
         ret_val = ""

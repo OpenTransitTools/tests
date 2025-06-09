@@ -19,7 +19,6 @@ class api(Enum):
 
 
 class suites(Enum):
-    all = '*'
     bike = 'bike'
     bus = 'bus'
     interline = 'interline'
@@ -37,14 +36,17 @@ class suites(Enum):
 def get_args(prog_name='tests', do_parse=True):
     """
     """
+    def_url = "maps8.trimet.org"
+    
     parser = argparse.ArgumentParser(
         prog=prog_name,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument('--url',    '-u', type=str, default="maps8.trimet.org", help='server to test')
-    parser.add_argument('--api',    '-a', type=api, default=api.rest, choices=list(api), help='which OTP api to call')
-    parser.add_argument('--suite',  '-s', type=suites, default="*", choices=list(suites), help='csv name of test suite')
-    parser.add_argument('--max',    '-m', type=int, default=3000, help='limit to number of tests')
+    parser.add_argument('--url',    '-u',  type=str, default=def_url, help='server to test')
+    parser.add_argument('--map_url','-mu', type=str, default=def_url, help='app url link to show itinerary in an app')
+    parser.add_argument('--api',    '-a',  type=api, default=api.rest, choices=list(api), help='which OTP api to call')
+    parser.add_argument('--suites', '-s',  type=suites, default=None, choices=list(suites), help='csv name of test suite')
+    parser.add_argument('--max',    '-m',  type=int, default=3000, help='limit to number of tests')
     parser.add_argument('--stats',  '-stats', '-t', action='store_true', help='print test stats')
     parser.add_argument('--print',  '-print', '-p', action='store_true', help='print test urls')
     parser.add_argument('--curl',   '-curl',  '-c', action='store_true', help='"curl" the url (execute the test)')
