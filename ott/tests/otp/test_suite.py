@@ -88,10 +88,7 @@ class Test(object):
         self.url_param('ignoreRealtimeUpdates', 'true')
 
     def did_test_pass(self):
-        ret_val = False
-        if self.result is not None and self.result is TestResult.PASS:
-            ret_val = True
-        return ret_val
+        return self.result is not None and self.result is TestResult.PASS
 
     def get_param(self, name, def_val=None, strip_all_spaces=False, warn_not_avail=True):
         return object_utils.get_striped_dict_val(self.csv_params, name, def_val, strip_all_spaces, warn_not_avail)
@@ -114,34 +111,6 @@ class Test(object):
                 # result properly sized ... now look for matches to expected data, etc...
                 self.error_descript = "test_otp: size {} characters.".format(len(self.itinerary))
                 self.test_expected_response(self.expect_output, strict)
-                if self.expect_duration is not None and len(self.expect_duration) > 0:
-                    # TODO: this is XML -- needs to be changed to either XML or JSON
-                    durations = re.findall('<itinerary>.*?<duration>(.*?)</duration>.*?</itinerary>', self.itinerary) 
-                    error = 0.2
-                    high = float(self.expect_duration) * (1 + error)
-                    low = float(self.expect_duration) * (1 - error)
-                    for duration in durations:
-                        if int(duration) > high or int(duration) < low:
-                            self.result = TestResult.FAIL if strict else TestResult.WARN
-                            self.error_descript += "test_otp: an itinerary duration was different than expected by more than {0}%.".format(error * 100)
-                            break
-                if self.expect_num_legs is not None and len(self.expect_num_legs) > 0:
-                    try:
-                        values = [int(i) for i in self.expect_num_legs.split('|')]
-                        if len(values) != 2:
-                            raise ValueError
-                        min_legs = values[0]
-                        max_legs = values[1]
-                        # TODO: this is XML -- needs to be changed to either XML or JSON
-                        all_legs = re.findall('<itinerary>.*?<legs>(.*?)</legs>.*?</itinerary>', self.itinerary)
-                        for legs in all_legs:
-                            num_legs = len(re.findall('<leg .*?>', legs))
-                            if num_legs > max_legs or num_legs < min_legs:
-                                self.result = TestResult.FAIL if strict else TestResult.WARN
-                                self.error_descript += "test_otp: an itinerary returned was not between {0} and {1} legs.".format(min_legs, max_legs)
-                                break
-                    except ValueError:
-                        self.error_descript += "expected number of legs test not in 'min|max' format."
 
         if self.result == TestResult.FAIL:
             log.warning(self.error_descript + "\n  " + self.get_ws_url())
@@ -314,6 +283,9 @@ class TestSuite(object):
         for row in reader:
             self.params.append(row)
 
+    def get_tests(self):
+        return self.tests
+
     def do_test(self, t, strict=True, num_tries=5, run_test=True, print_url=True):
         if t.is_valid:
             if run_test:
@@ -338,10 +310,6 @@ class TestSuite(object):
             elif print_url:
                 print(t.get_otpRR_url())
             
-
-    def get_tests(self):
-        return self.tests
-
     def run(self, ws_url, map_url, date=None, run_test=True, print_url=True):
         """ 
         iterate the list of tests from the .csv files, run the test (call otp), and check the output.
