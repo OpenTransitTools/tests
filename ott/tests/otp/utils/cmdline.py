@@ -11,11 +11,22 @@ class api(Enum):
     plan = 'plan'
     rest = 'rest'
 
- #   def startswith(self, n):
-#        return self.value.startswith(n)
-        
     def __str__(self):
         return self.value
+
+    def find_api(self):
+        match self:
+            case api.complex:
+                return "plan_connection_complex.mako"
+            case api.fares:
+                return "plan_connection_fares.mako"
+            case api.plan:
+                return "plan_connection_simple.mako"
+            case api.simple:
+                return "plan_simple.mako"
+            case api.rest:
+                return "rest"
+        return ret_val
 
 
 class suites(Enum):
