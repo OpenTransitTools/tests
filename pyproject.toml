@@ -23,10 +23,11 @@ colorama = "^0.4.5"
 #requests = "^2.21.0"
 
 [tool.poetry.scripts]
-run_otp = "ott.tests.otp.exe:main"
 perf_otp = "ott.tests.otp.perf:main"
 stress_otp = "ott.tests.otp.stress:main"
+run_otp = "ott.tests.otp.exe:main"
 otp_tests = "ott.tests.otp.smoke:main"
+smoke = "ott.tests.otp.smoke:main"
 
 [build-system]
 requires = ["poetry-core"]

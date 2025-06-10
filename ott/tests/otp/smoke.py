@@ -1,6 +1,6 @@
 from . import test_suite
 from .utils import cmdline
-from .exe import make_named_template
+from .templates import template_utils
 
 
 def cmd():
@@ -8,7 +8,8 @@ def cmd():
 
 
 def curl_test(api, lts):
-    t = make_named_template(api.find_api())
+    import pdb; pdb.set_trace()
+    t = template_utils.make_named_template(api.find_api())
     print(t)
     lts.stats()
 

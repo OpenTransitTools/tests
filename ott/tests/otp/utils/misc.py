@@ -9,8 +9,8 @@ import logging
 log = logging.getLogger(__file__)
 
 
-this_module_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-
+utils_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+this_module_dir = os.path.dirname(os.path.join(utils_dir, '../'))
 
 url = "http://maps8.trimet.org/rtp/gtfs/v1"
 def set_url(u):
