@@ -1,5 +1,4 @@
 Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output
-#NAME?,,,,,,,,,,,,,,
 Tests Hatfield Government Center MAX Station (9848) departure to Pioneer Courthouse Square,"45.522685,-122.991058","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9848.*MAX
 Tests Hillsboro Central/SE 3rd TC MAX Station (9846) departure to Pioneer Courthouse Square,"45.521772,-122.984382","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9846.*MAX
 Tests Tuality Hospital/SE 8th Ave MAX Station (9843) departure to Pioneer Courthouse Square,"45.521492,-122.977253","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9843.*MAX
@@ -15,8 +14,8 @@ Tests Beaverton Creek MAX Station (9822) departure to Pioneer Courthouse Square,
 Tests Millikan Way MAX Station (9826) departure to Pioneer Courthouse Square,"45.494518,-122.821061","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9826.*MAX
 Tests Beaverton Central MAX Station (9824) departure to Pioneer Courthouse Square,"45.490186,-122.805895","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9824.*MAX
 Tests Beaverton TC MAX Station (9821) departure to Pioneer Courthouse Square,"45.491210,-122.802492","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9821.*MAX
-#Tests Sunset TC MAX Station (9969) departure to Pioneer Courthouse Square,"45.509622,-122.783836","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,,QUICK,840,,,9969.*MAX,,,,
-#Tests Sunset TC MAX Station (9624) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.511587,-122.778350","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,,QUICK,840,,,MAX.*9624,,,,
+#Tests Sunset TC MAX Station (9969) departure to Pioneer Courthouse Square,"45.509622,-122.783836","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9969.*MAX
+#Tests Sunset TC MAX Station (9624) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.511587,-122.778350","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*9624
 Tests Washington Park MAX Station (10120) departure to Pioneer Courthouse Square,"45.510245,-122.715867","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,10120.*MAX
 Tests Goose Hollow/SW Jefferson St MAX Station (10118) departure to Pioneer Courthouse Square,"45.518125,-122.694454","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,10118.*MAX
 Tests Walking from Old Kings Hill/SW Salmon St MAX Station to Pioneer Courthouse Square,"45.519958,-122.691288","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,9758.*MAX
@@ -47,7 +46,6 @@ Tests Civic Drive MAX Station (13450) arrival from Pioneer Courthouse Square,"45
 Tests Gresham City Hall MAX Station (8356) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.505394,-122.435374","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*8356
 Tests Gresham Central TC MAX Station (8357) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.503268,-122.426232","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*8357
 Tests Cleveland Ave MAX Station (8359) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.503030,-122.419400","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*8359
-#NAME?,,,,,,,,,,,,,,
 Tests Cleveland Ave MAX Station (8359) departure to Pioneer Courthouse Square,"45.503030,-122.419400","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,8359.*MAX
 Tests Gresham Central TC MAX Station (8360) departure to Pioneer Courthouse Square,"45.503308,-122.426233","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,8360.*MAX
 Tests Gresham City Hall MAX Station (8361) departure to Pioneer Courthouse Square,"45.505963,-122.435358","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,8361.*MAX
@@ -92,17 +90,14 @@ Tests Washington/SE 12th Ave MAX Station (9842) arrival from Pioneer Courthouse 
 Tests Tuality Hospital/SE 8th Ave MAX Station (9844) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.521584,-122.978981","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*9844
 Tests Hillsboro Central/SE 3rd TC MAX Station (9845) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.521798,-122.986195","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*9845
 Tests Hatfield Government Center MAX Station (9848) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.522685,-122.991058","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*9848
-#NAME?,,,,,,,,,,,,,,
 Tests Parkrose/Sumner TC MAX Station (10572) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.558525,-122.563479","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*10572
 Tests Cascades MAX Station (10574) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.571715,-122.555791","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*10574
 Tests Mt Hood Ave MAX Station (10576) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.576799,-122.567374","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*10576
-##,,,,,,,,,,,,,, TODO 2020 Turn On in June -- Tests Portland Airport MAX Station (10579) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.588431,-122.593278","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,,QUICK,840,,,MAX.*10579,,,,
-#NAME?,,,,,,,,,,,,,,
-##,,,,,,,,,,,,,, TODO 2020 Turn On in June -- Tests Portland Airport MAX Station (10579) departure to Pioneer Courthouse Square,"45.588431,-122.593278","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,,QUICK,840,,,10579.*MAX,,,,
+Tests Portland Airport MAX Station (10579) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.588431,-122.593278","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*10579
+Tests Portland Airport MAX Station (10579) departure to Pioneer Courthouse Square,"45.588431,-122.593278","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,10579.*MAX
 Tests Mt Hood Ave MAX Station (10577) departure to Pioneer Courthouse Square,"45.575906,-122.565921","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,10577.*MAX
 Tests Cascades MAX Station (10575) departure to Pioneer Courthouse Square,"45.571710,-122.554582","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,10575.*MAX
 Tests Parkrose/Sumner TC MAX Station (10573) departure to Pioneer Courthouse Square,"45.557841,-122.565262","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,10573.*MAX
-#NAME?,,,,,,,,,,,,,,
 Tests PSU/SW 6th & Montgomery MAX Station (7774) departure to Pioneer Courthouse Square,"45.511829,-122.682836","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,7774.*MAX
 Tests SW 6th & Madison MAX Station (13123) departure to Expo Center,"45.515675,-122.680175","45.606842,-122.688194","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,13123.*MAX
 Tests SW 6th & Pine St MAX Station (7787) arrival from PSU,"45.511691,-122.682076","45.522650,-122.676659","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*7787
@@ -118,7 +113,6 @@ Tests N Lombard TC MAX Station (11514) arrival from Pioneer Courthouse Square,"4
 Tests Kenton/N Denver Ave MAX Station (11515) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.584541,-122.686484","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*11515
 Tests Delta Park/Vanport MAX Station (11516) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.596426,-122.686350","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*11516
 Tests Expo Center MAX Station (11498) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.606461,-122.688932","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*11498
-#NAME?,,,,,,,,,,,,,,
 Tests Expo Center MAX Station (11498) departure to Pioneer Courthouse Square,"45.606461,-122.688932","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,11498.*MAX
 Tests Delta Park/Vanport MAX Station (11499) departure to Pioneer Courthouse Square,"45.596842,-122.685908","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,11499.*MAX
 Tests Kenton/N Denver Ave MAX Station (11500) departure to Pioneer Courthouse Square,"45.584119,-122.686780","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,11500.*MAX
@@ -134,7 +128,6 @@ Tests NW 5th & Couch St MAX Station (9303) departure to Pioneer Courthouse Squar
 Tests SW 5th & Oak St MAX Station (7627) departure to PSU,"45.521349,-122.675727","45.511691,-122.682076","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:15 AM,QUICK,840,,7627.*MAX
 Tests City Hall/SW Jefferson St MAX Station (7608) arrival from Expo Center,"45.606842,-122.688194","45.514732,-122.679571","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*7608
 Tests PSU/SW 5th & Mill St MAX Station (7618) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.511330,-122.681014","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*7618
-#NAME?,,,,,,,,,,,,,,
 Tests Clackamas Town Center TC MAX Station (13132) departure to Pioneer Courthouse Square,"45.433393,-122.568946","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,1609,,13132.*MAX
 Tests SE Fuller Rd MAX Station (13133) departure to Pioneer Courthouse Square,"45.453979,-122.574473","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,13133.*MAX
 Tests SE Flavel St MAX Station (13134) departure to Pioneer Courthouse Square,"45.468430,-122.569350","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,13134.*MAX
@@ -143,7 +136,6 @@ Tests SE Holgate Blvd MAX Station (13136) departure to Pioneer Courthouse Square
 Tests SE Powell Blvd MAX Station (13137) departure to Pioneer Courthouse Square,"45.497385,-122.568771","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,13137.*MAX
 Tests SE Division St MAX Station (13138) departure to Pioneer Courthouse Square,"45.504469,-122.567982","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,13138.*MAX
 Tests SE Main St MAX Station (13139) departure to Pioneer Courthouse Square,"45.514025,-122.562618","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,13139.*MAX
-#NAME?,,,,,,,,,,,,,,
 Tests SE Main St MAX Station (13124) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.514025,-122.562618","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*13124
 Tests SE Division St MAX Station (13125) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.504438,-122.565819","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*13125
 Tests SE Powell Blvd MAX Station (13126) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.497153,-122.564319","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*13126
@@ -152,24 +144,19 @@ Tests Lents/SE Foster Rd MAX Station (13128) arrival from Pioneer Courthouse Squ
 Tests SE Flavel St MAX Station (13129) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.467540,-122.567484","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*13129
 Tests SE Fuller Rd MAX Station (13130) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.452543,-122.576383","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*13130
 Tests Clackamas Town Center TC MAX Station (13132) departure to Pioneer Courthouse Square,"45.518875,-122.679290","45.435413,-122.570300","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,840,,MAX.*13132
-#NAME?,,,,,,,,,,,,,,
 Tests Wilsonville WES Station (13070) departure to outside Beaverton Transit Center (13066),"45.310192,-122.776922","45.491320,-122.802537","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,840,,13070.*13066
 Tests Tualatin WES Station (13069) departure to outside Beaverton Transit Center,"45.382664,-122.763897","45.491320,-122.802537","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,840,,13069.*WES
 Tests Tigard TC WES Station (13073) departure to outside Beaverton Transit Center,"45.430457,-122.771456","45.491320,-122.802537","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,840,,13073.*WES
 Tests Hall/Nimbus WES Station (13067) departure to outside Beaverton Transit Center,"45.458891,-122.787408","45.491320,-122.802537","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,840,,13067.*WES
 Stress test OTP with a Wilsonville to Sandy trip,"WES::45.310865,-122.775745","Sandy::45.474328,-122.337150","TRANSIT,WALK",3:11 PM,QUICK,4828,,"Wilsonville WES Sta.*Orient"
-#NAME?,,,,,,,,,,,,,,
 Tests Hall/Nimbus WES Station (13067) arrival from outside Beaverton Transit Center (13066),"45.491320,-122.802537","45.458891,-122.787408","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,3219,,13066.*13067
 Tests Tigard TC WES Station (13068) arrival from outside Beaverton Transit Center,"45.491320,-122.802537","45.429983,-122.768463","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,840,,WES.*13068
 Tests Tualatin WES Station (13069) arrival from outside Beaverton Transit Center,"45.491320,-122.802537","45.384371,-122.762783","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,840,,WES.*13069
 Tests Wilsonville WES Station (13070) arrival from outside Beaverton Transit Center,"45.491320,-122.802537","45.310195,-122.774106","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",3:00 PM,QUICK,840,,WES.*13070
-#NAME?,,,,,,,,,,,,,,
 Tests Tram from S Waterfront to Marquam Hill (should try only during normal tram hours),"45.498567,-122.670357","45.499878,-122.683758","TRANSIT,WALK",5:00 PM,QUICK,840,,Tram
-##,,,,,,,,,,,,,, TODO 2020 Turn on After Corona - Tests Tram from Marquam Hill to S Waterfront (should try only during normal tram hours),"45.499878,-122.683758","45.498567,-122.670357","TRANSIT,WALK",5:00 PM,Weekday,QUICK,840,,,Tram,,,,
-#NAME?,,,,,,,,,,,,,,
+Tests Tram from Marquam Hill to S Waterfront (should try only during normal tram hours),"45.499878,-122.683758","45.498567,-122.670357","TRANSIT,WALK",5:00 PM,QUICK,840,,Tram
 Transit Issue 329 : Multiple itineraries are exactly the same.,"45.532872335873,-122.9167725863","45.498154669557,-122.76710652073","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",5:00 PM,QUICK,4828,,
 "Transit Issue 492 : Wrong transit trips PDX to ZOO: build f40915d is giving trips that route through Beaverton TC (going past the zoo, looping through BTC, then back again)","45.587647,-122.593173","45.5097,-122.71629","TRANSIT,WALK",11:30 AM,QUICK,840,,
 "Test incremental walk distance (e.g., small walk should still produce an itinerary); NOTE: in NewOTP small walk distance doesn't work anymore, so upped max walk to 3 miles (March 2016)","45.532872335873,-122.9167725863","45.498154669557,-122.76710652073","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",5:00 PM,QUICK,4828,,
--- Dec 2012 OTP,,,,,,,,
 "Trips putting you on the wrong train direction (1 of 2 out and back ... see Sunset TC MAX Station to Pioneer Courthouse Square above, line ~19)","45.509950,-122.715223","45.509713,-122.782928","TRANSIT,WALK",11:30 AM,QUICK,840,,10121
 "Trips putting you on the wrong train direction (2 of 2 out and back ... see Sunset TC MAX Station to Pioneer Courthouse Square above, line ~19)","45.519304,-122.694538","45.535148,-122.579954","TRANSIT,WALK",11:30 AM,QUICK,840,,10118

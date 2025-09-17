@@ -1,6 +1,5 @@
 Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output
 Issue 827: OHSU Deadhead Bug (Grant),"TriMet::45.493900,-122.648342","OHSU::45.499290,-122.685552","TRANSIT,WALK",5:20 PM,QUICK,840,,
-#NAME?,,,,,,,,,,,,,,
 "Transit Issue 352 : slow server performance (1 of 2)","45.509952347093,-122.69954640259","45.574395023969,-122.58985478272","TRANSIT,BICYCLE",9:20 AM,QUICK,32187,,
 "Transit Issue 352 : slow server performance (2 of 2)","45.551762437656,-122.74743360351","45.589007185319,-122.73516099481","TRANSIT,WALK",8:20 PM,QUICK,32187,,
 "Transit Issue 474 : incredibly slow server response (> 2 minutes of OTP processing) (1 of 4) this test takes many seconds (with no result)","45.29980542656,-122.77069645014","45.379879699824,-122.2655217278","TRANSIT,BICYCLE",4:20 PM,QUICK,32187,,

@@ -1,8 +1,6 @@
 Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output
-#NAME?,,,,,,,,,,,,,
 Snapping Test 1 - Downtown to Tabor,"Downtown::45.518875,-122.679290","MtTaborPark::45.511425,-122.595300",BICYCLE,,,4828,,
 Snapping Test 2 - Downtown to Oaks ,"Downtown::45.518875,-122.679290","OaksBottomWildlifeRefuge::45.476690,-122.655340",BICYCLE,,,4828,,
-#NAME?,,,,,,,,,,,,,
 Tests Burnside Bridge biking east to west,"45.523623,-122.660230","45.523187,-122.673941",BICYCLE,,QUICK,4828,,Couch.*Burnside Bridge
 Tests Burnside Bridge biking west to east,"45.523046,-122.674252","45.522931,-122.660241",BICYCLE,,QUICK,4828,,Burnside Bridge
 Tests Morrison Bridge biking path from east to west,"45.515815,-122.665260","45.51767799,-122.672702873",BICYCLE,,SAFE,4828,,Morrison Bridge..path.
@@ -26,7 +24,6 @@ Tests I-5 bike path from north to south,"45.625732,-122.674563","45.602726,-122.
 Tests I-205 bike path from south to north,"45.568482,-122.551724","45.607735,-122.561305",BICYCLE,,QUICK,4828,,Glenn.*Jackson Memorial Bridge..path
 Tests I-205 bike path from north to south,"45.607735,-122.561305","45.568482,-122.551724",BICYCLE,,QUICK,4828,,Glenn.*Jackson Memorial Bridge..path
 "Test bike and transit route close to Intel Jones Farm Campus to Near Forest Grove HS, sends you east to go west","45.545420,-122.966256","45.533831,-123.121028","TRANSIT,BICYCLE",,QUICK,32187,,
-#NAME?,,,,,,,,,,,,,
 Bike Issue 313 : Squigle at Ladd's Addition,"45.504822802843,-122.64513410431","45.508568634101,-122.65378882278",BICYCLE,,QUICK,840,,
 Bike Issue 314 : Bike trips that don't render,"45.50830958673,-122.64938821426","45.522959234436,-122.65482917897",BICYCLE,,QUICK,840,,
 Issue 328 : Ladd's Addition indirect routing for walking & biking,"45.504966095685,-122.65434928842","45.511522523642,-122.64763303705",BICYCLE,,QUICK,840,,
