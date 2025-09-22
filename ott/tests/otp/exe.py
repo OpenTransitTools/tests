@@ -21,11 +21,12 @@ def call_otp(query, headers=None, url=None):
     payload = {
         "query": query
     }
+    #print(); print(payload); print()
     response = requests.post(url, headers=headers, json=payload)
     return response
 
 
-def make_named_template(file, tl=None):
+def make_template(file, tl=None):
     ret_val = None
     try:
         #import pdb; pdb.set_trace()    
@@ -37,12 +38,26 @@ def make_named_template(file, tl=None):
         pass
     return ret_val
 
+
+def make_named_template(file_name, tl=None):
+    ret_val = None
+    tmpl_dir=os.path.join(misc.this_module_dir, 'templates')
+    tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
+    for t in file_utils.find_files(tmpl_dir, ".mako"):
+        if file_name in t:
+            tmpl = make_template(t, tl)
+            if tmpl:
+                ret_val = tmpl
+                break
+    return ret_val
+
+
 def make_templates():
     ret_val = []
     tmpl_dir=os.path.join(misc.this_module_dir, 'templates')
     tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
     for t in file_utils.find_files(tmpl_dir, ".mako"):
-        tmpl = make_named_template(t, tl)
+        tmpl = make_template(t, tl)
         if tmpl:
             #print(t)
             ret_val.append(tmpl)
@@ -126,6 +141,23 @@ def make_cmd_line(app="run_otp"):
     )    
     ret_val = misc.add_cmd_line_util_args(parser)
     return ret_val
+
+
+def tora():
+    #import pdb; pdb.set_trace()
+    p = make_cmd_line()
+    t = make_named_template('plan_tora')
+    c = {
+        "fromPlace": "733 NW Everett St, Portland::45.5252450026737,-122.6784337466308::BLAH",
+        "toPlace": "222 SE Alder Street, Portland::45.51788943658872,-122.66307728167249::BLAH::BLAH"
+    }
+    r = t.render(**c)
+    response = call_otp(r)
+    if response.status_code == 200:
+        o = str(response.json())
+    else:
+        o = response.text
+    print(o)
 
 
 def main():

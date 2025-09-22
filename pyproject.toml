@@ -26,6 +26,7 @@ colorama = "^0.4.5"
 perf_otp = "ott.tests.otp.perf:main"
 stress_otp = "ott.tests.otp.stress:main"
 run_otp = "ott.tests.otp.exe:main"
+run_tora = "ott.tests.otp.exe:tora"
 otp_tests = "ott.tests.otp.smoke:main"
 smoke = "ott.tests.otp.smoke:main"
 
