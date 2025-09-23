@@ -1,12 +1,12 @@
 {
     plan (
-        date: "",
-        time: "14:21",
+        date: "${date}",
+        time: "${time}",
         fromPlace: "${fromPlace}",
         toPlace: "${toPlace}",
-        arriveBy: false,
+        arriveBy: ${str(arriveBy).lower()},
         searchWindow: 4800,
-        transportModes: [{ mode: WALK}, {mode: BUS}],
+        transportModes: [{ mode: WALK}, {mode: BUS}, {mode: TRAM}, {mode: RAIL} ],
         banned: {},
         locale: "en",
         walkReluctance: 4,

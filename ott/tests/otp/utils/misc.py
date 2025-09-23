@@ -37,9 +37,7 @@ def set_threads(t):
         pass
 
 
-def add_cmd_line_util_args(parser):
-    """add util cmd line args"""
-    #import pdb; pdb.set_trace()
+def add_url_arg(parser, parse=False):
     parser.add_argument(
         '--url',
         '-u',
@@ -47,6 +45,18 @@ def add_cmd_line_util_args(parser):
         default=None,
         help=f"graphql ws url ala {url}"
     )
+    
+    ret_val = None
+    if parse:
+        ret_val = parser.parse_args()
+        set_url(ret_val.url)
+    return ret_val
+        
+    
+
+def add_cmd_line_util_args(parser):
+    """add util cmd line args"""
+    add_url_arg(parser)
 
     parser.add_argument(
         '--threads',

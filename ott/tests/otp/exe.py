@@ -5,7 +5,7 @@ import os
 import requests
 from mako.template import Template
 from mako.lookup import TemplateLookup
-from ott.utils import file_utils, num_utils
+from ott.utils import file_utils, num_utils, date_utils
 from ott.utils.parse.cmdline import base_cmdline
 from .test_suite import ListTestSuites
 from .utils import misc
@@ -143,15 +143,64 @@ def make_cmd_line(app="run_otp"):
     return ret_val
 
 
+def tora_cmdline(app="run_tora"):
+    parser = base_cmdline.empty_parser("poetry run " + app)
+    date = date_utils.now_iso_date()
+    time = date_utils.now_24_time()
+    
+    parser.add_argument(
+        '-fromPlace', '-f', type=str, required=False,
+        default='PDX::45.5882,-122.5935',
+        help='from param (default is PDX::45.5882,-122.5935'
+    )
+    parser.add_argument(
+        '-toPlace', '-t', type=str, required=False,
+        default='ZOO::45.5102,-122.7159',
+        help='to param (default is ZOO::45.5102,-122.7159)'
+    )
+    parser.add_argument(
+        '-arriveBy', '-a', required=False,
+        action="store_true",
+        help='arrive by'
+    )
+    parser.add_argument(
+        '-date', '-d', type=str, required=False,
+        default=date,
+        help=f'date (default is {date})'
+    )
+    parser.add_argument(
+        '-time', '-tt', type=str, required=False,
+        default=time,
+        help=f'time (default is {time})'
+    )
+    
+    """
+        date: "",
+        time: "14:21",
+        fromPlace: "${fromPlace}",
+        toPlace: "${toPlace}",
+        arriveBy: false,
+        searchWindow: 4800,
+        transportModes: [{ mode: WALK}, {mode: BUS}, {mode: TRAM}, {mode: RAIL} ],
+        banned: {},
+        locale: "en",
+        walkReluctance: 4,
+        walkSpeed: 1.34,
+        allowedVehicleRentalNetworks: "",
+        bikeReluctance: 1.0,
+        bikeSpeed: 2.5,
+        carReluctance: 1.0    
+    """
+    ret_val = misc.add_url_arg(parser, True)
+    return ret_val
+
 def tora():
-    #import pdb; pdb.set_trace()
-    p = make_cmd_line()
+    p = tora_cmdline()
     t = make_named_template('plan_tora')
-    c = {
-        "fromPlace": "733 NW Everett St, Portland::45.5252450026737,-122.6784337466308::BLAH",
-        "toPlace": "222 SE Alder Street, Portland::45.51788943658872,-122.66307728167249::BLAH::BLAH"
-    }
-    r = t.render(**c)
+    d = vars(p)
+    #import pdb; pdb.set_trace()
+    r = t.render(**d)
+    print(r); return
     response = call_otp(r)
     if response.status_code == 200:
         o = str(response.json())
