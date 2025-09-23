@@ -149,12 +149,12 @@ def tora_cmdline(app="run_tora"):
     time = date_utils.now_24_time()
     
     parser.add_argument(
-        '-fromPlace', '-f', type=str, required=False,
+        '-fromPlace', '-fm', type=str, required=False,
         default='PDX::45.5882,-122.5935',
         help='from param (default is PDX::45.5882,-122.5935'
     )
     parser.add_argument(
-        '-toPlace', '-t', type=str, required=False,
+        '-toPlace', '-to', type=str, required=False,
         default='ZOO::45.5102,-122.7159',
         help='to param (default is ZOO::45.5102,-122.7159)'
     )
@@ -169,28 +169,61 @@ def tora_cmdline(app="run_tora"):
         help=f'date (default is {date})'
     )
     parser.add_argument(
-        '-time', '-tt', type=str, required=False,
+        '-time', '-t', type=str, required=False,
         default=time,
         help=f'time (default is {time})'
     )
-    
-    """
-        date: "",
-        time: "14:21",
-        fromPlace: "${fromPlace}",
-        toPlace: "${toPlace}",
-        arriveBy: false,
-        searchWindow: 4800,
-        transportModes: [{ mode: WALK}, {mode: BUS}, {mode: TRAM}, {mode: RAIL} ],
-        banned: {},
-        locale: "en",
-        walkReluctance: 4,
-        walkSpeed: 1.34,
-        allowedVehicleRentalNetworks: "",
-        bikeReluctance: 1.0,
-        bikeSpeed: 2.5,
-        carReluctance: 1.0    
-    """
+    parser.add_argument(
+        '-searchWindow', '-sw', type=str, required=False,
+        default="4800",
+        help='search window (default is 4800 second ... 80 minutes)'
+    )
+    parser.add_argument(
+        '-transportModes', '-tm', type=str, required=False, nargs='+',
+        default=["BUS","TRAM","RAIL","GONDOLA","FLEXIBLE","SUBWAY","FERRY"],
+        help='modes (default: BUS TRAM RAIL GONDOLA FLEXIBLE SUBWAY FERRY)'
+    )
+    parser.add_argument(
+        '-allowedVehicleRentalNetworks', '-rent', type=str, required=False, nargs='+',
+        default=None,
+        help='allowed vehicle rental networks (default: none)'
+    )
+    parser.add_argument(
+        '-banned', '-b', type=str, required=False, nargs='+',
+        default=[""],
+        help='search window (default: BUS,TRAM,RAIL,GONDOLA,FLEXIBLE,SUBWAY,FERRY)'
+    )
+    parser.add_argument(
+        '-locale', '-l', type=str, required=False,
+        default="en",
+        help='language (default is en)'
+    )
+    parser.add_argument(
+        '-walkReluctance', '-wr', type=str, required=False,
+        default="11",
+        help='walk reluctance (default is 11 - More=3, Normal=11, Less=20)'
+    )
+    parser.add_argument(
+        '-walkSpeed', '-ws', type=str, required=False,
+        default="1.34",
+        help='walk speed (default is 1.34 mph)'
+    )
+    parser.add_argument(
+        '-bikeReluctance', '-br', type=str, required=False,
+        default="7",
+        help='bike reluctance (default is 7 - More=3, Normal=7, Less=20)'
+    )
+    parser.add_argument(
+        '-bikeSpeed', '-bs', type=str, required=False,
+        default="8.0",
+        help='bike speed (default is 8 mph)'
+    )
+    parser.add_argument(
+        '-carReluctance', '-cr', type=str, required=False,
+        default="11",
+        help='car reluctance (default is 7 - More=3, Normal=11, Less=20)'
+    )
+
     ret_val = misc.add_url_arg(parser, True)
     return ret_val
 
