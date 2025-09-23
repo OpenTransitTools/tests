@@ -180,18 +180,18 @@ def tora_cmdline(app="run_tora"):
     )
     parser.add_argument(
         '-transportModes', '-tm', type=str, required=False, nargs='+',
-        default=["BUS","TRAM","RAIL","GONDOLA","FLEXIBLE","SUBWAY","FERRY"],
-        help='modes (default: BUS TRAM RAIL GONDOLA FLEXIBLE SUBWAY FERRY)'
+        default=["BUS","TRAM","RAIL","GONDOLA","FLEX"],
+        help='modes (default: BUS TRAM RAIL GONDOLA FLEX)'
     )
     parser.add_argument(
-        '-allowedVehicleRentalNetworks', '-rent', type=str, required=False, nargs='+',
-        default=None,
+        '-allowedVehicleRentalNetworks', '-rent', '-arn', type=str, required=False,
+        default="",
         help='allowed vehicle rental networks (default: none)'
     )
     parser.add_argument(
-        '-banned', '-b', type=str, required=False, nargs='+',
-        default=[""],
-        help='search window (default: BUS,TRAM,RAIL,GONDOLA,FLEXIBLE,SUBWAY,FERRY)'
+        '-banned', '-b', type=str, required=False,
+        default="",
+        help='banned agencies'
     )
     parser.add_argument(
         '-locale', '-l', type=str, required=False,
@@ -231,9 +231,9 @@ def tora():
     p = tora_cmdline()
     t = make_named_template('plan_tora')
     d = vars(p)
-    #import pdb; pdb.set_trace()
     r = t.render(**d)
-    print(r); return
+    #import pdb; pdb.set_trace()
+    #print(r); return
     response = call_otp(r)
     if response.status_code == 200:
         o = str(response.json())

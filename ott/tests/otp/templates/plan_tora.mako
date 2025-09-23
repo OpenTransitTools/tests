@@ -5,16 +5,18 @@
         fromPlace: "${fromPlace}",
         toPlace: "${toPlace}",
         arriveBy: ${str(arriveBy).lower()},
-        searchWindow: 4800,
+        searchWindow: ${searchWindow},
         transportModes: [{ mode: WALK}, {mode: BUS}, {mode: TRAM}, {mode: RAIL} ],
-        banned: {},
-        locale: "en",
-        walkReluctance: 4,
-        walkSpeed: 1.34,
-        allowedVehicleRentalNetworks: "",
-        bikeReluctance: 1.0,
-        bikeSpeed: 2.5,
-        carReluctance: 1.0
+        allowedVehicleRentalNetworks: "${allowedVehicleRentalNetworks}",
+        %if banned:
+        banned: {agencies: "${banned}"},
+        %endif
+        locale: "${locale}",
+        walkReluctance: ${walkReluctance},
+        walkSpeed: ${walkSpeed},
+        bikeReluctance: ${bikeReluctance},
+        bikeSpeed: ${bikeSpeed},
+        carReluctance: ${carReluctance}
     ) {
         itineraries {
             accessibilityScore
