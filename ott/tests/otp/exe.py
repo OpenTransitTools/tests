@@ -1,13 +1,11 @@
 """
 run otp via trip plans defined in ./templates/*.mako
 """
-import os
 import requests
-from mako.template import Template
-from mako.lookup import TemplateLookup
-from ott.utils import file_utils, num_utils
+from ott.utils import num_utils
 from .test_suite import ListTestSuites
 from .utils import cmdline, misc
+from .templates import template_utils
 
 
 def call_otp(query, headers=None, url=None):
@@ -26,50 +24,12 @@ def call_otp(query, headers=None, url=None):
     return response
 
 
-def make_template(file, tl=None):
-    ret_val = None
-    try:
-        #import pdb; pdb.set_trace()    
-        if tl is None:
-            tmpl_dir=os.path.join(misc.this_module_dir, 'templates')
-            tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs inclde
-        ret_val = Template(filename=file, lookup=tl)
-    except Exception as e:
-        pass
-    return ret_val
-
-
-def make_named_template(file_name, tl=None):
-    ret_val = None
-    tmpl_dir=os.path.join(misc.this_module_dir, 'templates')
-    tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
-    for t in file_utils.find_files(tmpl_dir, ".mako"):
-        if file_name in t:
-            tmpl = make_template(t, tl)
-            if tmpl:
-                ret_val = tmpl
-                break
-    return ret_val
-
-
-def make_templates():
-    ret_val = []
-    tmpl_dir=os.path.join(misc.this_module_dir, 'templates')
-    tl = TemplateLookup(directories=[tmpl_dir])  # TL needed for the template.defs include
-    for t in file_utils.find_files(tmpl_dir, ".mako"):
-        tmpl = make_template(t, tl)
-        if tmpl:
-            #print(t)
-            ret_val.append(tmpl)
-    return ret_val
-
-
 def make_requests(templates=None, coords=None):
     """ returns an array of strings, each being a GraphQL request to OTP """
     ret_val = []
 
     if templates == None:
-        templates = make_templates()
+        templates = template_utils.make_templates()
 
     if coords == None:
         l = ListTestSuites("x", "y")
@@ -106,6 +66,7 @@ def filter_requests(filters):
 
 
 def print_request_response(filters, sum):
+    """ """
     requests_dict = filter_requests(filters)
     for id, request in requests_dict.items():
         response = call_otp(request)
@@ -121,10 +82,9 @@ def print_request_response(filters, sum):
 
 def tora():
     """ """
+    t = template_utils.make_named_template('plan_tora')
     p = cmdline.tora_cmdline()
-    t = make_named_template('plan_tora')
-    d = vars(p)
-    r = t.render(**d)
+    r = t.render(**vars(p))
     #import pdb; pdb.set_trace()
     #print(r); return
     response = call_otp(r)
@@ -133,5 +93,4 @@ def tora():
     else:
         o = response.text
     print(o)
-    #print_request_response(p.filter, p.sum)
 
