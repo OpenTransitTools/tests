@@ -144,6 +144,13 @@ def make_cmd_line(app="run_otp"):
 
 
 def tora_cmdline(app="run_tora"):
+    """
+    all these cmdline parameters (except for url) are in the plan_tora.mako template. can see the params in action by catting
+    the template output.  below is a cmdline that demonstrates all the params being used by said template
+
+    args: poetry run run_tora -fm F -to T -t T -d D -a -m X FLEX -sw SW -avr "XX YY" -b "B" -br BR -bs BS -wr WR -ws WS -cr CR |more
+    returns: cmdline (dictionary)
+    """
     parser = base_cmdline.empty_parser("poetry run " + app)
     date = date_utils.now_iso_date()
     time = date_utils.now_24_time()
@@ -179,12 +186,12 @@ def tora_cmdline(app="run_tora"):
         help='search window (default is 4800 second ... 80 minutes)'
     )
     parser.add_argument(
-        '-transportModes', '-tm', type=str, required=False, nargs='+',
+        '-transportModes', '-tm', '-m', type=str, required=False, nargs='+',
         default=["BUS","TRAM","RAIL","GONDOLA","FLEX"],
         help='modes (default: BUS TRAM RAIL GONDOLA FLEX)'
     )
     parser.add_argument(
-        '-allowedVehicleRentalNetworks', '-rent', '-arn', type=str, required=False,
+        '-allowedVehicleRentalNetworks', '-rent', '-arn', '-avr', '-avrn', type=str, required=False,
         default="",
         help='allowed vehicle rental networks (default: none)'
     )

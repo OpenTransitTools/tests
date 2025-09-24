@@ -1,3 +1,17 @@
+  <%def name="get_modes(transportModes)"><%
+    """ { mode: WALK}, {mode: BUS}, {mode: TRAM}, {mode: RAIL} """
+    ret_val = ""
+    n = len(transportModes) - 1
+    for i, x in enumerate(transportModes):
+        if x == "FLEX":
+            ret_val += "{ mode: FLEX, qualifier: ACCESS }, { mode: FLEX, qualifier: EGRESS }, { mode: FLEX, qualifier: DIRECT }"
+        else:
+            ret_val += "{ mode: " + x + " }"
+        if i < n:
+            ret_val += ", "
+    return ret_val
+  %></%def>
+
   <%def name="plan_connection_od_params()">
     origin: {
       %if flat and flon:

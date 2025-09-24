@@ -2,6 +2,7 @@ import os
 import inspect
 from mako.template import Template
 from mako.lookup import TemplateLookup
+from ott.utils import file_utils
 
 import logging
 log = logging.getLogger(__file__)

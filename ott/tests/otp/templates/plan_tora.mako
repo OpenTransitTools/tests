@@ -1,3 +1,4 @@
+<%namespace name="utils" file="/template.defs"/>
 {
     plan (
         date: "${date}",
@@ -6,7 +7,7 @@
         toPlace: "${toPlace}",
         arriveBy: ${str(arriveBy).lower()},
         searchWindow: ${searchWindow},
-        transportModes: [{ mode: WALK}, {mode: BUS}, {mode: TRAM}, {mode: RAIL} ],
+        transportModes: [${utils.get_modes(transportModes)}],
         allowedVehicleRentalNetworks: "${allowedVehicleRentalNetworks}",
         %if banned:
         banned: {agencies: "${banned}"},
