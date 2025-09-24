@@ -3,7 +3,6 @@ utils for this project
 """
 import os
 import inspect
-from ott.utils.parse.cmdline import base_cmdline
 
 import logging
 log = logging.getLogger(__file__)
@@ -37,49 +36,6 @@ def set_threads(t):
         pass
 
 
-def add_url_arg(parser, parse=False):
-    parser.add_argument(
-        '--url',
-        '-u',
-        required=False,
-        default=None,
-        help=f"graphql ws url ala {url}"
-    )
-    
-    ret_val = None
-    if parse:
-        ret_val = parser.parse_args()
-        set_url(ret_val.url)
-    return ret_val
-        
-    
-
-def add_cmd_line_util_args(parser):
-    """add util cmd line args"""
-    add_url_arg(parser)
-
-    parser.add_argument(
-        '--threads',
-        '-t',
-        required=False,
-        default=0,
-        help="how many threads to start up"
-    )
-
-    ret_val = parser.parse_args()
-    set_url(ret_val.url)
-    set_threads(ret_val.threads)
-
-    return ret_val
-
-
-def make_cmd_line(app=""):
-    """create and process the cmdline processor"""
-    parser = base_cmdline.empty_parser("poetry run " + app)
-    ret_val = add_cmd_line_util_args(parser)
-    return ret_val
-
-
 def parse_place(pre, place):
     """ 
     break up any PLACE::45.5,-122.5 into name, lat, lon parts
@@ -99,9 +55,3 @@ def parse_place(pre, place):
     except Exception as ex:
         log.warning(ex)
     return ret_val
-
-
-def main():
-    make_cmd_line("util")
-    print(url)
-    print(threads)

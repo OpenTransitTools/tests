@@ -5,13 +5,13 @@ import os
 import requests
 from mako.template import Template
 from mako.lookup import TemplateLookup
-from ott.utils import file_utils, num_utils, date_utils
-from ott.utils.parse.cmdline import base_cmdline
+from ott.utils import file_utils, num_utils
 from .test_suite import ListTestSuites
-from .utils import misc
+from .utils import cmdline, misc
 
 
 def call_otp(query, headers=None, url=None):
+    """ """
     if url is None:
         url = misc.url
     if headers is None:
@@ -119,123 +119,9 @@ def print_request_response(filters, sum):
         print("\n\n")
 
 
-def make_cmd_line(app="run_otp"):
-    """create and process the cmdline processor"""
-    parser = base_cmdline.empty_parser("poetry run " + app)
-    parser.add_argument(
-        '--filter',
-        '-f',
-        required=False,
-        type=str,
-        nargs='+',
-        default=['1'],
-        help="filter list of trip requests by either string in the request or index of the request list (see poetry run perf_otp) -- example: -f 3 rideHailing 11 22"
-    )
-    parser.add_argument(
-        '--sum',
-        '--summarize',
-        '-s',
-        required=False,
-        action="store_true",
-        help="summarize results"
-    )    
-    ret_val = misc.add_cmd_line_util_args(parser)
-    return ret_val
-
-
-def tora_cmdline(app="run_tora"):
-    """
-    all these cmdline parameters (except for url) are in the plan_tora.mako template. can see the params in action by catting
-    the template output.  below is a cmdline that demonstrates all the params being used by said template
-
-    args: poetry run run_tora -fm F -to T -t T -d D -a -m X FLEX -sw SW -avr "XX YY" -b "B" -br BR -bs BS -wr WR -ws WS -cr CR |more
-    returns: cmdline (dictionary)
-    """
-    parser = base_cmdline.empty_parser("poetry run " + app)
-    date = date_utils.now_iso_date()
-    time = date_utils.now_24_time()
-    
-    parser.add_argument(
-        '-fromPlace', '-fm', type=str, required=False,
-        default='PDX::45.5882,-122.5935',
-        help='from param (default is PDX::45.5882,-122.5935'
-    )
-    parser.add_argument(
-        '-toPlace', '-to', type=str, required=False,
-        default='ZOO::45.5102,-122.7159',
-        help='to param (default is ZOO::45.5102,-122.7159)'
-    )
-    parser.add_argument(
-        '-arriveBy', '-a', required=False,
-        action="store_true",
-        help='arrive by'
-    )
-    parser.add_argument(
-        '-date', '-d', type=str, required=False,
-        default=date,
-        help=f'date (default is {date})'
-    )
-    parser.add_argument(
-        '-time', '-t', type=str, required=False,
-        default=time,
-        help=f'time (default is {time})'
-    )
-    parser.add_argument(
-        '-searchWindow', '-sw', type=str, required=False,
-        default="4800",
-        help='search window (default is 4800 second ... 80 minutes)'
-    )
-    parser.add_argument(
-        '-transportModes', '-tm', '-m', type=str, required=False, nargs='+',
-        default=["BUS","TRAM","RAIL","GONDOLA","FLEX"],
-        help='modes (default: BUS TRAM RAIL GONDOLA FLEX)'
-    )
-    parser.add_argument(
-        '-allowedVehicleRentalNetworks', '-rent', '-arn', '-avr', '-avrn', type=str, required=False,
-        default="",
-        help='allowed vehicle rental networks (default: none)'
-    )
-    parser.add_argument(
-        '-banned', '-b', type=str, required=False,
-        default="",
-        help='banned agencies'
-    )
-    parser.add_argument(
-        '-locale', '-l', type=str, required=False,
-        default="en",
-        help='language (default is en)'
-    )
-    parser.add_argument(
-        '-walkReluctance', '-wr', type=str, required=False,
-        default="11",
-        help='walk reluctance (default is 11 - More=3, Normal=11, Less=20)'
-    )
-    parser.add_argument(
-        '-walkSpeed', '-ws', type=str, required=False,
-        default="1.34",
-        help='walk speed (default is 1.34 mph)'
-    )
-    parser.add_argument(
-        '-bikeReluctance', '-br', type=str, required=False,
-        default="7",
-        help='bike reluctance (default is 7 - More=3, Normal=7, Less=20)'
-    )
-    parser.add_argument(
-        '-bikeSpeed', '-bs', type=str, required=False,
-        default="8.0",
-        help='bike speed (default is 8 mph)'
-    )
-    parser.add_argument(
-        '-carReluctance', '-cr', type=str, required=False,
-        default="11",
-        help='car reluctance (default is 7 - More=3, Normal=11, Less=20)'
-    )
-
-    ret_val = misc.add_url_arg(parser, True)
-    return ret_val
-
 def tora():
-    p = tora_cmdline()
+    """ """
+    p = cmdline.tora_cmdline()
     t = make_named_template('plan_tora')
     d = vars(p)
     r = t.render(**d)
@@ -247,10 +133,5 @@ def tora():
     else:
         o = response.text
     print(o)
-
-
-def main():
-    #import pdb; pdb.set_trace()
-    p = make_cmd_line()
-    print_request_response(p.filter, p.sum)
+    #print_request_response(p.filter, p.sum)
 

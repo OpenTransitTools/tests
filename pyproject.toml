@@ -18,12 +18,13 @@ colorama = "^0.4.5"
 "ott.utils" = { path = "../rtp/utils/", develop = true }
 
 [tool.poetry.scripts]
+run_tora = "ott.tests.otp.exe:tora"
+uptime_tora = "ott.tests.otp.exe:uptime"
+test_tora = "ott.tests.otp.smoke:main"
+smoke_test = "ott.tests.otp.smoke:main"
+
 perf_otp = "ott.tests.otp.perf:main"
 stress_otp = "ott.tests.otp.stress:main"
-run_otp = "ott.tests.otp.exe:main"
-run_tora = "ott.tests.otp.exe:tora"
-otp_tests = "ott.tests.otp.smoke:main"
-smoke = "ott.tests.otp.smoke:main"
 
 [build-system]
 requires = ["poetry-core"]
