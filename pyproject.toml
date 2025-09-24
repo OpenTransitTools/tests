@@ -14,14 +14,13 @@ requests = "^2.32.0"
 mergedeep = "^1.3.4"
 PyYAML = "^6.0"
 colorama = "^0.4.5"
-#"ott.utils" = {git = "https://github.com/OpenTransitTools/utils.git", branch="rtp"}
-"ott.utils" = { path = "../rtp/utils/", develop = true }
+"ott.utils" = {git = "https://github.com/OpenTransitTools/utils.git", branch="rtp"}
 
 [tool.poetry.scripts]
-run_tora = "ott.tests.otp.exe:tora"
-uptime_tora = "ott.tests.otp.exe:uptime"
-test_tora = "ott.tests.otp.smoke:main"
-smoke_test = "ott.tests.otp.smoke:main"
+plan_trip = "ott.tests.otp.exe:plan_trip"
+
+smoke_test = "ott.tests.otp.test:smoke"
+all_tests = "ott.tests.otp.test:all"
 
 perf_otp = "ott.tests.otp.perf:main"
 stress_otp = "ott.tests.otp.stress:main"

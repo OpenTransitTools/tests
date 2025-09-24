@@ -55,3 +55,38 @@ def parse_place(pre, place):
     except Exception as ex:
         log.warning(ex)
     return ret_val
+
+
+""" methods below dumped here from old exe script """
+
+def filter_requests(filters):
+    """ return a dict of filtered requests """
+    ret_val = {}
+    requests = make_requests()
+    for i, r in enumerate(requests):
+        for f in filters:
+            #import pdb; pdb.set_trace()
+            index_filter = num_utils.to_int(f)
+            if index_filter is not None:
+                if index_filter == i:
+                    ret_val[f] = r
+            elif len(f) >= 3:
+                if f in r:
+                    ret_val[f"{f} - #{i}"] = r
+
+    return ret_val
+
+
+def print_request_response(filters, sum):
+    """ """
+    requests_dict = filter_requests(filters)
+    for id, request in requests_dict.items():
+        response = call_otp(request)
+        print(f"\n\033[1;4mRequest+Response\033[0m #{id}:")
+        print(str(request)[4:400]) if sum else print(str(request))
+        if response.status_code == 200:
+            n = str(response.json())
+            print(n[:1000]) if sum else print(n)
+        else:
+            print(response.text)
+        print("\n\n")

@@ -250,7 +250,7 @@ optional = false
 python-versions = "*"
 groups = ["main"]
 files = []
-develop = true
+develop = false
 
 [package.dependencies]
 future = "*"
@@ -259,8 +259,10 @@ simplejson = "*"
 validators = "*"
 
 [package.source]
-type = "directory"
-url = "../rtp/utils"
+type = "git"
+url = "https://github.com/OpenTransitTools/utils.git"
+reference = "rtp"
+resolved_reference = "cc1fe1aad47e767a05de67e0f26a3ee3bdded9f9"
 
 [[package]]
 name = "pyyaml"
@@ -503,4 +505,4 @@ crypto-eth-addresses = ["eth-hash[pycryptodome] (>=0.7.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.8"
-content-hash = "f34060ad6c701e87cb535c00749145fa43b13c4dbb0b8040e4bcb77e358176d1"
+content-hash = "9a187666be5d760332558b9d3c5fdabd5fc67fed2e72e831c20996de4ce4e8a9"
