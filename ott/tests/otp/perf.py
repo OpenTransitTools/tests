@@ -4,7 +4,7 @@ basic performance testing
 import time
 from colorama import Fore, Style
 from ott.utils import num_utils
-from . import exe
+from .utils import exe
 from .utils import misc
 
 
