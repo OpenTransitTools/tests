@@ -22,8 +22,8 @@ uptime_tests = "ott.tests.otp.test:uptime"
 all_tests = "ott.tests.otp.test:all"
 plan_trip = "ott.tests.otp.test:plan"
 
-perf_otp = "ott.tests.otp.perf:main"
-stress_otp = "ott.tests.otp.stress:main"
+perf_test = "ott.tests.otp.perf:main"
+stress_test = "ott.tests.otp.stress:main"
 
 [build-system]
 requires = ["poetry-core"]

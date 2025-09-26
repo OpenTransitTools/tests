@@ -7,8 +7,9 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, Style
 from ott.utils import date_utils
-from . import exe
+from .utils import exe
 from .utils import misc
+from .utils import cmdline
 
 lock = threading.Lock()
 exit_flag = threading.Event()
@@ -25,7 +26,7 @@ def run_query():
         with lock:
             req = random.choice(graphql_requests)
 
-        response = exe.call_otp(req)
+        response = exe.call_otp(req, misc.url)
         if response.status_code == 200:
             with lock:
                 success+=1
@@ -37,7 +38,7 @@ def run_query():
 
 
 def run():
-    misc.make_cmd_line("stress")
+    cmdline.make_cmd_line("stress")
 
     # if needed, prompt the user for the number of threads
     if misc.threads is not None and misc.threads > 0:
