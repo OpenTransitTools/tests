@@ -39,7 +39,7 @@ def make_templates(tl=None):
     if tl is None:
         tl = TemplateLookup(directories=[template_dir])  # TL needed for the template.defs include
     for t in file_utils.find_files(template_dir, ".mako"):
-        if 'tora' in t: continue
+        if 'tora' in t: continue  # TODO: need to make other .mako templates work like tora and vis-vis
         tmpl = make_template(t, tl)
         if tmpl:
             ret_val.append(tmpl)
