@@ -84,6 +84,14 @@ def add_url_arg(parser, parse=False):
         default=None,
         help=f"graphql ws url ala {misc.url}"
     )
+
+    parser.add_argument(
+        '--app_url',
+        '-au',
+        required=False,
+        default=None,
+        help=f"application ws url ala {misc.url}"
+    )
     
     ret_val = None
     if parse:
@@ -222,6 +230,10 @@ def tora_cmdline(app="run_tora"):
         default="11",
         help='car reluctance (default is 7 - More=3, Normal=11, Less=20)'
     )
+
+    # test suite args
+    parser.add_argument('--api',    type=api,    default=api.tora, choices=list(api), help='which OTP api to use')
+    parser.add_argument('--suites', type=suites, default=None, choices=list(suites), help='csv name of test suite')
 
     ret_val = add_url_arg(parser, True)
     return ret_val
