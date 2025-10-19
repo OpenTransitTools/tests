@@ -11,20 +11,23 @@ log = logging.getLogger(__file__)
 utils_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 this_module_dir = os.path.dirname(os.path.join(utils_dir, '../'))
 
-url = "http://maps8.trimet.org/rtp/gtfs/v1"
-def set_url(u):
-    global url
+
+app_url = "https://trimet.org/home/planner-trip"
+
+graphql_url = "http://maps8.trimet.org/rtp/gtfs/v1"
+def set_graphql_url(u):
+    global graphql_url
     if u and len(u) > 2:
         if u.upper() == "PROD" or u.upper() == "MAPS":
-            url = "https://maps.trimet.org/rtp/gtfs/v1"
+            graphql_url = "https://maps.trimet.org/rtp/gtfs/v1"
         elif u.upper() == "RTP":
-            url = "https://ws.trimet.org/rtp/gtfs/v1"
+            graphql_url = "https://ws.trimet.org/rtp/gtfs/v1"
         elif u.upper() == "STAGE":
-            url = "https://ws-st.trimet.org/rtp/gtfs/v1"
+            graphql_url = "https://ws-st.trimet.org/rtp/gtfs/v1"
         elif u.upper() == "TEST":
-            url = "http://maps8.trimet.org/rtp/gtfs/v1"
+            graphql_url = "http://maps8.trimet.org/rtp/gtfs/v1"
         else:
-            url = u
+            graphql_url = u
 
 
 threads = 0
@@ -54,6 +57,13 @@ def parse_place(pre, place):
         ret_val = {pre + 'name': name, pre + 'lat': lat, pre + 'lon': lon}
     except Exception as ex:
         log.warning(ex)
+    return ret_val
+
+
+def trim_lines(multi_string, first_n_lines=20):
+    lines = multi_string.splitlines()
+    trimmed = lines[:first_n_lines]
+    ret_val = '\n'.join(trimmed)
     return ret_val
 
 

@@ -1,11 +1,8 @@
-from ott.utils.config_util import ConfigUtil
 from ott.utils.cache_base import CacheBase
 
 from ott.utils import otp_utils
 from ott.utils import date_utils
 from ott.utils import object_utils
-from ott.utils import num_utils
-
 from .utils import misc
 
 import os
@@ -27,12 +24,84 @@ class TestResult:
     PASS=111
 
 
-class Test(object):
+class OListTestSuites(CacheBase):
+    """
+    TODO
+    """
+    def __init__(self, otp_params, graphql_url, webapp_url, suite_dir=None, suites_filter=None):
+        """ """
+        #import pdb; pdb.set_trace()
+        self.graphql_url = graphql_url
+        self.webapp_url = webapp_url
+        self.test_suites = self.make_suites(otp_params, suite_dir, suites_filter)
+
+    def make_suites(self, otp_params, suite_dir, filter):
+        """ load test_suites .csv files """
+        test_suites = []
+
+        if suite_dir is None:
+            suite_dir = self.sub_dir('test_suites/trimet')
+
+        files = os.listdir(suite_dir)
+        for f in files:
+            if f.lower().endswith('.csv'):
+                if filter and re.match('.*({})'.format(filter), f, re.IGNORECASE) is None:
+                    continue
+                t = TestSuite(otp_params, suite_dir, f) # TODO , copy.deepcopy(otp_params))
+                test_suites.append(t)
+        return test_suites
+
+    def has_errors(self, acceptable_num_fails=2):
+        ret_val = False
+        for t in self.test_suites:
+            if t.failures > acceptable_num_fails or t.passes <= 0:
+                ret_val = True
+                break
+        return ret_val
+
+    def list_errors(self):
+        ret_val = ""
+        if self.has_errors():
+            for t in self.test_suites:
+                if t.failures > 0 or t.passes <= 0:
+                    err = "test suite '{0}' has {1} error(s) and {2} passes\n".format(t.name, t.failures, t.passes)
+                    ret_val = ret_val + err
+                    log.info(err)
+        return ret_val
+
+    def get_suites(self):
+        return self.test_suites
+
+    def run(self, run_test=True):
+        for ts in self.test_suites:
+            ts.run(self.graphql_url, self.webapp_url, self.date, run_test)
+
+    def stats(self):
+        for ts in self.test_suites:
+            ts.stats()
+
+    def to_url_list(self):
+        ret_val = []
+        for ts in self.test_suites:
+            urls = ts.run(self.graphql_url, self.webapp_url, self.date, run_test=False)
+            ret_val.extend(urls)
+        return ret_val
+
+    def get_latlons(self):
+        """ return a bulk list of broken out coordinate parts """
+        ret_val = []
+        for ts in self.test_suites:
+            ll = ts.get_latlons()
+            ret_val.extend(ll)
+        return ret_val
+
+
+class OTest(object):
     """ 
     test object is typically built from a row in an .csv test suite 
     params for test, along with run capability
     """
-    def __init__(self, param_dict, line_number, ws_url, app_url, date=None):
+    def __init__(self, param_dict, line_number, graphql_url, app_url, date=None):
         """ {
             OTP parmas:
               'From'
@@ -58,7 +127,7 @@ class Test(object):
         self.result          = TestResult.FAIL
         self.response_time   = -1.0
 
-        self.ws_url          = ws_url
+        self.graphql_url     = graphql_url
         self.app_url         = app_url
 
         self.csv_line_number = line_number
@@ -113,7 +182,7 @@ class Test(object):
                 self.test_expected_response(self.expect_output, strict)
 
         if self.result == TestResult.FAIL:
-            log.warning(self.error_descript + "\n  " + self.get_ws_url())
+            log.warning(self.error_descript + "\n  " + self.get_graphql_url())
 
         return self.result
 
@@ -181,7 +250,7 @@ class Test(object):
         """ calls the trip web service """
         self.itinerary = None
         start = time.time()
-        url = url if url else self.get_ws_url()
+        url = url if url else self.get_graphql_url()
         url = self.fix_url(url)
         self.itinerary = otp_utils.call_planner_svc(url)
         end = time.time()
@@ -209,7 +278,7 @@ class Test(object):
         return ret_val
 
     def is_call(self):
-        return "otp_ct" in self.ws_url or "otp_call_REMOVE-ME-WHEN-DEPLOYED" in self.ws_url
+        return "otp_ct" in self.graphql_url or "otp_call_REMOVE-ME-WHEN-DEPLOYED" in self.graphql_url
 
     @classmethod
     def make_url(cls, url, separater="?submit&module=planner"):
@@ -223,17 +292,17 @@ class Test(object):
                 ret_val = "{}{}".format(ret_val, separater)
         return ret_val
 
-    def get_ws_url(self):
+    def get_graphql_url(self):
         # import pdb; pdb.set_trace()
         # OTP needs *BOTH* a date and time parameter ... if you only have time, the request will fail
         if "time=" in self.otp_params and "date=" not in self.otp_params:
             d = date_utils.today_str()
             self.url_param('date', d)
-        ret_val = "{}&{}".format(self.make_url(self.ws_url), self.otp_params)
+        ret_val = "{}&{}".format(self.make_url(self.graphql_url), self.otp_params)
         ret_val = self.fix_url(ret_val)
         return ret_val
 
-    def get_map_url(self):
+    def get_webapp_url(self):
         return "{}&{}&debug_layers=true".format(self.make_url(self.app_url), self.app_params)
 
     def get_otpRR_url(self):
@@ -254,19 +323,20 @@ class Test(object):
         ret_val = "{}{}".format(self.make_url(self.app_url, "#/?"), params)
         return ret_val
 
-    def get_ridetrimetorg_url(self):
+    def make_webapp_url(self):
         return "http://maps.trimet.org?submit&" + self.app_params
 
 
-class TestSuite(object):
+class OTestSuite(object):
     """ 
     corresponds to a single .csv 'test suite'
     """
-    def __init__(self, suite_dir, file):
+    def __init__(self, default_params, suite_dir, file):
         self.suite_dir = suite_dir
         self.file = file
         self.file_path = os.path.join(suite_dir, file)
         self.name = file
+        self.default_params = default_params,
         self.params = []
         self.tests  = []
         self.failures = 0
@@ -304,13 +374,13 @@ class TestSuite(object):
                 if t.result is TestResult.PASS:
                     self.passes += 1
                 elif t.result is TestResult.FAIL:
-                    log.info("test_suite: this test failed " + t.get_ws_url() + "\n")
+                    log.info("test_suite: this test failed " + t.get_graphql_url() + "\n")
                     self.failures += 1
                 sys.stdout.write(".")
             elif print_url:
                 print(t.get_otpRR_url())
             
-    def run(self, ws_url, map_url, date=None, run_test=True, print_url=True):
+    def run(self, graphql_url, webapp_url, date=None, run_test=True, print_url=True):
         """ 
         iterate the list of tests from the .csv files, run the test (call otp), and check the output.
         """
@@ -320,26 +390,26 @@ class TestSuite(object):
 
         log.info("test_suite {0}: ******* date - {1} *******\n".format(self.name, datetime.datetime.now()))
         for i, p in enumerate(self.params):
-            t = Test(p, i+2, ws_url, map_url, date)
+            t = Test(p, i+2, graphql_url, webapp_url, date)
             if t.is_valid is False:
                 continue
 
-            ret_val.append(t.get_ws_url())
+            ret_val.append(t.get_graphql_url())
             self.do_test(t, run_test=run_test, print_url=print_url)
 
             """ arrive by tests """
-            t = Test(p, i+2, ws_url, map_url, date)
+            t = Test(p, i+2, graphql_url, webapp_url, date)
             t.url_arrive_by()
             t.append_note(" ***NOTE***: arrive by test ")
             t.arrive_by_check()
-            ret_val.append(t.get_ws_url())
+            ret_val.append(t.get_graphql_url())
             self.do_test(t, False, run_test=run_test, print_url=print_url)
 
         return ret_val
 
-    def printer(self, ws_url, map_url, date):
+    def printer(self, graphql_url, webapp_url, date):
         ret_val = ""
-        urls = self.run(ws_url, map_url, date, run_test=False)
+        urls = self.run(graphql_url, webapp_url, date, run_test=False)
         for u in urls:
             ret_val = ret_val + u + "\n"
         return ret_val
@@ -365,78 +435,185 @@ class TestSuite(object):
             ret_val.append({**ff, **tt})
         return ret_val
 
+    def get_webapp_urls(self):
+        """
+        """
+        ret_val = []
 
-class ListTestSuites(CacheBase):
+
+class Test(object):
     """ 
-    corresponds to list of TestSuites (list of lists)
-    created based on loading all .csv files in the base directory
+    test object is typically built from a row in an .csv test suite 
+    params for test, along with run capability
     """
-    def __init__(self, ws_url, map_url, suite_dir=None, date=None, filter=None):
-        """ this class corresponds to a single .csv 'test suite' """
+    def __init__(self, line_number, csv_params, default_params, graphql_url, app_url):
+        """ {
+            OTP parmas:
+              'From'
+              'To'
+              'Reluctance'
+              'Mode'
+              'Optimize'
+              'Time'
+
+            Test params:
+              'Arrive by' - expects 'FALSE' if arrive by test should not be ran or leave empty
+              'Expected output'
+
+            Misc text:
+              'Description/notes'
+            }
+        """
+        self.result = TestResult.FAIL
+        self.error_descript  = ""
+        self.is_valid = True
+
+        self.graphql_url = graphql_url
+        self.app_url = app_url
+
+        self.id = line_number
+        self.description = csv_params.get('Description/notes')
+        self.expected = csv_params.get('Expected output')
+
+        self.params = self.make_params(csv_params, default_params)
+
+    @classmethod
+    def make_params(cls, csv_params, default_params):
+        "Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output"
         #import pdb; pdb.set_trace()
+        import copy
+        ret_val = copy.deepcopy(default_params)
+        r = ret_val
+        p = csv_params
+
+        r.fromPlace = object_utils.get_striped_dict_val(p, 'From', r.fromPlace, True, False)
+        r.toPlace = object_utils.get_striped_dict_val(p, 'To', r.toPlace, True, False)
+        r.time = object_utils.get_striped_dict_val(p, 'Time', r.time, True, False)
+        r.time = date_utils.english_to_24hr(r.time)
+        r.arriveBy = object_utils.safe_dict_val(p, 'Arrive by', r.arriveBy)
+        return ret_val
+
+    def get_graphql_payload(self, template):
+        ret_val = template.render(**vars(self.params))
+        return ret_val
+
+    def get_webapp_url(self):
+        #https://trimet.org/home/planner-trip/?date=2025-09-15&time=13%3A11&fromPlace=305+NW+Park+Ave%3A%3A45.525261%2C-122.67935&toPlace=839+SE+Yamhill%3A%3A45.515879%2C-122.6574554&arriveBy=false&modes%5B0%5D.mode=BUS&modes%5B1%5D.mode=TRAM&modes%5B2%5D.mode=RAIL&modes%5B3%5D.mode=GONDOLA&searchWindow=14400&walkReluctance=4&walkSpeed=1.34
+
+        # modes[0].mode=RAIL&modes[1].mode=BUS&modes%5B2%5D.mode=TRAM
+        # TODO 'transportModes', 'walkReluctance', {p.bikeReluctance}, 'walkSpeed'}"
+        p = self.params
+        ret_val = f"{self.app_url}?fromPlace={p.fromPlace}&toPlace={p.toPlace}&date={p.date}&time={p.time}&searchWindow={p.searchWindow}&arriveBy={"true" if p.arriveBy else "false"}"
+        return ret_val
+
+
+class TestSuite(object):
+    """ 
+    corresponds to a single .csv 'test suite'
+    """
+    def __init__(self, suite_dir, file, otp_params, graphql_url, webapp_url):
+        self.suite_dir = suite_dir
+        self.file = file
+        self.file_path = os.path.join(suite_dir, file)
+        self.name = file
+        self.params = []
+        self.tests  = []
+        self.failures = 0
+        self.passes   = 0
+        self.read_csv()
+        self.make_tests(otp_params, graphql_url, webapp_url)
+
+    def read_csv(self):
+        """
+        read the test suite .csv file (full of test params like from & to)
+        and save each row (params) as a set of test params
+        """
+        file = open(self.file_path, 'r')
+        reader = csv.DictReader(file)
+        fn = reader.fieldnames
+        for row in reader:
+            self.params.append(row)
+
+    def make_tests(self, otp_params, graphql_url, webapp_url):
+        for i, p in enumerate(self.params):
+            t = Test(i+2, p, otp_params, graphql_url, webapp_url)
+            self.tests.append(t)
+
+    def get_tests(self):
+        return self.tests
+
+    def run_test(self, t, strict=True, num_tries=5, run_test=True, print_url=True):
+        pass
+    
+    def stats(self):
+        pass
+
+    def get_latlons(self):
+        """
+        returns a dict with from and to coord broken out, ala:
+        {'fname': '9790', 'flat': '45.549', 'flon': '-122.91', 'tname': '8550', 'tlat': '45.528', 'tlon': '-122.969'}
+        """
+        ret_val = []
+        for p in self.params:
+            f = object_utils.get_striped_dict_val(p, 'From')
+            t = object_utils.get_striped_dict_val(p, 'To')
+            ff = misc.parse_place('f', f)
+            tt = misc.parse_place('t', t)
+            ret_val.append({**ff, **tt})
+        return ret_val
+
+    def get_webapp_urls(self):
+        ret_val = []
+        for t in self.get_tests():
+            ret_val.append(t.get_webapp_url())
+        return ret_val
+
+
+
+class TestSuiteList(CacheBase):
+    """
+    TODO
+    """
+    def __init__(self, graphql_template, otp_params, graphql_url, webapp_url, suite_dir=None, suites_filter=None):
+        """ """
+        self.graphql_template = graphql_template
+        self.graphql_url = graphql_url
+        self.webapp_url = webapp_url
+        self.test_suites = self.make_suites(otp_params, suite_dir, suites_filter)
+
+    def make_suites(self, otp_params, suite_dir, filter):
+        """ load test_suites .csv files """
+        test_suites = []
+
         if suite_dir is None:
             suite_dir = self.sub_dir('test_suites/trimet')
 
-        self.ws_url = ws_url
-        self.map_url = map_url
-        self.suite_dir = suite_dir
-        self.date = date
-        self.files = os.listdir(self.suite_dir)
-        self.test_suites = []
-        for f in self.files:
+        files = os.listdir(suite_dir)
+        for f in files:
             if f.lower().endswith('.csv'):
                 if filter and re.match('.*({})'.format(filter), f, re.IGNORECASE) is None:
                     continue
-                t = TestSuite(self.suite_dir, f)
-                self.test_suites.append(t)
-
-    def has_errors(self, acceptable_num_fails=2):
-        ret_val = False
-        for t in self.test_suites:
-            if t.failures > acceptable_num_fails or t.passes <= 0:
-                ret_val = True
-                break
-        return ret_val
-
-    def list_errors(self):
-        ret_val = ""
-        if self.has_errors():
-            for t in self.test_suites:
-                if t.failures > 0 or t.passes <= 0:
-                    err = "test suite '{0}' has {1} error(s) and {2} passes\n".format(t.name, t.failures, t.passes)
-                    ret_val = ret_val + err
-                    log.info(err)
-        return ret_val
+                t = TestSuite(suite_dir, f, otp_params, self.graphql_url, self.webapp_url)
+                test_suites.append(t)
+        return test_suites
 
     def get_suites(self):
         return self.test_suites
 
-    def run(self, run_test=True):
-        # import pdb; pdb.set_trace()
+    def output_graphql(self, stream=sys.stdout, pause=True, trim=True):
         for ts in self.test_suites:
-            ts.run(self.ws_url, self.map_url, self.date, run_test)
+            for t in ts.get_tests():                
+                print(t.description, file=stream)
+                p = t.get_graphql_payload(self.graphql_template)
+                if trim:
+                    p = misc.trim_lines(p)
+                print(p, file=stream)
+                if pause:
+                    input("\nPress Enter to continue...\n")
 
-    def stats(self):
-        for ts in self.test_suites:
-            ts.stats()
-
-    def printer(self):
-        ret_val = ""
-        for ts in self.test_suites:
-            ret_val = ret_val + ts.printer(self.ws_url, self.map_url, self.date)
-        return ret_val
-
-    def to_url_list(self):
+    def get_webapp_urls(self):
         ret_val = []
         for ts in self.test_suites:
-            urls = ts.run(self.ws_url, self.map_url, self.date, run_test=False)
-            ret_val.extend(urls)
-        return ret_val
-
-    def get_latlons(self):
-        """ return a bulk list of broken out coordinate parts """
-        ret_val = []
-        for ts in self.test_suites:
-            ll = ts.get_latlons()
-            ret_val.extend(ll)
+            u = ts.get_webapp_urls()
+            ret_val.extend(u)
         return ret_val

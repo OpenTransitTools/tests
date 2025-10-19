@@ -76,33 +76,36 @@ def get_args(prog_name='tests', do_parse=True):
     return args
 
 
-def add_url_arg(parser, parse=False):
+def add_url_args(parser, parse=False):
     parser.add_argument(
-        '--url',
+        '--graphql_url',
+        '-url',
+        '-gu',
         '-u',
         required=False,
         default=None,
-        help=f"graphql ws url ala {misc.url}"
+        help=f"graphql ws url ala {misc.graphql_url}"
     )
 
     parser.add_argument(
         '--app_url',
+        '-aurl',
         '-au',
         required=False,
         default=None,
-        help=f"application ws url ala {misc.url}"
+        help=f"application ws url ala {misc.app_url}"
     )
     
     ret_val = None
     if parse:
         ret_val = parser.parse_args()
-        misc.set_url(ret_val.url)
+        misc.set_graphql_url(ret_val.graphql_url)
     return ret_val
         
 
 def add_cmd_line_util_args(parser):
     """add util cmd line args"""
-    add_url_arg(parser)
+    add_url_args(parser)
 
     parser.add_argument(
         '--threads',
@@ -235,6 +238,6 @@ def tora_cmdline(app="run_tora"):
     parser.add_argument('--api',    type=api,    default=api.tora, choices=list(api), help='which OTP api to use')
     parser.add_argument('--suites', type=suites, default=None, choices=list(suites), help='csv name of test suite')
 
-    ret_val = add_url_arg(parser, True)
+    ret_val = add_url_args(parser, True)
     return ret_val
 
