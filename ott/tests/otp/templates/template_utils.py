@@ -7,6 +7,7 @@ from ott.utils import file_utils
 import logging
 log = logging.getLogger(__file__)
 
+
 template_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 

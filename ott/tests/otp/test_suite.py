@@ -4,6 +4,7 @@ from ott.utils import otp_utils
 from ott.utils import date_utils
 from ott.utils import object_utils
 from .utils import misc
+from .utils.exe import call_otp
 
 import os
 import sys
@@ -252,7 +253,7 @@ class OTest(object):
         start = time.time()
         url = url if url else self.get_graphql_url()
         url = self.fix_url(url)
-        self.itinerary = otp_utils.call_planner_svc(url)
+               
         end = time.time()
         self.response_time = end - start
         log.info("call_otp: response time of {} second for url {}".format(self.response_time, url))
@@ -446,24 +447,7 @@ class Test(object):
     test object is typically built from a row in an .csv test suite 
     params for test, along with run capability
     """
-    def __init__(self, line_number, csv_params, default_params, graphql_url, app_url):
-        """ {
-            OTP parmas:
-              'From'
-              'To'
-              'Reluctance'
-              'Mode'
-              'Optimize'
-              'Time'
-
-            Test params:
-              'Arrive by' - expects 'FALSE' if arrive by test should not be ran or leave empty
-              'Expected output'
-
-            Misc text:
-              'Description/notes'
-            }
-        """
+    def __init__(self, line_number, csv_params, default_params, graphql_template, graphql_url, app_url):
         self.result = TestResult.FAIL
         self.error_descript  = ""
         self.is_valid = True
@@ -476,11 +460,25 @@ class Test(object):
         self.expected = csv_params.get('Expected output')
 
         self.params = self.make_params(csv_params, default_params)
+        self.payload = self.make_payload(self.params, graphql_template)
 
     @classmethod
     def make_params(cls, csv_params, default_params):
-        "Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output"
-        #import pdb; pdb.set_trace()
+        """
+        csv format: "Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output"
+          OTP parmas:
+            'From'
+            'To'
+            'Mode'
+            'Time'
+            'Optimize'
+            'Reluctance'
+            'Arrive by'
+
+          Test params:
+            'Description/notes' describes aspects and reasons for the test
+            'Expected output' regex text to find in the OTP response
+        """
         import copy
         ret_val = copy.deepcopy(default_params)
         r = ret_val
@@ -490,12 +488,43 @@ class Test(object):
         r.toPlace = object_utils.get_striped_dict_val(p, 'To', r.toPlace, True, False)
         r.time = object_utils.get_striped_dict_val(p, 'Time', r.time, True, False)
         r.time = date_utils.english_to_24hr(r.time)
-        r.arriveBy = object_utils.safe_dict_val(p, 'Arrive by', r.arriveBy)
+        modes = object_utils.safe_dict_val(p, 'Mode')
+        if modes:
+            modes = modes.split(',')
+            r.transportModes = modes
+        ab = object_utils.safe_dict_val(p, 'Arrive by')
+        if ab:
+            r.arriveBy = True
         return ret_val
 
-    def get_graphql_payload(self, template):
-        ret_val = template.render(**vars(self.params))
+    @classmethod
+    def make_payload(self, params, template):
+        ret_val = template.render(**vars(params))
         return ret_val
+
+    def call_otp_graphql(self):
+        """ calls OTP's routing graphql web service """
+        self.itinerary = None
+        start = time.time()
+        response = call_otp(self.payload, self.graphql_url)
+        end = time.time()
+
+        if response.status_code == 200:
+            self.result = TestResult.PASS
+            o = str(response.json())
+        else:
+            self.result = TestResult.FAIL
+            o = response.text
+        self.itinerary = o
+
+        self.response_time = end - start
+        log.info("call_otp: response time of {} seconds for call {}".format(self.response_time, self.description))
+        log.debug(self.itinerary)
+        if self.response_time > 30:
+            self.result = TestResult.WARN
+            log.info("call_otp: :::NOTE::: response time took *longer than 30 seconds* for {}".format(self.description))
+
+        return self.itinerary
 
     def get_webapp_url(self):
         #https://trimet.org/home/planner-trip/?date=2025-09-15&time=13%3A11&fromPlace=305+NW+Park+Ave%3A%3A45.525261%2C-122.67935&toPlace=839+SE+Yamhill%3A%3A45.515879%2C-122.6574554&arriveBy=false&modes%5B0%5D.mode=BUS&modes%5B1%5D.mode=TRAM&modes%5B2%5D.mode=RAIL&modes%5B3%5D.mode=GONDOLA&searchWindow=14400&walkReluctance=4&walkSpeed=1.34
@@ -511,7 +540,7 @@ class TestSuite(object):
     """ 
     corresponds to a single .csv 'test suite'
     """
-    def __init__(self, suite_dir, file, otp_params, graphql_url, webapp_url):
+    def __init__(self, suite_dir, file, otp_params, graphql_payload, graphql_url, webapp_url):
         self.suite_dir = suite_dir
         self.file = file
         self.file_path = os.path.join(suite_dir, file)
@@ -521,7 +550,7 @@ class TestSuite(object):
         self.failures = 0
         self.passes   = 0
         self.read_csv()
-        self.make_tests(otp_params, graphql_url, webapp_url)
+        self.make_tests(otp_params, graphql_payload, graphql_url, webapp_url)
 
     def read_csv(self):
         """
@@ -534,9 +563,9 @@ class TestSuite(object):
         for row in reader:
             self.params.append(row)
 
-    def make_tests(self, otp_params, graphql_url, webapp_url):
+    def make_tests(self, otp_params, graphql_payload, graphql_url, webapp_url):
         for i, p in enumerate(self.params):
-            t = Test(i+2, p, otp_params, graphql_url, webapp_url)
+            t = Test(i+2, p, otp_params, graphql_payload, graphql_url, webapp_url)
             self.tests.append(t)
 
     def get_tests(self):
@@ -569,12 +598,11 @@ class TestSuite(object):
         return ret_val
 
 
-
 class TestSuiteList(CacheBase):
     """
     TODO
     """
-    def __init__(self, graphql_template, otp_params, graphql_url, webapp_url, suite_dir=None, suites_filter=None):
+    def __init__(self, otp_params, graphql_template, graphql_url, webapp_url, suite_dir=None, suites_filter=None):
         """ """
         self.graphql_template = graphql_template
         self.graphql_url = graphql_url
@@ -593,7 +621,7 @@ class TestSuiteList(CacheBase):
             if f.lower().endswith('.csv'):
                 if filter and re.match('.*({})'.format(filter), f, re.IGNORECASE) is None:
                     continue
-                t = TestSuite(suite_dir, f, otp_params, self.graphql_url, self.webapp_url)
+                t = TestSuite(suite_dir, f, otp_params, self.graphql_template, self.graphql_url, self.webapp_url)
                 test_suites.append(t)
         return test_suites
 
@@ -604,10 +632,23 @@ class TestSuiteList(CacheBase):
         for ts in self.test_suites:
             for t in ts.get_tests():                
                 print(t.description, file=stream)
-                p = t.get_graphql_payload(self.graphql_template)
+                p = t.payload
                 if trim:
-                    p = misc.trim_lines(p)
+                    p = misc.trim_lines(t.payload)
                 print(p, file=stream)
+                if pause:
+                    input("\nPress Enter to continue...\n")
+
+    def output_response(self, stream=sys.stdout, pause=True, trim=True):
+        for ts in self.test_suites:
+            for t in ts.get_tests():
+                print(t.description, file=stream)
+                print(t.graphql_url, file=stream)
+                print(misc.trim_lines(t.payload), file=stream)
+                r = t.call_otp_graphql()
+                if trim:
+                    r = misc.trim_lines(r)
+                print(r, file=stream)
                 if pause:
                     input("\nPress Enter to continue...\n")
 

@@ -1,6 +1,7 @@
   <%def name="get_modes(transportModes)"><%
     """ { mode: WALK}, {mode: BUS}, {mode: TRAM}, {mode: RAIL} """
     ret_val = ""
+
     n = len(transportModes) - 1
     for i, x in enumerate(transportModes):
         if x == "FLEX":
