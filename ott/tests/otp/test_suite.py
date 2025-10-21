@@ -2,6 +2,7 @@ from ott.utils.cache_base import CacheBase
 
 from ott.utils import date_utils
 from ott.utils import object_utils
+from ott.utils import num_utils
 from .utils import misc
 from .utils.exe import call_otp
 
@@ -43,6 +44,7 @@ class Test(object):
 
         self.params = self.make_params(csv_params, default_params)
         self.payload = self.make_payload(self.params, graphql_template)
+        self.itinerary = ""
 
     @classmethod
     def make_params(cls, csv_params, default_params):
@@ -134,6 +136,21 @@ class Test(object):
         # TODO 'transportModes', 'walkReluctance', {p.bikeReluctance}, 'walkSpeed'}"
         p = self.params
         ret_val = f"{self.app_url}?fromPlace={p.fromPlace}&toPlace={p.toPlace}&date={p.date}&time={p.time}&searchWindow={p.searchWindow}&arriveBy={"true" if p.arriveBy else "false"}"
+        return ret_val
+
+    def get_result(self, do_html=True):
+        ret_val = "PASS" if self.result is TestResult.PASS else "FAIL"
+        if do_html:
+            ret_val = '<p class="{}">{}</p>'.format(ret_val, ret_val)
+        return ret_val
+
+    def get_itinerary(self, trim=None):
+        #import pdb; pdb.set_trace()
+        ret_val = self.itinerary
+        if trim:
+            n = num_utils.to_int(trim, 1000)
+            if n > 1 and n < len(self.itinerary):
+                ret_val = "{}...".format(self.itinerary[:n])
         return ret_val
 
 
@@ -261,9 +278,8 @@ class TestSuiteList(CacheBase):
                 print(t.description, file=stream)
                 print(t.graphql_url, file=stream)
                 print(misc.trim_lines(t.payload), file=stream)
-                r = t.call_otp_graphql()
-                if trim:
-                    r = misc.trim_lines(r)
+                t.call_otp_graphql()
+                r = t.get_itinerary(trim)
                 print(r, file=stream)
                 if pause:
                     input("\nPress Enter to continue...\n")
@@ -290,6 +306,13 @@ class TestSuiteList(CacheBase):
                 ret_val = True
                 break
         return ret_val
+
+    def report(self):
+        from .templates import template_utils
+        t = template_utils.make_named_template("report")
+        r = t.render(tsl=self, misc=misc)
+        with open('report.html', 'w') as f:
+            f.write(r)
 
     def list_errors(self):
         ret_val = ""
