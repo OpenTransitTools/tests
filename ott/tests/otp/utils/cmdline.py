@@ -235,8 +235,8 @@ def tora_cmdline(app="run_tora"):
     )
 
     # test suite args
-    parser.add_argument('--api',    type=api,    default=api.tora, choices=list(api), help='which OTP api to use')
-    parser.add_argument('--suites', type=suites, default=None, choices=list(suites), help='csv name of test suite')
+    parser.add_argument('--api', '-api', type=api,    default=api.tora, choices=list(api), help='which OTP api to use')
+    parser.add_argument('--suites', '--s', '-s', type=suites, default=None, choices=list(suites), help='csv name of test suite')
 
     ret_val = add_url_args(parser, True)
     return ret_val

@@ -21,10 +21,12 @@ def all():
     #import pdb; pdb.set_trace()
     c = cmdline.tora_cmdline("all_tests")
     t = template_utils.make_named_template(c.api.find_api())
-    l = test_suite.TestSuiteList(c, t, misc.graphql_url, misc.app_url)
+    l = test_suite.TestSuiteList(c, t, misc.graphql_url, misc.app_url, suites_filter=c.suites)
     #urls = l.get_webapp_urls(); print('\n\n'.join(urls))
     #l.output_graphql()
-    l.output_response()
+    #l.output_response()
+    l.run_tests(); 
+    print(l.list_errors()) if l.has_errors() else print("Noice!")
 
 
 def plan():

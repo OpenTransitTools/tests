@@ -1,2 +1,2 @@
 Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output
-"new OTP includes bogus transit trips","Hall_5th::45.48574,-122.80459","Library::45.4840838,-122.80397",,11:00 AM,QUICK,1609,,Ha
+"new OTP includes bogus transit trips","Hall_5th::45.48574,-122.80459","Library::45.4840838,-122.80397",,11:00 AM,QUICK,1,,WALKING_BETTER_THAN_TRANSIT
