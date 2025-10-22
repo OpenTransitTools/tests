@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tests: </title>
+    <title>OTP Test Report: ${now} - - ${num_passes} passes, ${num_errors} errors</title>
     <link href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
@@ -14,10 +14,20 @@
         .PASS {
             color: rgb(0, 175, 0);
         }
-    </style>    
+    </style>
+    <!--
+    TODO: have the request and response in a hidden / expandable row:
+      https://datatables.net/examples/api/row_details.html
+      https://live.datatables.net/bihawepu/1/edit
+    -->
 </head>
 <body>
-    <h1>Tests: </h1>
+    <h1>OTP Test Report: ${now} - ${num_passes} passes, ${num_errors} errors</h1>
+    <h2>Summary:</h2>
+    <ul class="sweet_results">
+    ${tsl.get_pass_fail_counts(True)}
+    </ul>
+    <br>
     <table id="tests" class="display" style="width:100%">
         <thead>
             <tr>

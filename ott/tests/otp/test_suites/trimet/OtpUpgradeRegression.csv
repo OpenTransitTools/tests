@@ -1,3 +1,3 @@
 Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output
 "new OTP includes bogus transit trips","Hall_5th::45.48574,-122.80459","Library::45.4840838,-122.80397",,11:00 AM,QUICK,1,,WALKING_BETTER_THAN_TRANSIT
-"Test: Walk from college & park to stop id 13710","SW_Park_Ave_@_SW_College_St::45.510277,-122.685660","Lincoln_St_SW_3rd_Ave_MAX_Station::45.507893,-122.680150",WALK,2:25 PM,QUICK,840,,
+"Transit Issue 352 : slow server performance (1 of 2)","45.509952347093,-122.69954640259","45.574395023969,-122.58985478272","TRANSIT,BICYCLE",9:20 AM,QUICK,5,,

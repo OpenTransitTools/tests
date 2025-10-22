@@ -25,7 +25,7 @@ def all():
     #urls = l.get_webapp_urls(); print('\n\n'.join(urls))
     #l.output_graphql()
     #l.output_response()
-    l.run_tests(); l.report(); print(l.list_errors()) if l.has_errors() else print("Noice!")
+    l.run_tests(); l.report(); print(l.get_pass_fail_counts()) if l.has_errors() else print("Noice!")
 
 
 def plan():

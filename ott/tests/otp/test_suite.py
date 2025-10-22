@@ -346,21 +346,33 @@ class TestSuiteList(CacheBase):
                 break
         return ret_val
 
+    def num_errors(self):
+        ret_val = 0
+        for t in self.test_suites:
+            ret_val += t.failures
+        return ret_val
+
+    def num_passes(self):
+        ret_val = 0
+        for t in self.test_suites:
+            ret_val += t.passes
+        return ret_val
+
     def report(self):
         from .templates import template_utils
         t = template_utils.make_named_template("report")
-        r = t.render(tsl=self, misc=misc)
+        r = t.render(tsl=self, now=date_utils.pretty_date_time(date_fmt='%m-%d-%Y'), num_passes=self.num_passes(), num_errors=self.num_errors())
         with open('report.html', 'w') as f:
             f.write(r)
 
-    def list_errors(self):
+    def get_pass_fail_counts(self, html=False):
         ret_val = ""
-        if self.has_errors():
-            for ts in self.test_suites:
-                if ts.failures > 0 or ts.passes <= 0:
-                    err = "test suite '{0}' has {1} error(s) and {2} passes\n".format(ts.name, ts.failures, ts.passes)
-                    ret_val = ret_val + err
-                    log.info(err)
+        for ts in self.test_suites:
+            err = "test suite '{}' has {} errors and {} passes".format(ts.name, ts.failures, ts.passes)
+            log.info(err)
+            if html:
+                err = "\n    <li class='msg'>{}</li>".format(err)
+            ret_val = ret_val + err
         return ret_val
 
     def stats(self):
