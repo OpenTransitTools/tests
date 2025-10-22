@@ -32,7 +32,7 @@ class Test(object):
     def __init__(self, test_suite_file, line_number, csv_params, default_params, graphql_template, graphql_url, app_url):
         self.result = TestResult.FAIL
         self.is_valid = True
-        self.error_description = ""
+        self.diagnosis = ""
 
         self.graphql_url = graphql_url
         self.app_url = app_url
@@ -121,23 +121,23 @@ class Test(object):
             regres = re.search(self.expected, self.itinerary)
             if regres:
                 self.result = TestResult.PASS
-                self.error_description = "Good: the OTP result had a match for the '{}' regex".format(self.expected)
+                self.diagnosis = "Good: the OTP result had a match for the '{}' regex".format(self.expected)
             else:
                 self.result = TestResult.FAIL if strict else TestResult.WARN
-                self.error_description = "Bad: could NOT find a match for the '{}' regex".format(self.expected)
+                self.diagnosis = "Bad: could NOT find a match for the '{}' regex".format(self.expected)
             if count_itins:
                 #import pdb; pdb.set_trace()
                 n = len(self.json_itinerary['data']['plan']['itineraries'])
-                self.error_description = "{} in the {} itinerary(s) returned".format(self.error_description, n)
+                self.diagnosis = "{} in the {} itinerary(s) returned".format(self.diagnosis, n)
 
         #import pdb; pdb.set_trace()
         if self.json_itinerary is None:  # should never get here, but just in case have this so we don't NPE below
             log.info("NOTE: this test lacks an expected result {}".format(self.description))
-            self.error_description = "Bad: OTP response is empty!"
+            self.diagnosis = "Bad: OTP response is empty!"
         elif self.result == TestResult.PASS:
             if self.json_itinerary.get('errors'):
                 self.result = TestResult.FAIL
-                self.error_description = "Bad: OTP response has errors:\n  {}".format(self.json_itinerary.get('errors'))
+                self.diagnosis = "Bad: OTP response has errors:\n  {}".format(self.json_itinerary.get('errors'))
             else:
                 j = self.json_itinerary
                 if j['data'] and j['data']['plan'] and j['data']['plan']['itineraries'] and len(j['data']['plan']['itineraries']) > 0:
@@ -145,14 +145,14 @@ class Test(object):
                         regex_search()
                     else:
                         self.result = TestResult.PASS
-                        self.error_description = "Good: OTP responded with {} itinerary(s)!".format(len(j['data']['plan']['itineraries']))
+                        self.diagnosis = "Good: OTP responded with {} itinerary(s)!".format(len(j['data']['plan']['itineraries']))
                         log.info("NOTE: this test lacks an expected result {}".format(self.description))
                 else:
                     if self.expected and len(self.expected) > 1:
                         regex_search(False)
                     else:
                         self.result = TestResult.FAIL
-                        self.error_description = "Bad: OTP didn't come back with any itineraries!"
+                        self.diagnosis = "Bad: OTP didn't come back with any itineraries!"
                         log.info("NOTE: this test lacks an expected result {}".format(self.description))
 
         return self.result == TestResult.FAIL
