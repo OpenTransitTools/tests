@@ -70,6 +70,7 @@ class Test(object):
         p = csv_params
 
         # override the 'default' routing params (from cmdline / defaults) with test values from this line of the .csv
+        #import pdb; pdb.set_trace()
         r.fromPlace = object_utils.get_striped_dict_val(p, 'From', r.fromPlace, True, False)
         r.toPlace = object_utils.get_striped_dict_val(p, 'To', r.toPlace, True, False)
         r.time = object_utils.get_striped_dict_val(p, 'Time', r.time, True, False)
@@ -372,6 +373,8 @@ class TestSuiteList(CacheBase):
             log.info(err)
             if html:
                 err = "\n    <li class='msg'>{}</li>".format(err)
+            else:
+                err += "\n"
             ret_val = ret_val + err
         return ret_val
 

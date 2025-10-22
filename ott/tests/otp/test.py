@@ -22,9 +22,9 @@ def all():
     c = cmdline.tora_cmdline("all_tests")
     t = template_utils.make_named_template(c.api.find_api())
     l = test_suite.TestSuiteList(c, t, misc.graphql_url, misc.app_url, suites_filter=c.suites)
-    #urls = l.get_webapp_urls(); print('\n\n'.join(urls))
-    #l.output_graphql()
-    #l.output_response()
+    #u = l.get_webapp_urls(); print('\n\n'.join(u)) # show URLs to webapp like trimet.org
+    #l.output_graphql()  # show each test's graphql params
+    #l.output_response() # call OTP and show response
     l.run_tests(); l.report(); print(l.get_pass_fail_counts()) if l.has_errors() else print("Noice!")
 
 

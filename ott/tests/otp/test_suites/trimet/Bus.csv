@@ -26,7 +26,7 @@ Transit Issue 1096 : Ex 2 - doubling back after transfer (Inbound),"45.57572,-12
 Transit Issue 1096 : Ex 3 - doubling back after transfer (Outbound),"45.547859,-122.675623","45.57572,-122.64047","TRANSIT,WALK",5:50 PM,QUICK,16,,93.*3453
 Transit Issue 1213 : snapping to incorrect level when routing - not using stairs (Hawthorne Bridge),"45.51149,-122.66585","45.511548,-122.643827","TRANSIT,WALK",11:41 AM,QUICK,16,,streetName
 Transit Issue 1258 : Weird Results for Transit & Bicycle Trips ,"45.534447,-122.899670","45.514062,-122.671156","TRANSIT,BICYCLE",5:00 PM,,2,,
-Transit Issue 1259: Excessive Transfers ,"45.512956,-122.677091","45.509348,-122.824377","TRANSIT,WALK",12:00 PM,QUICK,16,,
+Transit Issue 1259: Excessive Transfers,"45.512956,-122.677091","45.509348,-122.824377","TRANSIT,WALK",12:00 PM,QUICK,13,,
 Transit Issue 1302: Ex 1 - Walking to Farther Bus Stops,"45.545289,-122.650503","45.571101,-122.649520","TRANSIT,WALK",10:30 AM,QUICK,16,,stopCode...6808
 Transit Issue 1302: Ex 2 - Walking to Farther Bus Stops,"45.483051,-122.800408","45.491116,-122.801239","TRANSIT,WALK",4:22 PM,QUICK,16,,stopCode...3583
 Transit Issue 1302: Ex 3 - Walking to Farther Bus Stops,"45.437822,-122.729958","45.411454,-122.793720","TRANSIT,WALK",8:30 AM,QUICK,16,,stopCode...4267
