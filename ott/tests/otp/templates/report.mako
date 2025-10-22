@@ -25,6 +25,7 @@
                 <th>#</th>
                 <th>Result</th>
                 <th>Description</th>
+                <th>Message</th>
                 <th>Response</th>
                 <th>Expected</th>
             </tr>
@@ -37,6 +38,7 @@
                 <td><a target="_blank" href="${t.get_webapp_url()}">${t.csv_line_number}</a></td>
                 <td>${t.get_result(True)}</td>
                 <td>${t.description}</td>
+                <td>${t.error_description}</td>
                 <td>${t.get_itinerary(trim=300)}</td>
                 <td>${t.expected}</td>
             </tr>

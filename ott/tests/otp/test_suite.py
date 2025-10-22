@@ -31,8 +31,8 @@ class Test(object):
     """
     def __init__(self, test_suite_file, line_number, csv_params, default_params, graphql_template, graphql_url, app_url):
         self.result = TestResult.FAIL
-        self.error_descript  = ""
         self.is_valid = True
+        self.error_description = ""
 
         self.graphql_url = graphql_url
         self.app_url = app_url
@@ -45,6 +45,7 @@ class Test(object):
         self.params = self.make_params(csv_params, default_params)
         self.payload = self.make_payload(self.params, graphql_template)
         self.itinerary = ""
+        self.json_itinerary = None
 
     @classmethod
     def make_params(cls, csv_params, default_params):
@@ -99,7 +100,8 @@ class Test(object):
 
         if response.status_code == 200:
             self.result = TestResult.PASS
-            o = str(response.json())
+            self.json_itinerary = response.json()
+            o = str(self.json_itinerary)
         else:
             self.result = TestResult.FAIL
             o = response.text
@@ -115,16 +117,45 @@ class Test(object):
         return self.itinerary
 
     def test_expected_response(self, strict=True):
-        ret_val = False
-        if self.expected is None or len(self.expected) < 1:
-            log.info("NOTE: this test lacks an expected result {}".format(self.description))
-        else:
+        def regex_search(count_itins=True):
             regres = re.search(self.expected, self.itinerary)
-            if regres is None:
+            if regres:
+                self.result = TestResult.PASS
+                self.error_description = "Good: the OTP result had a match for the '{}' regex".format(self.expected)
+            else:
                 self.result = TestResult.FAIL if strict else TestResult.WARN
-                self.error_descript += " - couldn't find " + self.expected + " in otp response"
-                ret_val = True
-        return ret_val
+                self.error_description = "Bad: could NOT find a match for the '{}' regex".format(self.expected)
+            if count_itins:
+                #import pdb; pdb.set_trace()
+                n = len(self.json_itinerary['data']['plan']['itineraries'])
+                self.error_description = "{} in the {} itinerary(s) returned".format(self.error_description, n)
+
+        #import pdb; pdb.set_trace()
+        if self.json_itinerary is None:  # should never get here, but just in case have this so we don't NPE below
+            log.info("NOTE: this test lacks an expected result {}".format(self.description))
+            self.error_description = "Bad: OTP response is empty!"
+        elif self.result == TestResult.PASS:
+            if self.json_itinerary.get('errors'):
+                self.result = TestResult.FAIL
+                self.error_description = "Bad: OTP response has errors:\n  {}".format(self.json_itinerary.get('errors'))
+            else:
+                j = self.json_itinerary
+                if j['data'] and j['data']['plan'] and j['data']['plan']['itineraries'] and len(j['data']['plan']['itineraries']) > 0:
+                    if self.expected and len(self.expected) > 1:
+                        regex_search()
+                    else:
+                        self.result = TestResult.PASS
+                        self.error_description = "Good: OTP responded with {} itinerary(s)!".format(len(j['data']['plan']['itineraries']))
+                        log.info("NOTE: this test lacks an expected result {}".format(self.description))
+                else:
+                    if self.expected and len(self.expected) > 1:
+                        regex_search(False)
+                    else:
+                        self.result = TestResult.FAIL
+                        self.error_description = "Bad: OTP didn't come back with any itineraries!"
+                        log.info("NOTE: this test lacks an expected result {}".format(self.description))
+
+        return self.result == TestResult.FAIL
 
     def did_test_pass(self):
         return self.result is not None and self.result is TestResult.PASS
@@ -209,7 +240,7 @@ class TestSuite(object):
             else: 
                 self.passes += 1
         if progress:
-            print("")
+            print()
    
     def stats(self):
         if not self.tests:
@@ -252,7 +283,6 @@ class TestSuiteList(CacheBase):
 
     def make_suites(self, otp_params, suite_dir, filter):
         """ load test_suites .csv files """
-        #import pdb; pdb.set_trace()
         test_suites = []
 
         if suite_dir is None:
