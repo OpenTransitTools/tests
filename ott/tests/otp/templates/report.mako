@@ -36,6 +36,7 @@
                 <th>Result</th>
                 <th>Description</th>
                 <th>Diagnosis</th>
+                <th>Request</th>
                 <th>Response</th>
                 <th>Expected</th>
             </tr>
@@ -49,6 +50,7 @@
                 <td>${t.get_result(True)}</td>
                 <td>${t.description}</td>
                 <td>${t.diagnosis}</td>
+                <td>${t.get_payload(trim=300)}</td>
                 <td>${t.get_itinerary(trim=300)}</td>
                 <td>${t.expected}</td>
             </tr>

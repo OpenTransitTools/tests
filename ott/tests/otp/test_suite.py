@@ -186,6 +186,12 @@ class Test(object):
             ret_val = '<p class="{}">{}</p>'.format(ret_val, ret_val)
         return ret_val
 
+    def get_payload(self, trim=True):
+        ret_val = self.payload
+        if trim:
+            ret_val = misc.trim_lines(self.payload)
+        return ret_val
+
     def get_itinerary(self, trim=None):
         ret_val = self.itinerary
         if trim:
@@ -305,22 +311,19 @@ class TestSuiteList(CacheBase):
         for ts in self.test_suites:
             for t in ts.get_tests():                
                 print(t.description, file=stream)
-                p = t.payload
-                if trim:
-                    p = misc.trim_lines(t.payload)
-                print(p, file=stream)
+                print(t.get_payload(trim), file=stream)
                 if pause:
                     input("\nPress Enter to continue...\n")
 
-    def output_response(self, stream=sys.stdout, pause=True, trim=True):
+    def output_response(self, stream=sys.stdout, pause=True, trim=False):
         for ts in self.test_suites:
             for t in ts.get_tests():
                 print(t.description, file=stream)
                 print(t.graphql_url, file=stream)
-                print(misc.trim_lines(t.payload), file=stream)
+                print(t.get_payload(trim), file=stream)
                 t.call_otp_graphql()
-                r = t.get_itinerary(trim)
-                print(r, file=stream)
+                t.get_itinerary(trim)
+                print(t.get_itinerary(trim), file=stream)
                 if pause:
                     input("\nPress Enter to continue...\n")
 

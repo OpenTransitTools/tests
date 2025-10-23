@@ -25,7 +25,7 @@ def all():
     #u = l.get_webapp_urls(); print('\n\n'.join(u)) # show URLs to webapp like trimet.org
     #l.output_graphql()  # show each test's graphql params
     #l.output_response() # call OTP and show response
-    l.run_tests(); l.report(); print(l.get_pass_fail_counts()) if l.has_errors() else print("Noice!")
+    l.run_tests(); l.report(); print(l.get_pass_fail_counts()) if l.has_errors(0) else print("Noice!")
 
 
 def plan():
