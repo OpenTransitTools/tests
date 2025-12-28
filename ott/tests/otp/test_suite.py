@@ -288,6 +288,19 @@ class TestSuiteList(CacheBase):
         self.webapp_url = webapp_url
         self.test_suites = self.make_suites(otp_params, suite_dir, suites_filter)
 
+    @classmethod
+    def factory(cls, params=None, template=None):
+        if template == None:
+            from .templates import template_utils
+            template = template_utils.make_named_template('plan_tora')
+        return TestSuiteList(params, template, misc.graphql_url, misc.app_url)
+
+    def get_latlons(self):
+        ret_val = []
+        for t in self.test_suites:
+            ret_val.append(t.get_latlons())
+        return ret_val
+
     def make_suites(self, otp_params, suite_dir, filter):
         """ load test_suites .csv files """
         test_suites = []

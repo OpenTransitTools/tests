@@ -95,11 +95,13 @@ def add_url_args(parser, parse=False):
         default=None,
         help=f"application ws url ala {misc.app_url}"
     )
-    
+
+    #import pdb; pdb.set_trace()
     ret_val = None
     if parse:
         ret_val = parser.parse_args()
-        misc.set_graphql_url(ret_val.graphql_url)
+        if ret_val and ret_val.graphql_url:
+            misc.set_graphql_url(ret_val.graphql_url)
     return ret_val
         
 
@@ -116,8 +118,10 @@ def add_cmd_line_util_args(parser):
     )
 
     ret_val = parser.parse_args()
-    misc.set_url(ret_val.url)
-    misc.set_threads(ret_val.threads)
+    if ret_val and ret_val.graphql_url:
+        misc.set_graphql_url(ret_val.url)
+    if ret_val and ret_val.threads:
+        misc.set_threads(ret_val.threads)
 
     return ret_val
 
