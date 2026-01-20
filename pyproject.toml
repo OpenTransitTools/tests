@@ -17,13 +17,16 @@ colorama = "^0.4.5"
 "ott.utils" = {git = "https://github.com/OpenTransitTools/utils.git", branch="rtp"}
 
 [tool.poetry.scripts]
-smoke_tests = "ott.tests.otp.test:smoke"
-uptime_tests = "ott.tests.otp.test:uptime"
-all_tests = "ott.tests.otp.test:all"
-plan_trip = "ott.tests.otp.test:plan"
+otp-planner = "ott.tests.otp.test:plan"
+otp-all = "ott.tests.otp.test:all"
+otp-smoke = "ott.tests.otp.test:smoke"
+otp-perf = "ott.tests.otp.perf:main"
+otp-stress = "ott.tests.otp.stress:main"
+otp-uptime = "ott.tests.otp.test:uptime"
 
-perf_test = "ott.tests.otp.perf:main"
-stress_test = "ott.tests.otp.stress:main"
+geo-stress = "ott.tests.geo.stress:main"
+
+demo-stress = "ott.tests.utils.threads:main"
 
 [build-system]
 requires = ["poetry-core"]

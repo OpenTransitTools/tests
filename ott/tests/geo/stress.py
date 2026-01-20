@@ -83,7 +83,7 @@ class VectorThreads(Threads):
     def runner(self):
         with self.lock:
             urls = self.make_urls()
-            print(f"number of urls: {len(urls)}")
+            #print(f"number of urls: {len(urls)}")
 
         while not self.exit_flag.is_set():
             with self.lock:
@@ -96,6 +96,6 @@ class VectorThreads(Threads):
 
 
 def main():
-    v = VectorThreads(num_threads=1)
+    v = VectorThreads(num_threads=20)
     v.run()
     v.print()
