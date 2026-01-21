@@ -9,16 +9,6 @@ import random
 import requests
 from ..utils.threads import Threads
 
-def patterns():
-    """
-    show timing stats for each call
-    https://maps.trimet.org/ti/index/patterns/trip/TRIMET:16245970/geometry/geojson
-    """
-    #import pdb; pdb.set_trace()
-    seq_id = 4444
-    for z in range(1, 555):
-        n = seq_id + z
-        pattern_if = f"TRIMET:{n}"
 
 def wms():
     x = -122.52
@@ -27,6 +17,41 @@ def wms():
         k = 0.0000000004 * n
         x += k; y += k;
         print(x, y)
+
+
+class PatternThreads(Threads):
+    @classmethod
+    def make_urls(cls):
+        """
+        build pattern urls to geoserver
+        https://ws-st.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott%3Acurrent_patterns&outputFormat=json&cql_filter=id=%27TRIMET:16199747%27
+
+        note: need to edit this file and keep the trip 's' and 'e' ids up-to-date
+        """
+        #import pdb; pdb.set_trace()
+        s = 16199747
+        e = 16258754
+        urls = []
+        base = "https://ws-st.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott%3Acurrent_patterns&outputFormat=json"
+        for trip_id in range(s, e):
+            u = f"{base}&cql_filter=id=%27TRIMET:{trip_id}%27"
+            urls.append(u)
+        return urls
+
+    def runner(self):
+        with self.lock:
+            urls = self.make_urls()
+
+        while not self.exit_flag.is_set():
+            with self.lock:
+                url = random.choice(urls)
+            self.get(url)
+
+    @classmethod
+    def run_stress_test(self):
+        t = PatternThreads(num_threads=20)
+        t.run()
+        t.print()
 
 
 class VectorThreads(Threads):
@@ -91,11 +116,8 @@ class VectorThreads(Threads):
             self.get(url)
 
     @classmethod
-    def run_test(self):
-        pass
+    def run_stress_test(self):
+        t = VectorThreads(num_threads=20)
+        t.run()
+        t.print()
 
-
-def main():
-    v = VectorThreads(num_threads=20)
-    v.run()
-    v.print()

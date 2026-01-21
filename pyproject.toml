@@ -24,7 +24,8 @@ otp-perf = "ott.tests.otp.perf:main"
 otp-stress = "ott.tests.otp.stress:main"
 otp-uptime = "ott.tests.otp.test:uptime"
 
-geo-stress = "ott.tests.geo.stress:main"
+geo-tiles-stress = "ott.tests.geo.stress:VectorThreads.run_stress_test"
+geo-patterns-stress = "ott.tests.geo.stress:PatternThreads.run_stress_test"
 
 demo-stress = "ott.tests.utils.threads:main"
 
