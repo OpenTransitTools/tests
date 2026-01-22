@@ -57,3 +57,38 @@ class AutocompleteThreads(Threads):
         t.print()
 
 
+class ReverseThreads(Threads):
+    @classmethod
+    def make_urls(cls, domain="https://ws-st.trimet.org", rtp="/rtp"):
+        """
+        build progressive urls to pelias
+        https://ws-st.trimet.org/peliaswrap/v1/rtp/reverse
+        """
+        urls = []
+        base = f"{domain}/peliaswrap/v1{rtp}/reverse"
+        x = -122.52
+        y = 45.52
+        for n in range(1, 1000):
+            k = 0.0000000004 * n
+            x += k; y += k;
+            u = f"{base}?layers=address&point.lat={y}&point.lon={x}"
+            urls.append(u)
+
+        return urls
+
+    def runner(self):
+        with self.lock:
+            u1 = AutocompleteThreads.make_urls()
+            u2 = AutocompleteThreads.make_urls(rtp="")
+            urls = u1 + u2
+
+        while not self.exit_flag.is_set():
+            with self.lock:
+                url = random.choice(urls)
+            self.get_json(url, "features")
+
+    @classmethod
+    def run_stress_test(self):
+        t = AutocompleteThreads(num_threads=20)
+        t.run()
+        t.print()

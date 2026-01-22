@@ -28,7 +28,7 @@ geo-tiles-stress = "ott.tests.geo.stress:VectorThreads.run_stress_test"
 geo-patterns-stress = "ott.tests.geo.stress:PatternThreads.run_stress_test"
 
 pelias-autocomplete-stress = "ott.tests.pelias.stress:AutocompleteThreads.run_stress_test"
-
+pelias-reverse-stress = "ott.tests.pelias.stress:ReverseThreads.run_stress_test"
 
 demo-stress = "ott.tests.utils.threads:main"
 
