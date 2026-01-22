@@ -15,6 +15,7 @@ class AutocompleteThreads(Threads):
         build progressive urls to pelias
         https://ws-st.trimet.org/
         """
+        #urls = [f"{domain}/peliaswrap/v1{rtp}/autocomplete?text=2112"]; return urls
         urls = []
 
         #import pdb; pdb.set_trace()
@@ -47,7 +48,7 @@ class AutocompleteThreads(Threads):
         while not self.exit_flag.is_set():
             with self.lock:
                 url = random.choice(urls)
-            self.get(url)
+            self.get_json(url, "features")
 
     @classmethod
     def run_stress_test(self):

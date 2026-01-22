@@ -114,6 +114,30 @@ class Threads():
 
             print(mark, end="", flush=True)
 
+    def get_json(self, url, element=None):
+        response = requests.get(url)
+
+        with self.lock:
+            #import pdb; pdb.set_trace()
+            self.misc_url = url
+            mark = "."
+
+            if response.status_code == 200:
+                json = response.json()
+                if json is None:
+                    self.fail += 1
+                else:
+                    self.success += 1
+                    if element:
+                        el = json.get(element)
+                        if el is None or len(el) < 1:
+                            mark = "_"
+                            self.empty += 1
+            else:
+                self.fail += 1
+
+            print(mark, end="", flush=True)
+
 
     def print(self):
         print(f"\n\n\n\n*******************************************************\n*\n"
