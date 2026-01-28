@@ -3,7 +3,7 @@ import argparse
 
 from ott.utils import date_utils
 from ott.utils.parse.cmdline import base_cmdline
-from . import misc
+from ott.tests.utils import misc
 
 import logging
 log = logging.getLogger(__file__)
@@ -119,7 +119,7 @@ def add_cmd_line_util_args(parser):
 
     ret_val = parser.parse_args()
     if ret_val and ret_val.graphql_url:
-        misc.set_graphql_url(ret_val.url)
+        misc.set_graphql_url(ret_val.graphql_url)
     if ret_val and ret_val.threads:
         misc.set_threads(ret_val.threads)
 

@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 from colorama import Fore, Style
 from ott.utils import date_utils
-from . import cmdline
+from ott.tests.utils import cmdline
 
 
 class Threads():

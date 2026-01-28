@@ -1,8 +1,8 @@
-from . import test_suite
-from .utils import cmdline
-from .utils.exe import call_otp
+from ott.tests.utils import cmdline
+from ott.tests.utils import misc
 
-from .utils import cmdline, misc
+from . import test_suite
+from .exe import call_otp
 from .templates import template_utils
 
 

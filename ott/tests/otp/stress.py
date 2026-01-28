@@ -7,15 +7,25 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, Style
 from ott.utils import date_utils
-from .utils import exe
-from .utils import misc
-from .utils import cmdline
+from ott.tests.utils import misc
+from ott.tests.utils import cmdline
+from . import exe
 
 lock = threading.Lock()
 exit_flag = threading.Event()
 success = 0
 fail = 0
 graphql_requests = exe.make_requests()
+
+
+def check(response):
+    try:
+        r = response.json()
+        ret_val = len(r.get('data').get('plan').get('itineraries')) >= 1
+    except Exception as e:
+        #print(e)
+        ret_val = False
+    return ret_val
 
 
 def run_query():
@@ -26,8 +36,8 @@ def run_query():
         with lock:
             req = random.choice(graphql_requests)
 
-        response = exe.call_otp(req, misc.url)
-        if response.status_code == 200:
+        response = exe.call_otp(req, misc.graphql_url)
+        if check(response) and response.status_code == 200:
             with lock:
                 success+=1
             print(f"{Fore.GREEN}.{Style.RESET_ALL}", end="", flush=True)
@@ -46,7 +56,7 @@ def run():
     else:
         num_threads = int(input("Enter the number of threads to use: "))
 
-    print(f"{Fore.YELLOW}OTP GraphQL Load Test via {misc.url}{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}OTP GraphQL Load Test via {misc.graphql_url}{Style.RESET_ALL}")
 
     # create/start the threads
     start_time = time.time()
@@ -72,8 +82,8 @@ def run():
         rps = (success + fail) / processing_time
         tm = date_utils.format_seconds(processing_time)
         print(f"\n\n\n\n*******************************************************\n*\n"
-              f"*   \033[1;4m{misc.url}\033[0m\n" 
-              f"*   {Style.BRIGHT}{num_threads}{Style.RESET_ALL} different 'users' (threads)\n" 
+              f"*   \033[1;4m{misc.graphql_url}\033[0m\n" 
+              f"*   {Style.BRIGHT}{num_threads}{Style.RESET_ALL} different 'users' (threads)\n"
               f"*   {Style.BRIGHT}{tm}{Style.RESET_ALL} running time\n"
               f"*   {Fore.GREEN}{success} successful requests {Fore.RED}(fails {fail}){Style.RESET_ALL}\n"
               f"*   {avg:.2f} secs per request (on average)\n"

@@ -3,13 +3,15 @@ from ott.utils.cache_base import CacheBase
 from ott.utils import date_utils
 from ott.utils import object_utils
 from ott.utils import num_utils
-from .utils import misc
-from .utils.exe import call_otp
+from ott.tests.utils import misc
+from ott.tests.utils import cmdline
+from .exe import call_otp
 
 import os
 import sys
 import csv
 import re
+import copy
 
 import time
 import logging
@@ -43,6 +45,7 @@ class Test(object):
         self.expected = csv_params.get('Expected output')
 
         self.params = self.make_params(csv_params, default_params)
+        self.template = graphql_template
         self.payload = self.make_payload(self.params, graphql_template)
         self.itinerary = ""
         self.json_itinerary = None
@@ -64,13 +67,18 @@ class Test(object):
             'Description/notes' describes aspects and reasons for the test
             'Expected output' regex text to find in the OTP response
         """
-        import copy
+        ret_val = {}
+
+        # 
+        if not default_params:
+            #import pdb; pdb.set_trace()
+            default_params = cmdline.tora_cmdline()
         ret_val = copy.deepcopy(default_params)
+
         r = ret_val
         p = csv_params
 
         # override the 'default' routing params (from cmdline / defaults) with test values from this line of the .csv
-        #import pdb; pdb.set_trace()
         r.fromPlace = object_utils.get_striped_dict_val(p, 'From', r.fromPlace, True, False)
         r.toPlace = object_utils.get_striped_dict_val(p, 'To', r.toPlace, True, False)
         r.time = object_utils.get_striped_dict_val(p, 'Time', r.time, True, False)
@@ -295,10 +303,17 @@ class TestSuiteList(CacheBase):
             template = template_utils.make_named_template('plan_tora')
         return TestSuiteList(params, template, misc.graphql_url, misc.app_url)
 
+    def get_requests(self):
+        ret_val = []
+        for ts in self.test_suites:
+            for t in ts.get_tests():
+                ret_val.append(t.payload)
+        return ret_val
+
     def get_latlons(self):
         ret_val = []
         for t in self.test_suites:
-            ret_val.append(t.get_latlons())
+            ret_val = ret_val + t.get_latlons()
         return ret_val
 
     def make_suites(self, otp_params, suite_dir, filter):
