@@ -1,4 +1,8 @@
 Description/notes,From,To,Mode,Time,Optimize,Reluctance,Arrive by,Expected output
+Tests Sunset TC MAX Station (9969) departure to Pioneer Courthouse Square,"45.509622,-122.783836","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9969.*MAX
+Tests Sunset TC MAX Station (9624) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.511587,-122.778350","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*9624
+Tests Pioneer Courthouse Square to Skidmore Fountain (former 8338) so bit of walking,"45.518875,-122.679290","45.523726,-122.671275","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,20,,MAX.*8339
+Tests Walk from Skidmore Fountain (former 8379) to Pioneer Courthouse Square,"45.522525,-122.671780","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,8380.*MAX
 Tests Hatfield Government Center MAX Station (9848) departure to Pioneer Courthouse Square,"45.522685,-122.991058","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9848.*MAX
 Tests Hillsboro Central/SE 3rd TC MAX Station (9846) departure to Pioneer Courthouse Square,"45.521772,-122.984382","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9846.*MAX
 Tests Tuality Hospital/SE 8th Ave MAX Station (9843) departure to Pioneer Courthouse Square,"45.521492,-122.977253","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9843.*MAX
@@ -14,8 +18,6 @@ Tests Beaverton Creek MAX Station (9822) departure to Pioneer Courthouse Square,
 Tests Millikan Way MAX Station (9826) departure to Pioneer Courthouse Square,"45.494518,-122.821061","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9826.*MAX
 Tests Beaverton Central MAX Station (9824) departure to Pioneer Courthouse Square,"45.490186,-122.805895","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9824.*MAX
 Tests Beaverton TC MAX Station (9821) departure to Pioneer Courthouse Square,"45.491210,-122.802492","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9821.*MAX
-#Tests Sunset TC MAX Station (9969) departure to Pioneer Courthouse Square,"45.509622,-122.783836","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9969.*MAX
-#Tests Sunset TC MAX Station (9624) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.511587,-122.778350","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*9624
 Tests Washington Park MAX Station (10120) departure to Pioneer Courthouse Square,"45.510245,-122.715867","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,10120.*MAX
 Tests Goose Hollow/SW Jefferson St MAX Station (10118) departure to Pioneer Courthouse Square,"45.518125,-122.694454","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,10118.*MAX
 Tests Walking from Old Kings Hill/SW Salmon St MAX Station to Pioneer Courthouse Square,"45.519958,-122.691288","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,9758.*MAX
@@ -24,7 +26,6 @@ Tests Library/SW 9th Ave MAX Station (8333) departure to Cleveland Ave P&R,"45.5
 Tests trip from Hatfield to Pioneer then walking to OLD Mall/SW 4th Ave Station,"45.521918,-122.990675","45.517789,-122.676796","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*8334
 Tests Yamhill District MAX Station (8336) arrival from Hatfield Terminus,"45.521918,-122.990675","45.517025,-122.673815","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*8336
 Tests Oak/SW 1st Ave MAX Station (8337) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.520460,-122.672442","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*8337
-"TODO: this test is a bit broken, since we don't land on stop 8338 for some reason unless we use a 1/10mi walk (with 1/2mile walk, the trip is on the mall vs Red/Blue).  Tests Pioneer Courthouse Square to Skidmore Fountain MAX Station (8338)","45.518875,-122.679290","45.523726,-122.671275","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,20,,MAX.*8338
 Tests Old Town/Chinatown MAX Station (8339) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.524587,-122.671103","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*8339
 Tests Rose Quarter TC MAX Station (8340) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.530007,-122.664562","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*8340
 Tests Convention Center MAX Station (8341) arrival from Pioneer Courthouse Square,"45.518875,-122.679290","45.529895,-122.661911","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*8341
@@ -67,7 +68,6 @@ Tests NE 7th Ave MAX Station (8375) departure to Pioneer Courthouse Square,"45.5
 Tests Convention Center MAX Station (8376) departure to Pioneer Courthouse Square,"45.529990,-122.662833","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,8376.*MAX
 Tests Rose Quarter TC MAX Station (8377) departure to Pioneer Courthouse Square,"45.530477,-122.664732","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,8377.*MAX
 Tests Old Town/Chinatown MAX Station (8378) departure to Pioneer Courthouse Square,"45.524579,-122.671655","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,8378.*MAX
-Tests Skidmore Fountain MAX Station (8379) departure to Pioneer Courthouse Square,"45.522525,-122.671780","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,8379.*MAX
 Tests Oak/SW 1st Ave MAX Station (8380) departure to Pioneer Courthouse Square,"45.519661,-122.672354","45.518875,-122.679290","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,8380.*MAX
 Tests Morrison/SW 3rd Ave MAX Station (8381) departure to Hatfield Terminus,"45.518436,-122.675443","45.521918,-122.990675","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,8381.*MAX
 Tests Galleria/SW 10th Ave MAX Station (8383) arrival from Cleveland Ave P&R,"45.502356,-122.417780","45.519864,-122.682197","TRAM,RAIL,SUBWAY,FUNICULAR,GONDOLA,WALK",9:11 AM,QUICK,16,,MAX.*8384
