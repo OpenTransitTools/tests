@@ -12,9 +12,9 @@ utils_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe
 this_module_dir = os.path.dirname(os.path.join(utils_dir, '../'))
 
 
-app_url = "https://trimet.org/home/planner-trip"
-
+app_url = "https://beta.trimet.org/home/planner-trip"
 graphql_url = "http://maps8.trimet.org/rtp/gtfs/v1"
+
 def set_graphql_url(u):
     global graphql_url
     if u and len(u) > 2:
@@ -26,6 +26,8 @@ def set_graphql_url(u):
             graphql_url = "https://ws-st.trimet.org/rtp/gtfs/v1"
         elif u.upper() == "TEST":
             graphql_url = "http://maps8.trimet.org/rtp/gtfs/v1"
+        elif u.upper() == "LOCAL":
+            graphql_url = "http://localhost:52425/otp/gtfs/v1"
         else:
             graphql_url = u
 

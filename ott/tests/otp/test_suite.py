@@ -371,6 +371,7 @@ class TestSuiteList(CacheBase):
         return self.has_errors(acceptable_num_fails)
 
     def has_errors(self, acceptable_num_fails=2):
+        #import pdb; pdb.set_trace()
         ret_val = False
         for t in self.test_suites:
             if t.failures > acceptable_num_fails or t.passes <= 0:

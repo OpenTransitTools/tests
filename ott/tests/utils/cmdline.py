@@ -50,12 +50,10 @@ class suites(Enum):
     def __str__(self):
         return self.value
 
-
+"""
 def get_args(prog_name='tests', do_parse=True):
-    """
-    """
     def_url = "maps8.trimet.org"
-    
+
     parser = argparse.ArgumentParser(
         prog=prog_name,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -74,6 +72,7 @@ def get_args(prog_name='tests', do_parse=True):
     else:
         args = parser
     return args
+"""
 
 
 def add_url_args(parser, parse=False):
@@ -128,7 +127,7 @@ def add_cmd_line_util_args(parser):
 
 def make_cmd_line(app="run_otp"):
     """create and process the cmdline processor"""
-    parser = base_cmdline.empty_parser("poetry run " + app)
+    parser = base_cmdline.empty_parser(f"poetry run {app}")
     parser.add_argument(
         '--filter',
         '-f',
@@ -150,7 +149,7 @@ def make_cmd_line(app="run_otp"):
     return ret_val
 
 
-def tora_cmdline(app="run_tora"):
+def tora_cmdline(app="run_tora", graphql_url=None):
     """
     all these cmdline parameters (except for url) are in the plan_tora.mako template. can see the params in action by catting
     the template output.  below is a cmdline that demonstrates all the params being used by said template
@@ -158,7 +157,10 @@ def tora_cmdline(app="run_tora"):
     args: poetry run run_tora -fm F -to T -t T -d D -a -m X FLEX -sw SW -avr "XX YY" -b "B" -br BR -bs BS -wr WR -ws WS -cr CR |more
     returns: cmdline (dictionary)
     """
-    parser = base_cmdline.empty_parser("poetry run " + app)
+    if graphql_url:
+        misc.set_graphql_url(graphql_url)
+
+    parser = base_cmdline.empty_parser(f"poetry run {app}")
     date = date_utils.now_iso_date()
     time = date_utils.now_24_time()
     

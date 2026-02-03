@@ -6,6 +6,13 @@ from .exe import call_otp
 from .templates import template_utils
 
 
+def base(name, graphql_url):
+    c = cmdline.tora_cmdline(name, graphql_url)
+    t = template_utils.make_named_template(c.api.find_api())
+    l = test_suite.TestSuiteList(c, t, misc.graphql_url, misc.app_url, suites_filter=c.suites)
+    return l
+
+
 def uptime():
     pass
 
@@ -13,19 +20,32 @@ def uptime():
 def smoke():
     #import pdb; pdb.set_trace()
     c = cmdline.tora_cmdline("smoke_test")
-    l = test_suite.TestSuiteList(c.url, "") # , c.app_url, filter=c.suites)
+    l = test_suite.TestSuiteList(c.url, "")  # , c.app_url, filter=c.suites)
     print(l)
 
 
-def all():
+def all(graphql_url=None):
     #import pdb; pdb.set_trace()
-    c = cmdline.tora_cmdline("all_tests")
-    t = template_utils.make_named_template(c.api.find_api())
-    l = test_suite.TestSuiteList(c, t, misc.graphql_url, misc.app_url, suites_filter=c.suites)
-    #u = l.get_webapp_urls(); print('\n\n'.join(u)) # show URLs to webapp like trimet.org
-    #l.output_graphql()  # show each test's graphql params
-    #l.output_response() # call OTP and show response
-    l.run_tests(); l.report(); print(l.get_pass_fail_counts()) if l.has_errors(0) else print("Noice!")
+    l = base("otp-all", graphql_url)
+    try:
+        l.run_tests()
+        l.report()
+    except KeyboardInterrupt:
+        print("\n")
+
+    if l.has_errors():
+        print(l.get_pass_fail_counts())
+    else:
+        print("Noice! (no errors)")
+
+    return not l.has_errors()
+
+
+def misc_test_data():
+    l = base("otp-all", None)
+    u = l.get_webapp_urls(); print('\n\n'.join(u)) # show URLs to webapp like trimet.org
+    l.output_graphql()  # show each test's graphql params
+    l.output_response() # call OTP and show response
 
 
 def plan():
