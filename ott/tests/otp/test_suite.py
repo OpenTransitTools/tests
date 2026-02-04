@@ -171,7 +171,7 @@ class Test(object):
         return self.result is not None and self.result is TestResult.PASS
 
     def get_webapp_url(self):
-        #https://trimet.org/home/planner-trip/?date=2025-09-15&time=13%3A11&fromPlace=305+NW+Park+Ave%3A%3A45.525261%2C-122.67935&toPlace=839+SE+Yamhill%3A%3A45.515879%2C-122.6574554&arriveBy=false&modes%5B0%5D.mode=BUS&modes%5B1%5D.mode=TRAM&modes%5B2%5D.mode=RAIL&modes%5B3%5D.mode=GONDOLA&searchWindow=14400&walkReluctance=4&walkSpeed=1.34        
+        #https://trimet.org/home/planner-trip/?date=2025-09-15&time=13%3A11&fromPlace=305+NW+Park+Ave%3A%3A45.525261%2C-122.67935&toPlace=839+SE+Yamhill%3A%3A45.515879%2C-122.6574554&arriveBy=false&modes%5B0%5D.mode=BUS&modes%5B1%5D.mode=TRAM&modes%5B2%5D.mode=RAIL&modes%5B3%5D.mode=GONDOLA&searchWindow=14400&walkReluctance=4&walkSpeed=1.34
         # TODO 'transportModes', 'walkReluctance', {p.bikeReluctance}, 'walkSpeed'}"
         p = self.params
 
@@ -184,9 +184,12 @@ class Test(object):
         # step 2: make sure we have a named string
         frm = p.fromPlace if "::" in p.fromPlace else "X::{}".format(p.fromPlace)
         to = p.toPlace if "::" in p.toPlace else "Y::{}".format(p.toPlace)
+        opt = ""
+        if p.optimize:
+            opt = f"&optimize={p.optimize}"
         
         # step 3: build the url
-        url = f"{self.app_url}?date={p.date}&time={p.time}&{modes}&fromPlace={frm}&toPlace={to}&searchWindow={p.searchWindow}&arriveBy={"true" if p.arriveBy else "false"}"
+        url = f"{self.app_url}?date={p.date}&time={p.time}{opt}&{modes}&fromPlace={frm}&toPlace={to}&searchWindow={p.searchWindow}&arriveBy={"true" if p.arriveBy else "false"}"
         return url
 
     def get_result(self, do_html=True):
