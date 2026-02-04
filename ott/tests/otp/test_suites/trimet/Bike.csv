@@ -13,11 +13,13 @@ Tests traversability of Sellwood Bridge from east to west,"45.464322,-122.658599
 Tests traversability of Sellwood Bridge from west to east,"45.466414,-122.669589","45.464322,-122.658599",BICYCLE,,SAFE,6,,Sellwood Bridge
 Tests traversability of Steel Bridge upper deck from east to west,"45.530452,-122.668768","45.526653,-122.675037",BICYCLE,,QUICK,6,,Steel Bridge
 Tests traversability of Steel Bridge upper deck from west to east,"45.525265,-122.672968","45.528996,-122.664746",BICYCLE,,QUICK,6,,Steel Bridge
-Tests traversability of Steel Bridge lower deck path from east to west,"45.528412,-122.665890","45.526416,-122.670198",BICYCLE,,SAFE,6,,Steel Bridge..Lower Deck...path.
-Tests traversability of Steel Bridge lower deck path from west to east,"45.526416,-122.670198","45.528412,-122.665890",BICYCLE,,SAFE,6,,Steel Bridge..Lower Deck...path.
-Tests Broadway Bridge biking path from east to west,"45.536002,-122.668718","45.530828,-122.680713",BICYCLE,,SAFE,6,,Broadway Bridge..path
-Tests Broadway Bridge biking path from west to east,"45.527331,-122.677590","45.535670,-122.666756",BICYCLE,,SAFE,6,,Broadway Bridge..path.
-Tests traversability of St. Johns Bridge from east to west,"45.589448,-122.755611","45.576315,-122.760584",BICYCLE,,SAFE,6,,(St|Saint) Johns Bridge..path
+Tests traversability of Steel Bridge lower deck path from east to west,"45.528412,-122.665890","45.526416,-122.670198",BICYCLE,,SAFE,6,,Steel Bridge..Lower Deck...path
+Tests traversability of Steel Bridge lower deck path from west to east,"45.526416,-122.670198","45.528412,-122.665890",BICYCLE,,SAFE,6,,Steel Bridge..Lower Deck...path
+Tests Broadway Bridge biking path from west to east,"45.527331,-122.677590","45.535670,-122.666756",BICYCLE,,SAFE,6,,Broadway Bridge..path
+Tests Directly on the Broadway Bridge (construction 2026) biking path from east to west,"45.5325774,-122.673618676","45.5310442,-122.6755222",BICYCLE,,SAFE,6,,Broadway Bridge..path
+Tests Broadway Bridge (BROKEN due to CONSTRUCTION 2026) biking path from east to west,"45.536002,-122.668718","45.530828,-122.680713",BICYCLE,,SAFE,6,,Broadway Bridge..path
+Tests south side of St. Johns Bridge travelling east to west,"8420+NW+St+Helens::45.58210335,-122.7675318822","7221+N+Philadelphia::45.58936548,-122.7565578",BICYCLE,,SAFE,6,,(St|Saint) Johns Bridge..path
+# Tests traversability of St. Johns Bridge from east to west,"45.589448,-122.755611","45.576315,-122.760584",BICYCLE,,SAFE,6,,(St|Saint) Johns Bridge..path
 Tests traversability of St. Johns Bridge from west to east,"45.576315,-122.760584","45.589448,-122.755611",BICYCLE,,SAFE,6,,(St|Saint) Johns Bridge..path
 Tests I-5 bike path from south to north,"45.602726,-122.674761","45.625732,-122.674563",BICYCLE,,QUICK,6,,Interstate.*[Bb]ridge .path
 Tests I-5 bike path from north to south,"45.625732,-122.674563","45.602726,-122.674761",BICYCLE,,QUICK,6,,Interstate.*[Bb]ridge .path
@@ -56,7 +58,7 @@ Bike Issue 481: Routing ignoring weights and choosing un-SAFE streets to bike on
 Bike Issue 481: Routing ignoring weights and choosing un-SAFE streets to bike on (2 of 3),"45.44842,-122.672032","45.519075,-122.678606",BICYCLE,,SAFE,16,,
 Bike Issue 481: Routing ignoring weights and choosing un-SAFE streets to bike on (3 of 3),"45.51913,-122.675947","45.515805,-122.657118",BICYCLE,,SAFE,16,,
 Bike Issue 490: Indirect bike legs in bike-to-transit - option 1: end of trip should just bike down 6th to Pioneer Square instead of doing the Salmon/4th/Taylor circuit,"45.452662092107,-122.67693967168","45.518944503569,-122.67919272","TRANSIT,BICYCLE",12:22 PM,SAFE,6,,
-"Bike Issue 490: Indirect bike legs in bike-to-transit - option 2: at SW Barbur & Hooker is telling you to bike down the path to 2nd, and turn around to come all the way back","45.452662092107,-122.676939671","45.518944503569,-122.679192727","TRANSIT,BICYCLE",12:22 PM,TRANSFERS,6,,
+"Bike Issue 490: Indirect bike legs in bike-to-transit - option 2: at SW Barbur & Hooker is telling you to bike down the path to 2nd, and turn around to come all the way back","45.452662092107,-122.676939671","45.518944503569,-122.679192727","TRANSIT,BICYCLE",12:22 PM,SAFE,6,,
 "Bike Issue 491: Choosing the fastest mode(s) of travel with Bike->Transit trips - SAFE option instructs us to always hop on a vehicle, even if that trip is longer than just biking 100% of the way.","45.439805778964,-122.72869873823","45.473852063796,-122.7195577699","TRANSIT,BICYCLE",12:22 PM,SAFE,6,,
 Bike Issue 491: Choosing the fastest mode(s) of travel with Bike->Transit trips - QUICK option does the right thing by recommending a 100% bike trip,"45.439805778964,-122.72869873823","45.473852063796,-122.7195577699","TRANSIT,BICYCLE",12:22 PM,QUICK,6,,
 Issue 356: Improve Roundabout Instructions (Walk Trip 1 of 3),"45.507747,-122.64940","45.509317,-122.6494063",WALK,,SAFE,16,,

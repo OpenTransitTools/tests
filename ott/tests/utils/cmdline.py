@@ -163,6 +163,7 @@ def tora_cmdline(app="run_tora", graphql_url=None):
     parser = base_cmdline.empty_parser(f"poetry run {app}")
     date = date_utils.now_iso_date()
     time = date_utils.now_24_time()
+    optimize = "QUICK"
     
     parser.add_argument(
         '-fromPlace', '-fm', type=str, required=False,
@@ -188,6 +189,11 @@ def tora_cmdline(app="run_tora", graphql_url=None):
         '-time', '-t', type=str, required=False,
         default=time,
         help=f'time (default is {time})'
+    )
+    parser.add_argument(
+        '-optimize', '-o', type=str, required=False,
+        default=optimize,
+        help=f'optimize (default is {optimize})'
     )
     parser.add_argument(
         '-searchWindow', '-sw', type=str, required=False,

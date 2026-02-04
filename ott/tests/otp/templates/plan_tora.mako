@@ -7,6 +7,9 @@
         toPlace: "${toPlace}",
         arriveBy: ${str(arriveBy).lower()},
         searchWindow: ${searchWindow},
+        %if optimize:
+        optimize: ${optimize},
+        %endif
         transportModes: [${utils.get_modes(transportModes)}],
         allowedVehicleRentalNetworks: "${allowedVehicleRentalNetworks}",
         %if banned:

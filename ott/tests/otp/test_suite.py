@@ -86,6 +86,7 @@ class Test(object):
         r.walkReluctance = object_utils.safe_int(p.get('Reluctance'), r.walkReluctance)
         r.bikeReluctance = object_utils.safe_int(p.get('Reluctance'), r.bikeReluctance)
         r.carReluctance = object_utils.safe_int(p.get('Reluctance'), r.carReluctance)
+        r.optimize = p.get('Optimize', r.optimize)
         modes = object_utils.safe_dict_val(p, 'Mode')
         if modes:
             modes = modes.split(',')
@@ -225,16 +226,16 @@ class TestSuite(object):
         self.read_csv()
         self.make_tests(otp_params, graphql_payload, graphql_url, webapp_url)
 
-    def read_csv(self):
+    def read_csv(self, comment="#"):
         """
         read the test suite .csv file (full of test params like from & to)
         and save each row (params) as a set of test params
         """
-        file = open(self.file_path, 'r')
-        reader = csv.DictReader(file)
-        fn = reader.fieldnames
-        for row in reader:
-            self.params.append(row)
+        with open(self.file_path, 'r') as fp:
+            reader = csv.DictReader(filter(lambda row: row[0]!=comment, fp))
+            # fn = reader.fieldnames
+            for r in reader:
+                self.params.append(r)
 
     def make_tests(self, otp_params, graphql_payload, graphql_url, webapp_url):
         for i, p in enumerate(self.params):
