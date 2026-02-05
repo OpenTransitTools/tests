@@ -395,11 +395,12 @@ class TestSuiteList(CacheBase):
             ret_val += t.passes
         return ret_val
 
-    def report(self):
+    def report(self, dir=None, file='report.html'):
         from .templates import template_utils
         t = template_utils.make_named_template("report")
         r = t.render(tsl=self, now=date_utils.pretty_date_time(date_fmt='%m-%d-%Y'), num_passes=self.num_passes(), num_errors=self.num_errors())
-        with open('report.html', 'w') as f:
+        report = os.path.join(dir, file) if dir else file
+        with open(report, 'w') as f:
             f.write(r)
 
     def get_pass_fail_counts(self, html=False):

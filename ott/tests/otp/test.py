@@ -24,12 +24,12 @@ def smoke():
     print(l)
 
 
-def all(graphql_url=None):
+def all(graphql_url=None, report_dir=None):
     #import pdb; pdb.set_trace()
     l = base("otp-all", graphql_url)
     try:
         l.run_tests()
-        l.report()
+        l.report(dir=report_dir)
     except KeyboardInterrupt:
         print("\n")
 
