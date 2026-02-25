@@ -6,6 +6,7 @@ from colorama import Fore, Style
 from ott.utils import num_utils
 from .utils import exe
 from .utils import misc
+from .utils import threads
 from .utils import cmdline
 
 
@@ -15,7 +16,7 @@ def time_otp_requests():
     """
     #import pdb; pdb.set_trace()
     cmdline.make_cmd_line("perf")
-    runs = num_utils.to_int_min(misc.threads, 1)
+    runs = num_utils.to_int_min(threads.num_threads, 1)
 
     print(f"{Fore.YELLOW}\033[1;4m{misc.graphql_url}\033[0m {Style.BRIGHT}{Fore.WHITE}Performance Test{Style.RESET_ALL}")
     for z in range(runs):

@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from colorama import Fore, Style
 from ott.utils import date_utils
 from ott.tests.utils import misc
+from ott.tests.utils import threads
 from ott.tests.utils import cmdline
 from . import exe
 
@@ -51,8 +52,8 @@ def run():
     cmdline.make_cmd_line("stress")
 
     # if needed, prompt the user for the number of threads
-    if misc.threads is not None and misc.threads > 0:
-        num_threads = misc.threads
+    if threads.num_threads is not None and threads.num_thread > 0:
+        num_threads = threads.num_threads
     else:
         num_threads = int(input("Enter the number of threads to use: "))
 

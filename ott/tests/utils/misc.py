@@ -11,9 +11,9 @@ log = logging.getLogger(__file__)
 utils_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 this_module_dir = os.path.dirname(os.path.join(utils_dir, '../'))
 
-
 app_url = "https://beta.trimet.org/home/planner-trip"
 graphql_url = "http://maps8.trimet.org/rtp/gtfs/v1"
+
 
 def set_graphql_url(u):
     global graphql_url
@@ -30,15 +30,6 @@ def set_graphql_url(u):
             graphql_url = "http://localhost:52425/otp/gtfs/v1"
         else:
             graphql_url = u
-
-
-threads = 0
-def set_threads(t):
-    global threads
-    try:
-        threads = int(t)
-    except:
-        pass
 
 
 def parse_place(pre, place):

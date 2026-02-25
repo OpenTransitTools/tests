@@ -10,6 +10,15 @@ from ott.utils import date_utils
 from ott.tests.utils import cmdline
 
 
+num_threads = 0
+def set_threads(t):
+    global num_threads
+    try:
+        num_threads = int(t)
+    except:
+        pass
+
+
 class Threads():
     lock = threading.Lock()
     exit_flag = threading.Event()
@@ -149,6 +158,7 @@ class Threads():
               f"*   {round(self.rps)} requests per second\n"
               "*\n*******************************************************\n\n"
         )
+
 
 def main():
     def default(thread=None):
