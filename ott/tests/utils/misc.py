@@ -78,18 +78,3 @@ def filter_requests(filters):
                     ret_val[f"{f} - #{i}"] = r
 
     return ret_val
-
-
-def print_request_response(filters, sum):
-    """ """
-    requests_dict = filter_requests(filters)
-    for id, request in requests_dict.items():
-        response = call_otp(request)
-        print(f"\n\033[1;4mRequest+Response\033[0m #{id}:")
-        print(str(request)[4:400]) if sum else print(str(request))
-        if response.status_code == 200:
-            n = str(response.json())
-            print(n[:1000]) if sum else print(n)
-        else:
-            print(response.text)
-        print("\n\n")
