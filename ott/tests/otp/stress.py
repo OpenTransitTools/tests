@@ -49,11 +49,14 @@ def run_query():
 
 
 def run():
-    cmdline.make_cmd_line("stress")
+    cmd = cmdline.make_cmd_line("stress")
+
+    # TODO: move to the utils.threads Class
+    # TODO: a lot of the junk below, including the num_threads stuff, can be replaced
 
     # if needed, prompt the user for the number of threads
-    if threads.num_threads is not None and threads.num_thread > 0:
-        num_threads = threads.num_threads
+    if cmd.threads is not None and cmd.threads > 0 and cmd.threads <= 200:
+        num_threads = cmd.threads
     else:
         num_threads = int(input("Enter the number of threads to use: "))
 
@@ -74,7 +77,8 @@ def run():
     except KeyboardInterrupt:
         print("\nInterrupt signal received. Stopping the load testing...")
         exit_flag.set()
-        # wait for threads to finish
+
+        # before exiting the stress test, wait for threads to finish
         for thread in threads:
             thread.join()
 

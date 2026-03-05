@@ -113,6 +113,7 @@ def add_cmd_line_util_args(parser):
         '--threads',
         '-t',
         required=False,
+        type=int,
         default=0,
         help="how many threads to start up"
     )

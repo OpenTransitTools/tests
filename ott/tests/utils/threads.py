@@ -14,6 +14,7 @@ num_threads = 0
 def set_threads(t):
     global num_threads
     try:
+        #import pdb; pdb.set_trace()
         num_threads = int(t)
     except:
         pass
