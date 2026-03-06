@@ -61,12 +61,25 @@ def result(test, is_pass):
         print(f"FAIL: {description}")
 
 
+def do_test(test, staging=False):
+    try:
+        # test staging not prod
+        if staging:
+            test['url'] = test['url'].replace("ws.", "ws-st.")
+
+        ret_val = call_dict(test)
+    except:
+        ret_val = False
+
+    result(test, ret_val)
+    return ret_val
+
+
 def main():
-    #web_utils.simple_email("hey", "purcellf@trimet.org")
+    ret_val = 1
     p = os.path.join(dir_path, 'uptime.csv')
     tests = file_utils.read_csv(p)
     for t in tests:
-        t['url'] = t['url'].replace("ws.", "ws-st.")  # test staging not prod
-        res = True
-        res = call_dict(t)
-        result(t, res)
+        if do_test(t) is False:
+            ret_val = 0
+    return ret_val
