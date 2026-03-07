@@ -1,6 +1,3 @@
-UPDIR=`dirname $0`
-cd $UPDIR/../
-
 rm -f x f
 poetry run uptime > x
 grep FAIL x
