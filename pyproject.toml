@@ -14,6 +14,7 @@ requests = "^2.32.0"
 mergedeep = "^1.3.4"
 PyYAML = "^6.0"
 colorama = "^0.4.5"
+playwright = {extras = ["all"], version = "^1.58.0"}
 
 "ott.utils" = {git = "https://github.com/OpenTransitTools/utils.git", branch="rtp"}
 #"ott.utils" = { path = "../utils/", develop = true }
@@ -33,6 +34,7 @@ pelias-autocomplete-stress = "ott.tests.pelias.stress:AutocompleteThreads.run_st
 pelias-reverse-stress = "ott.tests.pelias.stress:ReverseThreads.run_stress_test"
 
 uptime = "ott.tests.uptime.uptime:main"
+curl = "ott.tests.uptime.browser:curl"
 
 demo-stress = "ott.tests.utils.threads:main"
 

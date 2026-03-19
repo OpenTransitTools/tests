@@ -13,7 +13,7 @@ class AutocompleteThreads(Threads):
     def make_urls(cls, domain="https://ws-st.trimet.org", rtp="/rtp"):
         """
         build progressive urls to pelias
-        https://ws-st.trimet.org/
+        https://ws.trimet.org/
         """
         #urls = [f"{domain}/peliaswrap/v1{rtp}/autocomplete?text=2112"]; return urls
         urls = []
