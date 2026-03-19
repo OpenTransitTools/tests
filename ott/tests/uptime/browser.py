@@ -10,6 +10,12 @@ import logging
 def browse_and_test(url, expect_strs=[]):
     ret_val = True
 
+    # sanitize any test strings into workable list for the loop below
+    if not expect_strs:
+        expect_strs = []
+    elif not isinstance(expect_strs, list):
+        expect_strs = [expect_strs]
+
     def do_test(page, test_str, count=1, timeout=3000):
         nonlocal ret_val
         try:
@@ -37,3 +43,9 @@ def curl():
         print("pass")
     else:
         print("fail")
+
+    url = "https://trimet.org/home/route/TRIMET:2"
+    browse_and_test(url, ["To Gresham", "To Portland"])
+
+    url = "https://trimet.org/home/stop/TRIMET:2"
+    browse_and_test(url, ["A Ave & Chandler", "78-Denney"])
