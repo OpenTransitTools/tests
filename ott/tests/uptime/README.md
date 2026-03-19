@@ -1,7 +1,6 @@
-# System Uptime - Parts or the Whole
+# System Uptime - Testing Parts and the Whole
 
 In monitoring a single page website like `trimet.org`, we can check the parts separately (e.g., the html, the trip service, the arrival service, etc...). For a more complete picture, we can use a headless browser (via [Playwright](https://playwright.dev/python/)) to load trimet.org up, plan a trip or check a stop, and look for elements that would indicate expected state of the app after say a trip was planned.
-
 
 
 ### Diagram 1 — Check each system part individually for uptime:
