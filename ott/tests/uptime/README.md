@@ -24,8 +24,8 @@ Testing each part of the solution individually provides a level of confidence th
 ### Diagram 2 — Exercise the complete solution thru a headless browser:
 ```mermaid
 sequenceDiagram
-    participant Headless as Headless Uptime
-    participant Trimet as trimet.org
+    participant Headless as Uptime
+    participant Trimet as Headless trimet.org
     participant OTP as OTP Service
     participant Webex as webex
 
@@ -37,5 +37,5 @@ sequenceDiagram
     Webex-->>Webex:
 ```
 
-Using Playwright to make trip planner calls to trimet.org, we can look at the state of the app after the trip planner returns with a result. We should see the title of the app change, and see page elements titled "Option 1", "Option 2", etc...  We see those aspects in the app after a trip is planned, and we have high confident that both the underlying parts are working and the app itself is able to use those parts.
+Using Playwright to run trimet.org in a headless browser, we can look at the state of the app after the trip planner returns with a result. If the app and otp backend are up and functioning normally, we'll expect to see the title of the app change, and see page elements titled *Option 1*, *Option 2*, etc... If our headless trimet.org that state after a trip is planned, we gain a lot of confidence that both the trimet.org website and the underlying parts are working properly.
 
