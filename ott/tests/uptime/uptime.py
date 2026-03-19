@@ -2,7 +2,7 @@ import os
 import re
 import requests
 from ott.utils import file_utils
-from ott.utils import web_utils
+
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
 

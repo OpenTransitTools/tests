@@ -5,9 +5,9 @@ description,url,size,expect
 "GeoServer current pattern geoms (route id 1) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%271%27",5000,TRIMET
 "GeoServer current pattern geoms (route id 190) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%27190%27",500000,CTRAN.*TRIMET
 "GeoServer current pbf vector tile",https://ws.trimet.org/geoserver/gwc/service/tms/1.0.0/ott:current@EPSG:900913@pbf/16/10480/42090.pbf,5000,TRIMET
-"Pelias autocom",https://ws-st.trimet.org/peliaswrap/v1/rtp/autocomplete?text=PDX,1000,Portland International Airport
-"Pelias search",https://ws-st.trimet.org/peliaswrap/v1/rtp/search?text=OHSU,1000,Oregon Health
-"Pelias autocomple stop (exclude agency)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=13847&layers=rideconnection:stops,1000,Ride Connection Stop
+"Pelias autocomplete",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=PDX,1000,Portland International Airport
+"Pelias search",https://ws.trimet.org/peliaswrap/v1/rtp/search?text=OHSU,1000,Oregon Health
+"Pelias autocomplete stop (rtp agency)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=TC&layers=rideconnection:stops,1000,Ride Connection Stop
 "Pelias shared stop (TriMet)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=7807,1000,"TRIMET:7807,CTRAN:6212"
 "Pelias shared stop (C-TRAN)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=6212,1000,"TRIMET:7807,CTRAN:6212"
 "Pelias reverse geocode json",https://ws.trimet.org/peliaswrap/v1/reverse?point.lat=45.5&point.lon=-122.5,1000,15820 SE Tibbetts
