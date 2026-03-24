@@ -26,11 +26,11 @@ def browse_and_test(url, expect_strs=[]):
             ret_val = False
 
     with sync_playwright() as p:
-        # Launch Chromium in headless mode (default)
+        # chromium headless mode
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
-        print(page.title())
+        logging.info(page.title())
         for e in expect_strs:
             do_test(page, e)
         browser.close()

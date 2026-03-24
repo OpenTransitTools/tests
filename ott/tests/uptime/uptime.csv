@@ -1,17 +1,18 @@
-description,url,size,expect
-"OTP ping","https://ws.trimet.org/rtp",100,otpSerializationVersionId
-"OTP Park & Rides json","https://ws.trimet.org/rtp/routers/default/park_and_ride",1000,Milwaukie.*Park and Ride.*Church
-"GeoServer current routes image","https://ws.trimet.org/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers=ott%3Acurrent&bbox=-124.1%2C41.0%2C-120.1%2C49.0&width=384&height=768&srs=EPSG%3A4326&styles=&format=image/png",5000,PNG
-"GeoServer current pattern geoms (route id 1) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%271%27",5000,TRIMET
-"GeoServer current pattern geoms (route id 190) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%27190%27",500000,CTRAN.*TRIMET
-"GeoServer current pbf vector tile",https://ws.trimet.org/geoserver/gwc/service/tms/1.0.0/ott:current@EPSG:900913@pbf/16/10480/42090.pbf,5000,TRIMET
-"Pelias autocomplete",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=PDX,1000,Portland International Airport
-"Pelias search",https://ws.trimet.org/peliaswrap/v1/rtp/search?text=OHSU,1000,Oregon Health
-"Pelias autocomplete stop (rtp agency)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=TC&layers=rideconnection:stops,1000,Ride Connection Stop
-"Pelias shared stop (TriMet)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=7807,1000,"TRIMET:7807,CTRAN:6212"
-"Pelias shared stop (C-TRAN)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=6212,1000,"TRIMET:7807,CTRAN:6212"
-"Pelias reverse geocode json",https://ws.trimet.org/peliaswrap/v1/reverse?point.lat=45.5&point.lon=-122.5,1000,15820 SE Tibbetts
-"OMT front page",https://tiles.trimet.org/,1000,TriMet
-"OMT style",https://tiles.trimet.org/styles/trimet/style.json,1000,TriMet
-"OMT xml","https://tiles.trimet.org/styles/trimet/wmts.xml",1000,TriMet
-"OMT image",https://tiles.trimet.org/styles/trimet/512/10/163/366.png,1000,
+description,url,size,expect,headless
+"OTP ping","https://ws.trimet.org/rtp",100,otpSerializationVersionId,
+"OTP Park & Rides json","https://ws.trimet.org/rtp/routers/default/park_and_ride",1000,Milwaukie.*Park and Ride.*Church,
+"OTP+TORA trip plan (headless browser)","https://trimet.org/home/planner-trip/?fromPlace=435+NW+6th+Ave%3A%3A45.52672003%2C-122.6768376&toPlace=1900+SW+4th+Ave%3A%3A45.510422%2C-122.6804610",100,"Option 1",True
+"GeoServer current routes image","https://ws.trimet.org/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers=ott%3Acurrent&bbox=-124.1%2C41.0%2C-120.1%2C49.0&width=384&height=768&srs=EPSG%3A4326&styles=&format=image/png",5000,PNG,
+"GeoServer current pattern geoms (route id 1) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%271%27",5000,TRIMET,
+"GeoServer current pattern geoms (route id 190) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%27190%27",500000,CTRAN.*TRIMET,
+"GeoServer current pbf vector tile",https://ws.trimet.org/geoserver/gwc/service/tms/1.0.0/ott:current@EPSG:900913@pbf/16/10480/42090.pbf,5000,TRIMET,
+"Pelias autocomplete",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=PDX,1000,Portland International Airport,
+"Pelias search",https://ws.trimet.org/peliaswrap/v1/rtp/search?text=OHSU,1000,Oregon Health,
+"Pelias autocomplete stop (rtp agency)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=TC&layers=rideconnection:stops,1000,Ride Connection Stop,
+"Pelias shared stop (TriMet)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=7807,1000,"TRIMET:7807,CTRAN:6212",
+"Pelias shared stop (C-TRAN)",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=6212,1000,"TRIMET:7807,CTRAN:6212",
+"Pelias reverse geocode json",https://ws.trimet.org/peliaswrap/v1/reverse?point.lat=45.5&point.lon=-122.5,1000,15820 SE Tibbetts,
+"OMT front page",https://tiles.trimet.org/,1000,TriMet,
+"OMT style",https://tiles.trimet.org/styles/trimet/style.json,1000,TriMet,
+"OMT xml","https://tiles.trimet.org/styles/trimet/wmts.xml",1000,TriMet,
+"OMT image",https://tiles.trimet.org/styles/trimet/512/10/163/366.png,1000,,
