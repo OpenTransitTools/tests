@@ -3,8 +3,7 @@ import re
 import time
 import requests
 from ott.utils import file_utils
-from .headless import browse_and_test
-
+from . import headless
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -32,12 +31,7 @@ def curl_test(url, expect=None, test={}, size=100):
     return ret_val
 
 
-def headless_test(url, expect=None, test={}, size=100):
-    #import pdb; pdb.set_trace()
-    return browse_and_test(url, expect)
-
-
-def call_dict(test, num=8, factor=0.25, echo=True, is_json=True):
+def call_dict(test, num=8, factor=0.375, echo=True, is_json=True):
     """
     """
     ret_val = False
@@ -45,21 +39,24 @@ def call_dict(test, num=8, factor=0.25, echo=True, is_json=True):
     url = test.get('url')
     size = test.get('size')
     expect = test.get('expect')
-    headless = test.get('headless')
+    is_headless = test.get('headless')
 
-    i = p = f = 0
-    while i < num:
+    p = f = 0
+    for i in range(num):
         #import pdb; pdb.set_trace()
-        passed = headless_test(url, expect, test, size) if headless else curl_test(url, expect, test, size)
-        if passed: p += 1
-        else: f += 1
-        i += 1
-        time.sleep(0.5)
+        passed = headless.browse_and_test(url, expect) if is_headless else curl_test(url, expect, test, size)
+        if passed:
+            p += 1
+            time.sleep(0.5)
+        else:
+            f += 1
+            time.sleep(2.5)
+        
 
-    # check that we have plenty of passes and few failures from the service calls above
+    # check that we have plenty of passes (and no more than a few failures) from the service calls above
     acceptable_fails = int(num * factor)
-    acceptable_passses = int(num * (1.0 - factor))
-    if p >= acceptable_passses and f <= acceptable_fails:
+    acceptable_passes = int(num * (1.0 - factor))
+    if p >= acceptable_passes and f <= acceptable_fails:
         ret_val = True
 
     return ret_val

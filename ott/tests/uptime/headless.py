@@ -11,6 +11,7 @@ def browse_and_test(url, expect_strs=[]):
     ret_val = True
 
     # sanitize any test strings into workable list for the loop below
+    #import pdb; pdb.set_trace()
     if not expect_strs:
         expect_strs = []
     elif not isinstance(expect_strs, list):
@@ -21,7 +22,6 @@ def browse_and_test(url, expect_strs=[]):
         try:
             expect(page.get_by_text(test_str)).to_have_count(count=count, timeout=timeout)
         except Exception as e:
-            #import pdb; pdb.set_trace()
             logging.warning(e)
             ret_val = False
 
