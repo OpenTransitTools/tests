@@ -6,6 +6,7 @@ build-config.json
 router-config.json
 .vscode
 lucene
+utils
 bkup
 pid.txt
 log.txt

@@ -20,12 +20,11 @@ playwright = {extras = ["all"], version = "^1.58.0"}
 #"ott.utils" = { path = "../utils/", develop = true }
 
 [tool.poetry.scripts]
-otp-planner = "ott.tests.otp.test:plan"
 otp-all = "ott.tests.otp.test:all"
+otp-planner = "ott.tests.otp.test:plan"
 otp-smoke = "ott.tests.otp.test:smoke"
 otp-perf = "ott.tests.otp.perf:main"
 otp-stress = "ott.tests.otp.stress:main"
-otp-uptime = "ott.tests.otp.test:uptime"
 
 geo-tiles-stress = "ott.tests.geo.stress:VectorThreads.run_stress_test"
 geo-patterns-stress = "ott.tests.geo.stress:PatternThreads.run_stress_test"

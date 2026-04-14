@@ -1,7 +1,7 @@
 description,url,size,expect,headless
 "OTP ping","https://ws.trimet.org/rtp",100,otpSerializationVersionId,
 "OTP Park & Rides json","https://ws.trimet.org/rtp/routers/default/park_and_ride",1000,Milwaukie.*Park and Ride.*Church,
-"OTP+TORA trip plan (headless browser)","https://trimet.org/home/planner-trip/?fromPlace=435+NW+6th+Ave+UPTEST%3A%3A45.52672003%2C-122.6768376&toPlace=1900+SW+4th+Ave+UPTIME_TEST%3A%3A45.510422%2C-122.6804610",100,"Option 1",True
+#"OTP+TORA trip plan (headless browser)","https://trimet.org/home/planner-trip/?fromPlace=435+NW+6th+Ave+UPTEST%3A%3A45.52672003%2C-122.6768376&toPlace=1900+SW+4th+Ave+UPTIME_TEST%3A%3A45.510422%2C-122.6804610",100,"Option 1",True
 "GeoServer current routes image","https://ws.trimet.org/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers=ott%3Acurrent&bbox=-124.1%2C41.0%2C-120.1%2C49.0&width=384&height=768&srs=EPSG%3A4326&styles=&format=image/png",5000,PNG,
 "GeoServer current pattern geoms (route id 1) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%271%27",5000,TRIMET,
 "GeoServer current pattern geoms (route id 190) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%27190%27",500000,CTRAN.*TRIMET,

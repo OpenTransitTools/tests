@@ -13,10 +13,6 @@ def base(name, graphql_url):
     return l
 
 
-def uptime():
-    pass
-
-
 def smoke():
     #import pdb; pdb.set_trace()
     c = cmdline.tora_cmdline("smoke_test")
