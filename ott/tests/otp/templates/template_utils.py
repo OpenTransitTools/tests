@@ -30,7 +30,7 @@ def make_named_template(file_name, tl=None):
         tl = TemplateLookup(directories=[template_dir])  # TL needed for the template.defs include
     files = file_utils.find_files(template_dir, ".mako")
 
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     for t in files:
         if file_name in t:
             tmpl = make_template(t, tl)

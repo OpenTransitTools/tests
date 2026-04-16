@@ -56,3 +56,22 @@ def plan():
     else:
         o = response.text
     print(o)
+
+
+def rtp():
+    """ call OTP """
+    #import pdb; pdb.set_trace()
+    c = cmdline.tora_cmdline("rtp")
+    t = template_utils.make_named_template(c.api.find_api())
+    r = t.render(**vars(c))
+    print(r)
+    return
+
+    response = call_otp(r, misc.graphql_url)
+    if response.status_code == 200:
+        o = str(response.json())
+    else:
+        o = response.text
+    print(o)
+
+
