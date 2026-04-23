@@ -3,6 +3,7 @@ import re
 import time
 import requests
 from ott.utils import file_utils
+from ott.utils.parse.cmdline import base_cmdline
 from . import headless
 
 dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -86,10 +87,14 @@ def do_test(test, staging=False):
 
 
 def main():
+    parser = base_cmdline.empty_parser(f"poetry run uptime")
+    parser.add_argument('--staging',  '--st', '-st', action='store_true', help='use staging server ws-st.trimet.org')
+    args = parser.parse_args()
+
     ret_val = 1
     p = os.path.join(dir_path, 'uptime.csv')
     tests = file_utils.read_csv(p)
     for t in tests:
-        if do_test(t) is False:
+        if do_test(t, args.staging) is False:
             ret_val = 0
     return ret_val
