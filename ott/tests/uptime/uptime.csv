@@ -3,8 +3,8 @@ description,url,size,expect,headless
 "OTP Park & Rides json","https://ws.trimet.org/rtp/routers/default/park_and_ride",1000,Milwaukie.*Park and Ride.*Church,
 #"OTP+TORA trip plan (headless browser)","https://trimet.org/home/planner-trip/?fromPlace=435+NW+6th+Ave+UPTEST%3A%3A45.52672003%2C-122.6768376&toPlace=1900+SW+4th+Ave+UPTIME_TEST%3A%3A45.510422%2C-122.6804610",100,"Option 1",True
 "GeoServer current routes image","https://ws.trimet.org/geoserver/wms?service=WMS&version=1.1.0&request=GetMap&layers=ott%3Acurrent&bbox=-124.1%2C41.0%2C-120.1%2C49.0&width=384&height=768&srs=EPSG%3A4326&styles=&format=image/png",5000,PNG,
-"GeoServer current pattern geoms (route id 1) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%271%27",5000,TRIMET,
-"GeoServer current pattern geoms (route id 190) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=route_id=%27190%27",500000,CTRAN.*TRIMET,
+"GeoServer current pattern geoms (TriMet route id 1) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=feed_id=%27TRIMET%27%20AND%20route_id=%271%27",5000,TRIMET,
+"GeoServer current pattern geoms (C-TRAN route id 190) json","https://ws.trimet.org/geoserver/wfs?request=GetFeature&typeName=ott:current_patterns&outputFormat=json&cql_filter=feed_id=%27CTRAN%27%20AND%20route_id=%27190%27",500000,CTRAN,
 "GeoServer current pbf vector tile",https://ws.trimet.org/geoserver/gwc/service/tms/1.0.0/ott:current@EPSG:900913@pbf/16/10480/42090.pbf,5000,TRIMET,
 "Pelias autocomplete",https://ws.trimet.org/peliaswrap/v1/rtp/autocomplete?text=PDX,1000,Portland International Airport,
 "Pelias search",https://ws.trimet.org/peliaswrap/v1/rtp/search?text=OHSU,1000,Oregon Health,
